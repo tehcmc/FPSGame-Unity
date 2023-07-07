@@ -42,7 +42,11 @@ public class NPCMover : MonoBehaviour
 	void Update()
 	{
 		Move();
-
+		//states - idle - doing nothing
+		// return to start - moving back to start pos
+		// chase - chasing target
+		// attack - attacking target
+		// die - self explanitory
 
 	}
 
