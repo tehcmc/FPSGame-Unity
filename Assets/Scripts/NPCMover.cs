@@ -17,7 +17,6 @@ public class NPCMover : MonoBehaviour
 
 	[SerializeField] Transform target;
 	[SerializeField] float chaseRange = 5f;
-	[SerializeField] float attackRange = 5f;
 	[SerializeField] float searchRadius = 10f;
 
 	SphereCollider searchCollider;
@@ -86,7 +85,12 @@ public class NPCMover : MonoBehaviour
 	{
 		if (!target || !target.GetComponent<Character>()) state = State.ReturntoStart;
 
-		Debug.Log("Attack");
+		distanceToTarget = Vector3.Distance(target.position, transform.position);
+
+		if (distanceToTarget > agent.stoppingDistance)
+		{
+			state = State.Chase;
+		}
 
 	}
 	private void OnTriggerEnter(Collider other)
@@ -107,7 +111,7 @@ public class NPCMover : MonoBehaviour
 	void ReturnToStart()
 	{
 
-		if (Vector3.Distance(startPos, transform.position) >= agent.stoppingDistance)
+		if (Vector3.Distance(startPos, transform.position) > agent.stoppingDistance)
 		{
 			Debug.Log("Returning to start"); agent.SetDestination(startPos);
 		}
@@ -121,15 +125,16 @@ public class NPCMover : MonoBehaviour
 	{
 		agent.SetDestination(target.position);
 		distanceToTarget = Vector3.Distance(target.position, transform.position);
+
 		if (distanceToTarget <= agent.stoppingDistance)
 		{
-			Attack();
+			state = State.Attack;
 		}
+
+
 		if (distanceToTarget >= chaseRange)
 		{
-			Debug.Log("TARGET LOST");
 			state = State.ReturntoStart;
-
 			target = null;
 		}
 	}
