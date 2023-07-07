@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-enum States
+enum State
 {
 	Idle,
 	ReturntoStart,
@@ -24,7 +24,7 @@ public class NPCMover : MonoBehaviour
 	NavMeshAgent agent;
 	float distanceToTarget = Mathf.Infinity;
 	Vector3 startPos;
-	States states;
+	State state = State.Idle;
 
 	void Awake()
 	{
@@ -41,7 +41,28 @@ public class NPCMover : MonoBehaviour
 	}
 	void Update()
 	{
-		Move();
+		Debug.Log(state);
+		switch (state)
+		{
+			case State.Idle:
+				Idle();
+				break;
+			case State.ReturntoStart:
+				ReturnToStart();
+				break;
+			case State.Chase:
+				ChaseTarget();
+				break;
+			case State.Attack:
+				Attack();
+				break;
+			default:
+				Idle();
+				break;
+
+
+
+		}
 		//states - idle - doing nothing
 		// return to start - moving back to start pos
 		// chase - chasing target
@@ -53,18 +74,51 @@ public class NPCMover : MonoBehaviour
 	void Move()
 	{
 
-		if (!target)
+
+
+
+
+
+
+
+	}
+	void Attack()
+	{
+		if (!target || !target.GetComponent<Character>()) state = State.ReturntoStart;
+
+		Debug.Log("Attack");
+
+	}
+	private void OnTriggerEnter(Collider other)
+	{
+
+		var targetCharacter = other.GetComponent<Character>();
+		if (!targetCharacter) return;
+		Debug.Log("NEW TARGET");
+		target = targetCharacter.transform;
+		state = State.Chase;
+
+	}
+	void Idle()
+	{
+
+	}
+
+	void ReturnToStart()
+	{
+
+		if (Vector3.Distance(startPos, transform.position) >= agent.stoppingDistance)
 		{
-			if (Vector3.Distance(startPos, transform.position) >= agent.stoppingDistance)
-			{
-				Debug.Log("Returning to start"); agent.SetDestination(startPos);
-			}
-			return;
+			Debug.Log("Returning to start"); agent.SetDestination(startPos);
+		}
+		else
+		{
+			state = State.Idle;
 		}
 
-
-
-
+	}
+	void ChaseTarget()
+	{
 		agent.SetDestination(target.position);
 		distanceToTarget = Vector3.Distance(target.position, transform.position);
 		if (distanceToTarget <= agent.stoppingDistance)
@@ -74,31 +128,11 @@ public class NPCMover : MonoBehaviour
 		if (distanceToTarget >= chaseRange)
 		{
 			Debug.Log("TARGET LOST");
+			state = State.ReturntoStart;
+
 			target = null;
 		}
-
 	}
-	void Attack()
-	{
-		if (!target) return;
-		if (!target.GetComponent<Character>()) return;
-
-		Debug.Log("Attack");
-
-	}
-	private void OnTriggerEnter(Collider other)
-	{
-
-		var targetCharacter = other.GetComponent<Character>();
-
-		if (!targetCharacter) return;
-
-
-		Debug.Log("NEW TARGET");
-		target = targetCharacter.transform;
-
-	}
-
 	void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.red;
