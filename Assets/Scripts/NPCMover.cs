@@ -18,6 +18,10 @@ public class NPCMover : MonoBehaviour
 	[SerializeField] Transform target;
 	[SerializeField] float chaseRange = 5f;
 	[SerializeField] float searchRadius = 10f;
+	Animator animator;
+
+
+
 
 	SphereCollider searchCollider;
 	NavMeshAgent agent;
@@ -29,6 +33,7 @@ public class NPCMover : MonoBehaviour
 	{
 
 		searchCollider = GetComponent<SphereCollider>();
+		animator = GetComponent<Animator>();
 		agent = GetComponent<NavMeshAgent>();
 
 		if (searchCollider) searchCollider.radius = searchRadius;
@@ -37,6 +42,16 @@ public class NPCMover : MonoBehaviour
 	void Start()
 	{
 		startPos = transform.position;
+	}
+	private void OnTriggerEnter(Collider other)
+	{
+
+		var targetCharacter = other.GetComponent<Character>();
+		if (!targetCharacter) return;
+		Debug.Log("NEW TARGET");
+		target = targetCharacter.transform;
+		state = State.Chase;
+
 	}
 	void Update()
 	{
@@ -70,47 +85,30 @@ public class NPCMover : MonoBehaviour
 
 	}
 
-	void Move()
-	{
-
-
-
-
-
-
-
-
-	}
 	void Attack()
 	{
+		if (animator) animator.SetBool("attack", true);
+
 		if (!target || !target.GetComponent<Character>()) state = State.ReturntoStart;
 
 		distanceToTarget = Vector3.Distance(target.position, transform.position);
 
 		if (distanceToTarget > agent.stoppingDistance)
 		{
+			if (animator) animator.SetBool("attack", false);
 			state = State.Chase;
 		}
 
 	}
-	private void OnTriggerEnter(Collider other)
-	{
 
-		var targetCharacter = other.GetComponent<Character>();
-		if (!targetCharacter) return;
-		Debug.Log("NEW TARGET");
-		target = targetCharacter.transform;
-		state = State.Chase;
-
-	}
 	void Idle()
 	{
-
+		if (animator) animator.SetTrigger("idle");
 	}
 
 	void ReturnToStart()
 	{
-
+		if (animator) animator.SetTrigger("move");
 		if (Vector3.Distance(startPos, transform.position) > agent.stoppingDistance)
 		{
 			Debug.Log("Returning to start"); agent.SetDestination(startPos);
@@ -123,6 +121,7 @@ public class NPCMover : MonoBehaviour
 	}
 	void ChaseTarget()
 	{
+		if (animator) animator.SetTrigger("move");
 		agent.SetDestination(target.position);
 		distanceToTarget = Vector3.Distance(target.position, transform.position);
 
