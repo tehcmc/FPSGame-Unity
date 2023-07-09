@@ -553,10 +553,18 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 5174650472203717660}
+    - target: {fileID: -6169448285968125588, guid: 1cc5c75583274044db82894f3904691d, type: 3}
+      propertyPath: attachments.Array.data[0]
+      value: 
+      objectReference: {fileID: 3465282679723963149}
     - target: {fileID: 2253056964867865981, guid: 1cc5c75583274044db82894f3904691d, type: 3}
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6974803728872614773, guid: 1cc5c75583274044db82894f3904691d, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 5174650472203717660}
     - target: {fileID: 8379226356742468199, guid: 1cc5c75583274044db82894f3904691d, type: 3}
       propertyPath: m_Name
       value: TestWeapon
@@ -609,7 +617,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
+    - {fileID: 9220203912697952604, guid: 1cc5c75583274044db82894f3904691d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -619,6 +629,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9152208712663427293, guid: 1cc5c75583274044db82894f3904691d, type: 3}
   m_PrefabInstance: {fileID: 5826623506330622072}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3465282679723963149 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6974803728872614773, guid: 1cc5c75583274044db82894f3904691d, type: 3}
+  m_PrefabInstance: {fileID: 5826623506330622072}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f841cb4364c0a5645951df676441608e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8994996989622327042
 PrefabInstance:
   m_ObjectHideFlags: 0

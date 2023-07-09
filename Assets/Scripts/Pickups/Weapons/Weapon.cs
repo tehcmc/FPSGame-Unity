@@ -15,6 +15,7 @@ public class Weapon : MonoBehaviour
 
 	[SerializeField] ParticleSystem hitParticle;
 
+	[SerializeField] protected List<Attachment> attachments = new();
 	public bool CanFire()
 	{
 
@@ -83,6 +84,15 @@ public class Weapon : MonoBehaviour
 		}
 		trail.transform.position = hitLoc;
 		Destroy(trail.gameObject);
+	}
+
+
+	public void SetupAttachment(Attachment attachment)
+	{
+		attachment = Instantiate(attachment, transform);
+
+		attachments.Add(attachment);
+
 	}
 }
 
