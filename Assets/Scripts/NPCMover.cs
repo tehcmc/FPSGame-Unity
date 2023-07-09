@@ -58,7 +58,7 @@ public class NPCMover : MonoBehaviour
 	}
 	void Update()
 	{
-		Debug.Log(state);
+		//Debug.Log(state);
 		switch (state)
 		{
 			case State.Idle:
@@ -153,5 +153,29 @@ public class NPCMover : MonoBehaviour
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, chaseRange);
+	}
+
+
+	public void FindNearestCharacter()
+	{
+		Transform characters = FindObjectOfType<Player>().transform;
+		Transform bestTarget = null;
+		float closestDistanceSqr = Mathf.Infinity;
+		Vector3 currentPosition = transform.position;
+		foreach (Transform potentialTarget in characters)
+		{
+			Vector3 directionToTarget = potentialTarget.position - currentPosition;
+			float dSqrToTarget = directionToTarget.sqrMagnitude;
+			if (dSqrToTarget < closestDistanceSqr)
+			{
+				closestDistanceSqr = dSqrToTarget;
+				bestTarget = potentialTarget;
+			}
+		}
+
+		state = State.Chase;
+		target = bestTarget;
+
+
 	}
 }

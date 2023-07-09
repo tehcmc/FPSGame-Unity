@@ -24,7 +24,10 @@ public class Zombie : Character
 	{
 
 	}
-
+	protected override void TakeDamage()
+	{
+		moveComponent.FindNearestCharacter();
+	}
 	public void DoAttack()
 	{
 		var target = moveComponent.Target;

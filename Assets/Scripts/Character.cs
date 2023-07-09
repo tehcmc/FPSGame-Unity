@@ -27,12 +27,12 @@ public class Character : MonoBehaviour
 
 	}
 
-	public void TakeDamage()
+	protected virtual void TakeDamage()
 	{
 		Debug.Log(gameObject.name + ": Ouch");
 	}
 
-	public virtual void Die()
+	protected virtual void Die()
 	{
 		Destroy(gameObject);
 

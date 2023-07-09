@@ -22,7 +22,7 @@ public class Player : Character
 
 	}
 
-	public override void Die()
+	protected override void Die()
 	{
 		deathHandler.ShowCanvas();
 		gameObject.SetActive(false);
