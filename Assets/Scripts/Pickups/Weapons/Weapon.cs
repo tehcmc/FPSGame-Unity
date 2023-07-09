@@ -41,7 +41,7 @@ public class Weapon : MonoBehaviour
 
 		Debug.DrawLine(cam.transform.position, cam.transform.forward * bulletRange, Color.red);
 
-		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out tr, bulletRange))
+		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out tr, bulletRange, 99, QueryTriggerInteraction.Ignore))
 		{
 			if (tr.transform == transform.parent) return;
 			hitLoc = tr.point;

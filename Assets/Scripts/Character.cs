@@ -6,8 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class Character : MonoBehaviour
 {
-
+	Health health;
 	// Start is called before the first frame update
+	protected virtual void Awake()
+	{
+
+		health = GetComponent<Health>();
+		health.onDamage.AddListener(TakeDamage);
+		health.onZeroed.AddListener(Die);
+
+	}
 	void Start()
 	{
 
@@ -17,6 +25,11 @@ public class Character : MonoBehaviour
 	void Update()
 	{
 
+	}
+
+	public void TakeDamage()
+	{
+		Debug.Log(gameObject.name + ": Ouch");
 	}
 
 	public virtual void Die()

@@ -1,9 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
+	public UnityEvent onDamage;
+	public UnityEvent onHeal;
+	public UnityEvent onZeroed;
+
+
+
+
 	// Start is called before the first frame update
 	[SerializeField] float maxHealth = 100f;
 	float currentHealth;
@@ -37,6 +44,8 @@ public class Health : MonoBehaviour
 	public void DamageHealth(float val)
 	{
 		if (val == 0) return;
+		onDamage?.Invoke();
+
 		ModifyHealth(-Mathf.Abs(val));
 	}
 
@@ -48,16 +57,7 @@ public class Health : MonoBehaviour
 
 	void HealthZeroed()
 	{
-		var character = gameObject.GetComponent<Character>();
-		if (character)
-		{
-			character.Die();
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-
+		onZeroed?.Invoke();
 	}
 	// Update is called once per frame
 	void Update()

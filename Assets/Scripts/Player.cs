@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+[RequireComponent(typeof(DeathHandler))]
 public class Player : Character
 {
+	DeathHandler deathHandler;
 	// Start is called before the first frame update
-	void Start()
-	{
 
+	protected virtual void Awake()
+	{
+		base.Awake();
+		deathHandler = GetComponent<DeathHandler>();
 	}
 
 	// Update is called once per frame
@@ -19,8 +24,8 @@ public class Player : Character
 
 	public override void Die()
 	{
-
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		deathHandler.ShowCanvas();
+		gameObject.SetActive(false);
 		base.Die();
 	}
 }

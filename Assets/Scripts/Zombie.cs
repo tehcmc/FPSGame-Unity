@@ -8,8 +8,9 @@ public class Zombie : Character
 	NPCMover moveComponent;
 
 	[SerializeField] float attackDamage = 10f;
-	private void Awake()
+	protected virtual void Awake()
 	{
+		base.Awake();
 		moveComponent = GetComponent<NPCMover>();
 	}
 	// Start is called before the first frame update
