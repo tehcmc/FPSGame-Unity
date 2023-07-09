@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.Rendering.Universal;
 
 enum State
 {
@@ -15,9 +15,10 @@ enum State
 public class NPCMover : MonoBehaviour
 {
 
-	[SerializeField] Transform target;
+	Transform target;
 	[SerializeField] float chaseRange = 5f;
 	[SerializeField] float searchRadius = 10f;
+	[SerializeField] float turnSpeed = 5f;
 	Animator animator;
 
 
@@ -28,6 +29,8 @@ public class NPCMover : MonoBehaviour
 	float distanceToTarget = Mathf.Infinity;
 	Vector3 startPos;
 	State state = State.Idle;
+
+	public Transform Target { get => target; set => target = value; }
 
 	void Awake()
 	{
@@ -49,7 +52,7 @@ public class NPCMover : MonoBehaviour
 		var targetCharacter = other.GetComponent<Character>();
 		if (!targetCharacter) return;
 		Debug.Log("NEW TARGET");
-		target = targetCharacter.transform;
+		Target = targetCharacter.transform;
 		state = State.Chase;
 
 	}
@@ -89,9 +92,18 @@ public class NPCMover : MonoBehaviour
 	{
 		if (animator) animator.SetBool("attack", true);
 
-		if (!target || !target.GetComponent<Character>()) state = State.ReturntoStart;
+		if (!Target || !Target.GetComponent<Character>()) { state = State.ReturntoStart; return; }
 
-		distanceToTarget = Vector3.Distance(target.position, transform.position);
+
+
+		distanceToTarget = Vector3.Distance(Target.position, transform.position);
+
+
+		Vector3 dir = (transform.position - target.position).normalized;
+		Quaternion lookRot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.y));
+
+		transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * turnSpeed);
+
 
 		if (distanceToTarget > agent.stoppingDistance)
 		{
@@ -122,8 +134,8 @@ public class NPCMover : MonoBehaviour
 	void ChaseTarget()
 	{
 		if (animator) animator.SetTrigger("move");
-		agent.SetDestination(target.position);
-		distanceToTarget = Vector3.Distance(target.position, transform.position);
+		agent.SetDestination(Target.position);
+		distanceToTarget = Vector3.Distance(Target.position, transform.position);
 
 		if (distanceToTarget <= agent.stoppingDistance)
 		{
@@ -134,7 +146,7 @@ public class NPCMover : MonoBehaviour
 		if (distanceToTarget >= chaseRange)
 		{
 			state = State.ReturntoStart;
-			target = null;
+			Target = null;
 		}
 	}
 	void OnDrawGizmosSelected()
@@ -142,6 +154,4 @@ public class NPCMover : MonoBehaviour
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, chaseRange);
 	}
-
-
 }

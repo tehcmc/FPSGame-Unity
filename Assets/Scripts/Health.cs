@@ -17,29 +17,47 @@ public class Health : MonoBehaviour
 
 	}
 
-	public void ModifyHealth(float val)
+	void ModifyHealth(float val)
 	{
 		if (val == 0) return;
 
 		currentHealth += val;
 		currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
 		Debug.Log(currentHealth);
+
 		if (currentHealth <= 0)
 		{
-			Die();
+			HealthZeroed();
 			return;
 		}
 
 	}
 
-	void Die()
+	public void DamageHealth(float val)
 	{
-		if (gameObject.GetComponent<Character>())
+		if (val == 0) return;
+		ModifyHealth(-Mathf.Abs(val));
+	}
+
+	public void Heal(float val)
+	{
+		if (val == 0) return;
+		ModifyHealth(Mathf.Abs(val));
+	}
+
+	void HealthZeroed()
+	{
+		var character = gameObject.GetComponent<Character>();
+		if (character)
 		{
-			//character die
+			character.Die();
+		}
+		else
+		{
+			Destroy(gameObject);
 		}
 
-		Destroy(gameObject);
 	}
 	// Update is called once per frame
 	void Update()

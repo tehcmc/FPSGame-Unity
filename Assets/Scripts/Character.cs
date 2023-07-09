@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(Health))]
 public class Character : MonoBehaviour
 {
 
@@ -17,5 +19,10 @@ public class Character : MonoBehaviour
 
 	}
 
+	public virtual void Die()
+	{
+		Destroy(gameObject);
+
+	}
 
 }

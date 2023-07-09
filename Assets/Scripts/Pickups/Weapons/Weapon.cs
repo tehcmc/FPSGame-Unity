@@ -51,7 +51,7 @@ public class Weapon : MonoBehaviour
 			var health = tr.collider.gameObject.GetComponent<Health>();
 			if (health)
 			{
-				health.ModifyHealth(-bulletDamage);
+				health.DamageHealth(bulletDamage);
 
 			}
 
