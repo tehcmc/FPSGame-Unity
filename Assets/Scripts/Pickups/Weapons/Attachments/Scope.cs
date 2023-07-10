@@ -9,6 +9,27 @@ public class Scope : Attachment
 	[SerializeField] float zoomAmount = 20f;
 	float defaultFOV;
 	// Start is called before the first frame update
+	// 	
+	protected override void Awake()
+	{
+		base.Awake();
+
+	}
+	private void OnEnable()
+	{
+
+		myStats = GetComponent<WeaponStats>();
+		Debug.Log($"Enabled {name}");
+
+		AddStats();
+
+	}
+	private void OnDisable()
+	{
+		if (isZoomed) Zoom();
+		RemoveStats();
+	}
+
 	void Start()
 	{
 		var player = FindObjectOfType<Player>();
@@ -40,7 +61,15 @@ public class Scope : Attachment
 			playerCamera.fieldOfView = defaultFOV;
 		}
 	}
-
-
+	protected override void AddStats()
+	{
+		if (myStats) myWeapon.WeaponStats.BaseDamage += myStats.BaseDamage;
+		if (myStats) myWeapon.WeaponStats.FireRate += myStats.FireRate;
+	}
+	protected override void RemoveStats()
+	{
+		if (myStats) myWeapon.WeaponStats.BaseDamage -= myStats.BaseDamage;
+		if (myStats) myWeapon.WeaponStats.FireRate -= myStats.FireRate;
+	}
 
 }

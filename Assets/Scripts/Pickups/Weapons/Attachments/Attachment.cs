@@ -7,20 +7,32 @@ using UnityEngine;
 public class Attachment : MonoBehaviour
 {
 
-	Weapon myWeapon;
+	protected Weapon myWeapon;
 
-	WeaponStats myStats;
+	protected WeaponStats myStats;
 
-	// Start is called before the first frame update
+	protected virtual void Awake()
+	{
+
+		myStats = GetComponent<WeaponStats>();
+		myWeapon = gameObject.transform.parent.gameObject.GetComponent<Weapon>();
+	}
+
 	void Start()
 	{
-		myWeapon = gameObject.transform.parent.gameObject.GetComponent<Weapon>();
-
 		if (!myWeapon) Destroy(gameObject);
+	}
 
-
+	protected virtual void AddStats()
+	{
 
 	}
+	protected virtual void RemoveStats()
+	{
+
+	}
+
+
 
 	// Update is called once per frame
 	void Update()

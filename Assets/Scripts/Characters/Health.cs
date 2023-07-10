@@ -29,10 +29,11 @@ public class Health : MonoBehaviour
 	{
 		if (val == 0) return;
 
+		var oldHealth = currentHealth;
 		currentHealth += val;
 		currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-		//	Debug.Log(currentHealth);
+		Debug.Log($"{oldHealth} - {val} = {currentHealth}");
 
 		if (currentHealth <= 0)
 		{

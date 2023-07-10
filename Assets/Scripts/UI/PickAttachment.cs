@@ -23,11 +23,9 @@ public class PickAttachment : MonoBehaviour
 
 	public void AttachToWeapon()
 	{
-		Debug.Log("Function");
 		if (!weapon) return;
-		Debug.Log("Weapon found");
 		if (!attachment) return;
-		Debug.Log("Attachment found");
+
 		weapon.SetupAttachment(attachment);
 
 

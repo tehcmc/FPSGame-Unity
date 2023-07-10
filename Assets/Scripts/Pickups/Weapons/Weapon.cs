@@ -1,10 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum StatType
+{
+	VerticalRecoil,
+	HorizontalRecoil,
+	FireRate,
+	BaseDamage,
+	DamageMultiplier,
+	Range
+}
+
+
 [RequireComponent(typeof(WeaponStats))]
 public class Weapon : MonoBehaviour
 {
+	[SerializeField] List<Stat> stats = new();
+
+	IDictionary<StatType, float> statDictionary = new Dictionary<StatType, float>();
+
+
 	[SerializeField] Camera cam;
 	[SerializeField] float bulletRange = 100f;
 	[SerializeField] int maxAmmo = 15;
@@ -21,22 +39,34 @@ public class Weapon : MonoBehaviour
 
 	internal WeaponStats WeaponStats { get => weaponStats; set => weaponStats = value; }
 
+	public List<Stat> Stats { get => stats; set => stats = value; }
+
+	float fireTime = 0;
+
 	private void Awake()
 	{
 		WeaponStats = GetComponent<WeaponStats>();
+		foreach (var stat in stats)
+		{
+			statDictionary.Add(stat.StatType, stat.Value);
+		}
+
 	}
 	public bool CanFire()
 	{
+		if (fireTime < weaponStats.FireRate) return false;
 
-		if (!Input.GetButtonDown("Fire1")) return false;
+		if (!Input.GetButton("Fire1")) return false;
 
 		return true;
-
-
 	}
 
 	void Update()
 	{
+		if (fireTime < weaponStats.FireRate)
+		{
+			fireTime += Time.deltaTime;
+		}
 
 		if (CanFire())
 		{
@@ -44,10 +74,9 @@ public class Weapon : MonoBehaviour
 		}
 
 	}
-
 	void Fire()
 	{
-
+		fireTime = 0;
 		RaycastHit tr;
 		Vector3 hitLoc = cam.transform.forward * bulletRange;
 
@@ -59,7 +88,6 @@ public class Weapon : MonoBehaviour
 			hitLoc = tr.point;
 
 			DoImpactEffect(tr);
-
 			var health = tr.collider.gameObject.GetComponent<Health>();
 			if (health)
 			{
@@ -99,6 +127,16 @@ public class Weapon : MonoBehaviour
 
 	}
 
+	void SetStats()
+	{
+		int statRange = Enum.GetNames(typeof(Stat)).Length;
+		for (int i = 0; i < statRange; i++)
+		{
+			StatType currentStat = (StatType)i;
+
+			Stats.Add(new Stat(currentStat, 0));
+		}
+	}
 
 	public void SetupAttachment(Attachment attachment)
 	{

@@ -47,4 +47,9 @@ public class Zombie : Character
 		}
 	}
 
+	protected override void Die()
+	{
+		base.Die();
+		Destroy(gameObject);
+	}
 }

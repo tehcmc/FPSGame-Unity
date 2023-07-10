@@ -117,6 +117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6149305439280080037}
   - component: {fileID: 5693219183870997339}
+  - component: {fileID: 8541400028725569773}
   m_Layer: 0
   m_Name: ScopeAttachment
   m_TagString: Untagged
@@ -153,3 +154,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
+  zoomAmount: 20
+--- !u!114 &8541400028725569773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4997397380339326071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1576f40d07bcbb4fbdad24f8f5bd257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  verticalRecoil: 0.01
+  horizontalRecoil: 0.01
+  baseDamage: 1
+  damageMultiplier: 1.2
+  fireRate: 1

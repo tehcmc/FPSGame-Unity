@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class WeaponStats : MonoBehaviour
+public class WeaponStats : MonoBehaviour
 {
 
 	[SerializeField] float verticalRecoil = 0.01f;
