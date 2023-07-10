@@ -12,16 +12,24 @@ public class Character : MonoBehaviour
 	{
 
 		health = GetComponent<Health>();
-		health.onDamage.AddListener(TakeDamage);
-		health.onZeroed.AddListener(Die);
 
 	}
+	private void OnEnable()
+	{
+		health.OnDamage += TakeDamage;
+		health.OnZeroed += Die;
+	}
+	private void OnDisable()
+	{
+		health.OnDamage -= TakeDamage;
+		health.OnZeroed -= Die;
+	}
+
 	void Start()
 	{
 
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 
@@ -34,8 +42,7 @@ public class Character : MonoBehaviour
 
 	protected virtual void Die()
 	{
-		Destroy(gameObject);
-
+		// base class does nothing!
 	}
 
 }

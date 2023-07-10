@@ -8,7 +8,7 @@ public class Zombie : Character
 	NPCMover moveComponent;
 
 	[SerializeField] float attackDamage = 10f;
-	protected virtual void Awake()
+	protected override void Awake()
 	{
 		base.Awake();
 		moveComponent = GetComponent<NPCMover>();
@@ -26,8 +26,10 @@ public class Zombie : Character
 	}
 	protected override void TakeDamage()
 	{
-		moveComponent.FindNearestCharacter();
+		base.TakeDamage();
 	}
+
+
 	public void DoAttack()
 	{
 		var target = moveComponent.Target;

@@ -10,7 +10,7 @@ public class Player : Character
 	DeathHandler deathHandler;
 	// Start is called before the first frame update
 
-	protected virtual void Awake()
+	protected override void Awake()
 	{
 		base.Awake();
 		deathHandler = GetComponent<DeathHandler>();

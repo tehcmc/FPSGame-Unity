@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
+[RequireComponent(typeof(WeaponStats))]
 public class Attachment : MonoBehaviour
 {
+
+	Weapon myWeapon;
+
+	WeaponStats myStats;
+
 	// Start is called before the first frame update
 	void Start()
 	{
+		myWeapon = gameObject.transform.parent.gameObject.GetComponent<Weapon>();
+
+		if (!myWeapon) Destroy(gameObject);
+
+
 
 	}
 

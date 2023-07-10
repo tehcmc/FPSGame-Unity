@@ -1,14 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
-	public UnityEvent onDamage;
-	public UnityEvent onHeal;
-	public UnityEvent onZeroed;
 
 
+	public event Action OnHeal;
+	public event Action OnDamage;
+	public event Action OnZeroed;
 
 
 	// Start is called before the first frame update
@@ -31,7 +32,7 @@ public class Health : MonoBehaviour
 		currentHealth += val;
 		currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-		Debug.Log(currentHealth);
+		//	Debug.Log(currentHealth);
 
 		if (currentHealth <= 0)
 		{
@@ -44,20 +45,22 @@ public class Health : MonoBehaviour
 	public void DamageHealth(float val)
 	{
 		if (val == 0) return;
-		onDamage?.Invoke();
-
 		ModifyHealth(-Mathf.Abs(val));
+		OnDamage?.Invoke();
 	}
+
+
 
 	public void Heal(float val)
 	{
 		if (val == 0) return;
 		ModifyHealth(Mathf.Abs(val));
+		OnHeal?.Invoke();
 	}
 
 	void HealthZeroed()
 	{
-		onZeroed?.Invoke();
+		OnZeroed?.Invoke();
 	}
 	// Update is called once per frame
 	void Update()

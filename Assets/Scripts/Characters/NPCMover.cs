@@ -16,6 +16,8 @@ public class NPCMover : MonoBehaviour
 {
 
 	Transform target;
+
+	[SerializeField] bool showDebugLogs = false;
 	[SerializeField] float chaseRange = 5f;
 	[SerializeField] float searchRadius = 10f;
 	[SerializeField] float turnSpeed = 5f;
@@ -51,14 +53,15 @@ public class NPCMover : MonoBehaviour
 
 		var targetCharacter = other.GetComponent<Character>();
 		if (!targetCharacter) return;
-		Debug.Log("NEW TARGET");
+		if (showDebugLogs) Debug.Log("NEW TARGET");
 		Target = targetCharacter.transform;
 		state = State.Chase;
 
 	}
 	void Update()
 	{
-		//Debug.Log(state);
+		if (showDebugLogs) Debug.Log(state);
+
 		switch (state)
 		{
 			case State.Idle:
@@ -121,9 +124,10 @@ public class NPCMover : MonoBehaviour
 	void ReturnToStart()
 	{
 		if (animator) animator.SetTrigger("move");
+
 		if (Vector3.Distance(startPos, transform.position) > agent.stoppingDistance)
 		{
-			Debug.Log("Returning to start"); agent.SetDestination(startPos);
+
 		}
 		else
 		{

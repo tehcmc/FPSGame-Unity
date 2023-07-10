@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(WeaponStats))]
 public class Weapon : MonoBehaviour
 {
 	[SerializeField] Camera cam;
 	[SerializeField] float bulletRange = 100f;
-	[SerializeField] float bulletDamage = 10f;
 	[SerializeField] int maxAmmo = 15;
 
 	[SerializeField] Transform muzzle;
@@ -16,6 +16,15 @@ public class Weapon : MonoBehaviour
 	[SerializeField] ParticleSystem hitParticle;
 
 	[SerializeField] protected List<Attachment> attachments = new();
+
+	WeaponStats weaponStats;
+
+	internal WeaponStats WeaponStats { get => weaponStats; set => weaponStats = value; }
+
+	private void Awake()
+	{
+		WeaponStats = GetComponent<WeaponStats>();
+	}
 	public bool CanFire()
 	{
 
@@ -28,10 +37,12 @@ public class Weapon : MonoBehaviour
 
 	void Update()
 	{
+
 		if (CanFire())
 		{
 			Fire();
 		}
+
 	}
 
 	void Fire()
@@ -52,11 +63,11 @@ public class Weapon : MonoBehaviour
 			var health = tr.collider.gameObject.GetComponent<Health>();
 			if (health)
 			{
-				health.DamageHealth(bulletDamage);
+				health.DamageHealth(weaponStats.BaseDamage * weaponStats.DamageMultiplier);
 
 			}
 
-			Debug.Log(tr.collider.name);
+			//	Debug.Log(tr.collider.name);
 
 
 		}
@@ -64,16 +75,17 @@ public class Weapon : MonoBehaviour
 		var muzzleEffect = Instantiate(muzzleFlash, muzzle.transform);
 		muzzleEffect.transform.position = muzzle.position; muzzleEffect.transform.rotation = muzzle.rotation;
 		StartCoroutine(SpawnTrail(trail, hitLoc));
+
 	}
 	void DoImpactEffect(RaycastHit tr)
 	{
-
 		Instantiate(hitParticle, tr.point, Quaternion.LookRotation(tr.normal));
-
-
 	}
+
+
 	IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitLoc)
 	{
+
 		float time = 0;
 		Vector3 startPos = trail.transform.position;
 		while (time < 1)
@@ -84,6 +96,7 @@ public class Weapon : MonoBehaviour
 		}
 		trail.transform.position = hitLoc;
 		Destroy(trail.gameObject);
+
 	}
 
 
