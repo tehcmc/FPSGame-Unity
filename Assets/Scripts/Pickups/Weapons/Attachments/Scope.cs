@@ -15,19 +15,16 @@ public class Scope : Attachment
 		base.Awake();
 
 	}
-	private void OnEnable()
+	protected override void OnEnable()
 	{
+		base.OnEnable();
 
-		myStats = GetComponent<WeaponStats>();
-		Debug.Log($"Enabled {name}");
-
-		AddStats();
 
 	}
-	private void OnDisable()
+	protected override void OnDisable()
 	{
 		if (isZoomed) Zoom();
-		RemoveStats();
+		base.OnDisable();
 	}
 
 	void Start()
@@ -61,15 +58,6 @@ public class Scope : Attachment
 			playerCamera.fieldOfView = defaultFOV;
 		}
 	}
-	protected override void AddStats()
-	{
-		if (myStats) myWeapon.WeaponStats.BaseDamage += myStats.BaseDamage;
-		if (myStats) myWeapon.WeaponStats.FireRate += myStats.FireRate;
-	}
-	protected override void RemoveStats()
-	{
-		if (myStats) myWeapon.WeaponStats.BaseDamage -= myStats.BaseDamage;
-		if (myStats) myWeapon.WeaponStats.FireRate -= myStats.FireRate;
-	}
+
 
 }

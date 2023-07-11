@@ -11,27 +11,61 @@ public class Attachment : MonoBehaviour
 
 	protected WeaponStats myStats;
 
+	bool statsLoaded = false;
+
 	protected virtual void Awake()
 	{
 
-		myStats = GetComponent<WeaponStats>();
-		myWeapon = gameObject.transform.parent.gameObject.GetComponent<Weapon>();
-	}
 
+	}
+	protected virtual void OnEnable()
+	{
+		Debug.Log("enabled");
+
+
+		myStats = GetComponent<WeaponStats>();
+		myStats.enabled = false;
+		myStats.enabled = true;
+		myWeapon = gameObject.transform.parent.gameObject.GetComponent<Weapon>();
+		var nam = myWeapon.name;
+		AddStats();
+	}
+	protected virtual void OnDisable()
+	{
+
+		if (statsLoaded) RemoveStats();
+		myStats = null;
+		myWeapon = null;
+
+	}
 	void Start()
 	{
 		if (!myWeapon) Destroy(gameObject);
+		if (!statsLoaded)
+		{
+			AddStats();
+		}
+
 	}
 
-	protected virtual void AddStats()
+	protected void AddStats()
 	{
+		if (myStats.StatDictionary == null) return;
 
+		foreach (var stat in myStats.StatDictionary)
+		{
+			Debug.Log($"Name: {stat.Key} Val: {stat.Value}");
+			myWeapon.WeaponStats.ModifyStat(stat.Key, stat.Value);
+		}
 	}
-	protected virtual void RemoveStats()
+	protected void RemoveStats()
 	{
-
+		statsLoaded = false;
+		foreach (var stat in myStats.StatDictionary)
+		{
+			myWeapon.WeaponStats.ModifyStat(stat.Key, -stat.Value);
+		}
 	}
-
 
 
 	// Update is called once per frame

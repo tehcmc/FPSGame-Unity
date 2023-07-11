@@ -230,21 +230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5570eed5f0c594d9b170cecb6a60af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-  - statType: 0
-    value: 0.05
-  - statType: 1
-    value: 0.05
-  - statType: 2
-    value: 1
-  - statType: 3
-    value: 5
-  - statType: 4
-    value: 1.5
-  - statType: 0
-    value: 0
-  - statType: 5
-    value: 100
   cam: {fileID: 0}
   bulletRange: 100
   maxAmmo: 15
@@ -266,11 +251,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1576f40d07bcbb4fbdad24f8f5bd257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  verticalRecoil: 0.01
-  horizontalRecoil: 0.01
-  baseDamage: 1
-  damageMultiplier: 1.2
-  fireRate: 1
+  stats:
+  - statType: 0
+    value: 0.05
+  - statType: 1
+    value: 0.05
+  - statType: 2
+    value: 1
+  - statType: 0
+    value: 0
+  - statType: 3
+    value: 5
+  - statType: 4
+    value: 1.2
+  - statType: 5
+    value: 100
 --- !u!4 &9152208712663427293 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
