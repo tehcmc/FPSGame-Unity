@@ -90,9 +90,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8773638162845947692}
   - {fileID: 3631193519487701292}
   - {fileID: 3497031648636102046}
+  - {fileID: 8773638162845947692}
   m_Father: {fileID: 9152208712663427293}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -237,8 +237,15 @@ MonoBehaviour:
   muzzleFlash: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
-  attachments:
-  - {fileID: 0}
+  attachments: []
+  attachPoints:
+  - attachmentPoint: 1
+    pointLocation: {fileID: 3631193519487701292}
+  - attachmentPoint: 0
+    pointLocation: {fileID: 3497031648636102046}
+  - attachmentPoint: 4
+    pointLocation: {fileID: 8773638162845947692}
+  firemode: 1
 --- !u!114 &2837047864921010669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +273,8 @@ MonoBehaviour:
     value: 1.2
   - statType: 5
     value: 100
+  - statType: 6
+    value: 15
 --- !u!4 &9152208712663427293 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}

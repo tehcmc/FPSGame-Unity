@@ -10,7 +10,8 @@ public enum StatType
 	FireRate,
 	BaseDamage,
 	DamageMultiplier,
-	Range
+	Range,
+	MaxAmmo
 }
 public class WeaponStats : MonoBehaviour
 {
@@ -24,23 +25,39 @@ public class WeaponStats : MonoBehaviour
 
 	public IDictionary<StatType, float> StatDictionary { get => statDictionary; set => statDictionary = value; }
 
-
 	private void OnEnable()
 	{
 		PopulateDictionary();
 	}
+	private void OnDisable()
+	{
+		statDictionary.Clear();
+	}
+
 	void PopulateDictionary()
 	{
 		foreach (var stat in stats)
 		{
-			if (!StatDictionary.ContainsKey(stat.StatType))
+			if (!statDictionary.ContainsKey(stat.StatType))
 			{
-				StatDictionary.Add(stat.StatType, stat.Value);
+				statDictionary.Add(stat.StatType, stat.Value);
 			}
 
 		}
 	}
 
+
+
+
+
+
+	//getter - setter - mod
+
+	public float GetStat(StatType stat)
+	{
+		if (!statDictionary.ContainsKey(stat)) return 0f;
+		return statDictionary[stat];
+	}
 	public void SetStat(StatType stat, float val)
 	{
 		if (!statDictionary.ContainsKey(stat)) return;
@@ -59,11 +76,8 @@ public class WeaponStats : MonoBehaviour
 
 		Debug.Log($"{statDictionary[stat]}");
 	}
-	public float GetStat(StatType stat)
-	{
-		if (!statDictionary.ContainsKey(stat)) return 0f;
-		return statDictionary[stat];
-	}
+
+
 
 }
 

@@ -1,19 +1,56 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 
+public enum Firemode
+{
+	Safe,
+	Single,
+	Burst,
+	Full
+}
+
+public enum WeaponType
+{
+	Pistol,
+	SMG,
+	Rifle,
+	Sniper,
+	Shotgun,
+	Special
+}
+
+public enum AttachPointName
+{
+	Underbarrel,
+	TopRail,
+	LeftRail,
+	RightRail,
+	Muzzle,
+	Magazine
+
+}
+
+[Serializable]
+public class AttachPoint
+{
+	[SerializeField] AttachPointName attachmentPoint;
+	[SerializeField] Transform pointLocation;
+	bool isOccupied = false;
+
+	public AttachPointName AttachmentPoint { get => attachmentPoint; set => attachmentPoint = value; }
+	public Transform PointLocation { get => pointLocation; set => pointLocation = value; }
+	public bool IsOccupied { get => isOccupied; set => isOccupied = value; }
+}
 
 
 
 [RequireComponent(typeof(WeaponStats))]
 public class Weapon : MonoBehaviour
 {
-
-
-
-
 	[SerializeField] Camera cam;
 	[SerializeField] float bulletRange = 100f;
 	[SerializeField] int maxAmmo = 15;
@@ -26,10 +63,17 @@ public class Weapon : MonoBehaviour
 
 	[SerializeField] protected List<Attachment> attachments = new();
 
+	[SerializeField] protected List<AttachPoint> attachPoints = new();
+
+	IDictionary<AttachPointName, AttachPoint> attachmentPointDictionary = new Dictionary<AttachPointName, AttachPoint>();
+
+
 	WeaponStats weaponStats;
 
 	internal WeaponStats WeaponStats { get => weaponStats; set => weaponStats = value; }
 
+
+	[SerializeField] Firemode firemode = Firemode.Single;
 
 
 
@@ -39,13 +83,15 @@ public class Weapon : MonoBehaviour
 	private void Awake()
 	{
 		WeaponStats = GetComponent<WeaponStats>();
-
+		PopulateAttachPoints();
 	}
-	public bool CanFire()
+	protected virtual bool CanFire()
 	{
 		if (fireTime < weaponStats.GetStat(StatType.FireRate)) return false;
 
-		if (!Input.GetButton("Fire1")) return false;
+		if (firemode == Firemode.Full && !Input.GetButton("Fire1")) return false;
+
+		if (firemode == Firemode.Single && !Input.GetButtonDown("Fire1")) return false;
 
 		return true;
 	}
@@ -69,7 +115,7 @@ public class Weapon : MonoBehaviour
 		RaycastHit tr;
 		Vector3 hitLoc = cam.transform.forward * bulletRange;
 
-		Debug.DrawLine(cam.transform.position, cam.transform.forward * bulletRange, Color.red);
+		//Debug.DrawLine(cam.transform.position, cam.transform.forward * bulletRange, Color.red);
 
 		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out tr, bulletRange, 99, QueryTriggerInteraction.Ignore))
 		{
@@ -119,10 +165,31 @@ public class Weapon : MonoBehaviour
 
 	public void SetupAttachment(Attachment attachment)
 	{
-		attachment = Instantiate(attachment, transform);
+		if (!attachmentPointDictionary.ContainsKey(attachment.MyAttachPoint)) return;
+		AttachPoint point = attachmentPointDictionary[attachment.MyAttachPoint];
+		if (point.IsOccupied) return;
 
+		attachment = Instantiate(attachment, transform);
 		attachments.Add(attachment);
 
+		attachment.transform.parent = attachmentPointDictionary[attachment.MyAttachPoint].PointLocation;
+		attachment.transform.position = attachment.transform.parent.position;
+		attachmentPointDictionary[attachment.MyAttachPoint].IsOccupied = true;
+
+
+	}
+
+
+	void PopulateAttachPoints()
+	{
+		foreach (var point in attachPoints)
+		{
+			if (!attachmentPointDictionary.ContainsKey(point.AttachmentPoint))
+			{
+				attachmentPointDictionary.Add(point.AttachmentPoint, point);
+			}
+
+		}
 	}
 }
 

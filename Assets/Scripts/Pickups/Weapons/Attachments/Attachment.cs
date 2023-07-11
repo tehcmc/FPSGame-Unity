@@ -11,7 +11,9 @@ public class Attachment : MonoBehaviour
 
 	protected WeaponStats myStats;
 
-	bool statsLoaded = false;
+	[SerializeField] AttachPointName myAttachPoint;
+
+	public AttachPointName MyAttachPoint { get => myAttachPoint; set => myAttachPoint = value; }
 
 	protected virtual void Awake()
 	{
@@ -24,16 +26,16 @@ public class Attachment : MonoBehaviour
 
 
 		myStats = GetComponent<WeaponStats>();
+		myStats.StatDictionary.ContainsKey(StatType.HorizontalRecoil);
 		myStats.enabled = false;
 		myStats.enabled = true;
 		myWeapon = gameObject.transform.parent.gameObject.GetComponent<Weapon>();
-		var nam = myWeapon.name;
 		AddStats();
 	}
 	protected virtual void OnDisable()
 	{
 
-		if (statsLoaded) RemoveStats();
+		RemoveStats();
 		myStats = null;
 		myWeapon = null;
 
@@ -41,16 +43,14 @@ public class Attachment : MonoBehaviour
 	void Start()
 	{
 		if (!myWeapon) Destroy(gameObject);
-		if (!statsLoaded)
-		{
-			AddStats();
-		}
-
 	}
 
 	protected void AddStats()
 	{
 		if (myStats.StatDictionary == null) return;
+		var test = 1;
+		test = 2;
+
 
 		foreach (var stat in myStats.StatDictionary)
 		{
@@ -58,9 +58,11 @@ public class Attachment : MonoBehaviour
 			myWeapon.WeaponStats.ModifyStat(stat.Key, stat.Value);
 		}
 	}
+
+
 	protected void RemoveStats()
 	{
-		statsLoaded = false;
+
 		foreach (var stat in myStats.StatDictionary)
 		{
 			myWeapon.WeaponStats.ModifyStat(stat.Key, -stat.Value);
