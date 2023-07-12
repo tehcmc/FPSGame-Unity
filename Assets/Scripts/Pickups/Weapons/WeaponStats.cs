@@ -11,15 +11,12 @@ public enum StatType
 	BaseDamage,
 	DamageMultiplier,
 	Range,
-	MaxAmmo
+	ClipSize
 }
 public class WeaponStats : MonoBehaviour
 {
 
-
-
 	[SerializeField] List<Stat> stats = new();
-	public List<Stat> Stats { get => stats; set => stats = value; }
 
 	IDictionary<StatType, float> statDictionary = new Dictionary<StatType, float>();
 
@@ -27,11 +24,13 @@ public class WeaponStats : MonoBehaviour
 
 	private void OnEnable()
 	{
+		Debug.Log($"ENABLED STATS ON {gameObject}");
+
 		PopulateDictionary();
 	}
 	private void OnDisable()
 	{
-		statDictionary.Clear();
+		//statDictionary.Clear();
 	}
 
 	void PopulateDictionary()
@@ -45,11 +44,6 @@ public class WeaponStats : MonoBehaviour
 
 		}
 	}
-
-
-
-
-
 
 	//getter - setter - mod
 
@@ -71,7 +65,7 @@ public class WeaponStats : MonoBehaviour
 
 		if (!statDictionary.ContainsKey(stat)) { Debug.Log("INVALID KEY!"); return; }
 
-		Debug.Log($"{statDictionary[stat]} += {val}");
+		//Debug.Log($"{statDictionary[stat]} += {val}");
 		statDictionary[stat] += val;
 
 		Debug.Log($"{statDictionary[stat]}");

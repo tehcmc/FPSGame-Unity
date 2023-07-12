@@ -39,11 +39,14 @@ public class AttachPoint
 {
 	[SerializeField] AttachPointName attachmentPoint;
 	[SerializeField] Transform pointLocation;
+
+
 	bool isOccupied = false;
 
 	public AttachPointName AttachmentPoint { get => attachmentPoint; set => attachmentPoint = value; }
 	public Transform PointLocation { get => pointLocation; set => pointLocation = value; }
 	public bool IsOccupied { get => isOccupied; set => isOccupied = value; }
+
 }
 
 
@@ -53,9 +56,7 @@ public class Weapon : MonoBehaviour
 {
 	[SerializeField] Camera cam;
 	[SerializeField] float bulletRange = 100f;
-	[SerializeField] int maxAmmo = 15;
 
-	[SerializeField] Transform muzzle;
 	[SerializeField] ParticleSystem muzzleFlash;
 	[SerializeField] TrailRenderer bulletTrail;
 
@@ -65,12 +66,14 @@ public class Weapon : MonoBehaviour
 
 	[SerializeField] protected List<AttachPoint> attachPoints = new();
 
-	IDictionary<AttachPointName, AttachPoint> attachmentPointDictionary = new Dictionary<AttachPointName, AttachPoint>();
+	IDictionary<AttachPointName, AttachPoint> attachPointDictionary = new Dictionary<AttachPointName, AttachPoint>();
+
+	IDictionary<AttachPointName, Attachment> attachmentDictionary = new Dictionary<AttachPointName, Attachment>();
 
 
 	WeaponStats weaponStats;
 
-	internal WeaponStats WeaponStats { get => weaponStats; set => weaponStats = value; }
+	public WeaponStats WeaponStats { get => weaponStats; set => weaponStats = value; }
 
 
 	[SerializeField] Firemode firemode = Firemode.Single;
@@ -82,12 +85,25 @@ public class Weapon : MonoBehaviour
 
 	private void Awake()
 	{
-		WeaponStats = GetComponent<WeaponStats>();
+		weaponStats = GetComponent<WeaponStats>();
 		PopulateAttachPoints();
+	}
+	private void Start()
+	{
+		var player = FindObjectOfType<Player>();
+		if (!player) Destroy(gameObject);
+
+		cam = player.GetComponentInChildren<Camera>();
+
+		foreach (var attachment in attachments)
+		{
+			SetupAttachment(attachment);
+		}
+
 	}
 	protected virtual bool CanFire()
 	{
-		if (fireTime < weaponStats.GetStat(StatType.FireRate)) return false;
+		if (fireTime < Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity)) return false;
 
 		if (firemode == Firemode.Full && !Input.GetButton("Fire1")) return false;
 
@@ -98,7 +114,7 @@ public class Weapon : MonoBehaviour
 
 	void Update()
 	{
-		if (fireTime < weaponStats.GetStat(StatType.FireRate))
+		if (fireTime < Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity))
 		{
 			fireTime += Time.deltaTime;
 		}
@@ -108,16 +124,23 @@ public class Weapon : MonoBehaviour
 			Fire();
 		}
 
+
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			RemoveAttachment(AttachPointName.Muzzle);
+		}
+
+
 	}
 	void Fire()
 	{
 		fireTime = 0;
 		RaycastHit tr;
-		Vector3 hitLoc = cam.transform.forward * bulletRange;
+		Vector3 hitLoc = cam.transform.position + cam.transform.forward * bulletRange;
 
 		//Debug.DrawLine(cam.transform.position, cam.transform.forward * bulletRange, Color.red);
 
-		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out tr, bulletRange, 99, QueryTriggerInteraction.Ignore))
+		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), 99, QueryTriggerInteraction.Ignore))
 		{
 			if (tr.transform == transform.parent) return;
 			hitLoc = tr.point;
@@ -134,12 +157,20 @@ public class Weapon : MonoBehaviour
 
 
 		}
+
+		DoFireEffects(hitLoc);
+
+	}
+
+	private void DoFireEffects(Vector3 hitLoc)
+	{
+		var muzzle = GetAttachPoint(AttachPointName.Muzzle);
 		TrailRenderer trail = Instantiate(bulletTrail, muzzle.position, Quaternion.identity);
 		var muzzleEffect = Instantiate(muzzleFlash, muzzle.transform);
 		muzzleEffect.transform.position = muzzle.position; muzzleEffect.transform.rotation = muzzle.rotation;
 		StartCoroutine(SpawnTrail(trail, hitLoc));
-
 	}
+
 	void DoImpactEffect(RaycastHit tr)
 	{
 		Instantiate(hitParticle, tr.point, Quaternion.LookRotation(tr.normal));
@@ -165,30 +196,64 @@ public class Weapon : MonoBehaviour
 
 	public void SetupAttachment(Attachment attachment)
 	{
-		if (!attachmentPointDictionary.ContainsKey(attachment.MyAttachPoint)) return;
-		AttachPoint point = attachmentPointDictionary[attachment.MyAttachPoint];
+		if (!attachPointDictionary.ContainsKey(attachment.MyAttachPoint)) return;
+
+		if (attachmentDictionary.ContainsKey(attachment.MyAttachPoint)) return;
+
+
+		AttachPoint point = attachPointDictionary[attachment.MyAttachPoint];
 		if (point.IsOccupied) return;
 
 		attachment = Instantiate(attachment, transform);
-		attachments.Add(attachment);
+		attachmentDictionary.Add(attachment.MyAttachPoint, attachment);
 
-		attachment.transform.parent = attachmentPointDictionary[attachment.MyAttachPoint].PointLocation;
+		attachment.transform.parent = attachPointDictionary[attachment.MyAttachPoint].PointLocation;
 		attachment.transform.position = attachment.transform.parent.position;
-		attachmentPointDictionary[attachment.MyAttachPoint].IsOccupied = true;
-
+		attachPointDictionary[attachment.MyAttachPoint].IsOccupied = true;
 
 	}
+
+
+
+
 
 
 	void PopulateAttachPoints()
 	{
 		foreach (var point in attachPoints)
 		{
-			if (!attachmentPointDictionary.ContainsKey(point.AttachmentPoint))
+			if (!attachPointDictionary.ContainsKey(point.AttachmentPoint))
 			{
-				attachmentPointDictionary.Add(point.AttachmentPoint, point);
+				attachPointDictionary.Add(point.AttachmentPoint, point);
 			}
 
+		}
+	}
+
+	Transform GetAttachPoint(AttachPointName pointName)
+	{
+		if (!attachPointDictionary.ContainsKey(pointName)) return null;
+
+		return attachPointDictionary[pointName].PointLocation;
+
+	}
+
+	public void RemoveAttachment(AttachPointName point)
+	{
+		if (!attachmentDictionary.ContainsKey(point)) return;
+
+		attachmentDictionary[point].gameObject.SetActive(false);
+		Destroy(attachmentDictionary[point].gameObject);
+		attachPointDictionary[point].IsOccupied = false;
+		attachmentDictionary.Remove(point);
+	}
+
+	void RemoveAllAttachments()
+	{
+		foreach (var attachment in attachments)
+		{
+			attachment.gameObject.SetActive(false);
+			Destroy(attachment);
 		}
 	}
 }

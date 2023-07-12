@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PickAttachment : MonoBehaviour
@@ -9,14 +10,16 @@ public class PickAttachment : MonoBehaviour
 
 
 	Player player;
-
+	TMP_Text text;
 	// Start is called before the first frame update
 	void Start()
 	{
 		player = FindObjectOfType<Player>();
-
+		text = GetComponentInChildren<TMP_Text>();
 		weapon = player.gameObject.GetComponentInChildren<Weapon>();
 
+
+		text.text = attachment.MyAttachPoint.ToString();
 
 
 	}

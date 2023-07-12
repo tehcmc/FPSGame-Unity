@@ -60,7 +60,7 @@ public class NPCMover : MonoBehaviour
 	}
 	void Update()
 	{
-		//	if (showDebugLogs) Debug.Log(state);
+		if (showDebugLogs) Debug.Log(state);
 
 		switch (state)
 		{

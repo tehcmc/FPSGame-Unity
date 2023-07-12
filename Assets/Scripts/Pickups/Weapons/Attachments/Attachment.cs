@@ -17,27 +17,19 @@ public class Attachment : MonoBehaviour
 
 	protected virtual void Awake()
 	{
-
-
+		myStats = GetComponent<WeaponStats>();
+		myWeapon = gameObject.transform.parent.gameObject.GetComponent<Weapon>();
 	}
 	protected virtual void OnEnable()
 	{
-		Debug.Log("enabled");
 
-
-		myStats = GetComponent<WeaponStats>();
-		myStats.StatDictionary.ContainsKey(StatType.HorizontalRecoil);
-		myStats.enabled = false;
-		myStats.enabled = true;
-		myWeapon = gameObject.transform.parent.gameObject.GetComponent<Weapon>();
 		AddStats();
 	}
 	protected virtual void OnDisable()
 	{
 
 		RemoveStats();
-		myStats = null;
-		myWeapon = null;
+
 
 	}
 	void Start()
@@ -48,12 +40,10 @@ public class Attachment : MonoBehaviour
 	protected void AddStats()
 	{
 		if (myStats.StatDictionary == null) return;
-		var test = 1;
-		test = 2;
-
 
 		foreach (var stat in myStats.StatDictionary)
 		{
+			Debug.Log(gameObject.name);
 			Debug.Log($"Name: {stat.Key} Val: {stat.Value}");
 			myWeapon.WeaponStats.ModifyStat(stat.Key, stat.Value);
 		}
@@ -77,5 +67,10 @@ public class Attachment : MonoBehaviour
 		{
 			Debug.Log("Attachment Function!");
 		}
+	}
+	private void OnDestroy()
+	{
+		myStats = null;
+		myWeapon = null;
 	}
 }
