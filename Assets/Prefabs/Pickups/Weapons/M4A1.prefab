@@ -214,9 +214,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - statType: 0
-    value: 0.09
-  - statType: 1
     value: 0.05
+  - statType: 1
+    value: 0.04
   - statType: 2
     value: 0.08
   - statType: 3
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: M4A1
-  weaponType: 1
+  weaponType: 2
   firemode: 3
   muzzleFlash: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}

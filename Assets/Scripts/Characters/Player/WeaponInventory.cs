@@ -11,7 +11,7 @@ public class WeaponInventory : MonoBehaviour
 	Player player;
 
 	Weapon currentWeapon;
-
+	int indexEntry = 0;
 	public Weapon CurrentWeapon { get => currentWeapon; set => currentWeapon = value; }
 
 
@@ -31,19 +31,19 @@ public class WeaponInventory : MonoBehaviour
 	}
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Keypad0))
+		if (Input.GetAxis("Mouse ScrollWheel") > 0)
 		{
-			SwapWeapon(0);
-		}
+			if (indexEntry >= weapons.Count - 1)
+			{
+				indexEntry = 0;
 
-		if (Input.GetKeyDown(KeyCode.Keypad1))
-		{
-			SwapWeapon(1);
-		}
+			}
+			else
+			{
+				indexEntry++;
+			}
 
-		if (Input.GetKeyDown(KeyCode.Keypad2))
-		{
-			SwapWeapon(2);
+			SwapWeapon(indexEntry);
 		}
 	}
 	public void AddWeapon(Weapon weapon)
@@ -58,7 +58,9 @@ public class WeaponInventory : MonoBehaviour
 		weapons.Add(weapon);
 		weapon.gameObject.SetActive(false);
 
-
+		var sortedList = weapons.OrderByDescending(x => (int)(x.WeaponType)).ToList();
+		sortedList.Reverse();
+		weapons = sortedList;
 	}
 
 	void SwapWeapon(int index)
