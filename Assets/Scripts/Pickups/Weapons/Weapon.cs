@@ -54,17 +54,20 @@ public class AttachPoint
 [RequireComponent(typeof(WeaponStats))]
 public class Weapon : MonoBehaviour
 {
-	[SerializeField] Camera cam;
-	[SerializeField] float bulletRange = 100f;
+
+	[SerializeField] string weaponName;
+	[SerializeField] WeaponType weaponType;
+	[SerializeField] Firemode firemode = Firemode.Single;
+
 
 	[SerializeField] ParticleSystem muzzleFlash;
 	[SerializeField] TrailRenderer bulletTrail;
 
 	[SerializeField] ParticleSystem hitParticle;
 
-	[SerializeField] protected List<Attachment> attachments = new();
+	[SerializeField] List<Attachment> attachments = new();
 
-	[SerializeField] protected List<AttachPoint> attachPoints = new();
+	[SerializeField] List<AttachPoint> attachPoints = new();
 
 	IDictionary<AttachPointName, AttachPoint> attachPointDictionary = new Dictionary<AttachPointName, AttachPoint>();
 
@@ -72,14 +75,18 @@ public class Weapon : MonoBehaviour
 
 
 	WeaponStats weaponStats;
+	Camera cam;
+
+	int currentAmmo = 0;
+
+
+
 
 	public WeaponStats WeaponStats { get => weaponStats; set => weaponStats = value; }
-
-
-	[SerializeField] Firemode firemode = Firemode.Single;
-
-
-
+	public string WeaponName { get => weaponName; set => weaponName = value; }
+	public List<Attachment> Attachments { get => attachments; set => attachments = value; }
+	public IDictionary<AttachPointName, Attachment> AttachmentDictionary { get => attachmentDictionary; set => attachmentDictionary = value; }
+	public WeaponType WeaponType { get => weaponType; set => weaponType = value; }
 
 	float fireTime = 0;
 
@@ -95,10 +102,14 @@ public class Weapon : MonoBehaviour
 
 		cam = player.GetComponentInChildren<Camera>();
 
-		foreach (var attachment in attachments)
+
+		foreach (var attachment in Attachments)
 		{
 			SetupAttachment(attachment);
 		}
+
+		if (weaponStats.StatDictionary.ContainsKey(StatType.ClipSize)) currentAmmo = Mathf.RoundToInt(weaponStats.StatDictionary[StatType.ClipSize]);
+
 
 	}
 	protected virtual bool CanFire()
@@ -125,10 +136,7 @@ public class Weapon : MonoBehaviour
 		}
 
 
-		if (Input.GetKeyDown(KeyCode.O))
-		{
-			RemoveAttachment(AttachPointName.Muzzle);
-		}
+
 
 
 	}
@@ -136,10 +144,10 @@ public class Weapon : MonoBehaviour
 	{
 		fireTime = 0;
 		RaycastHit tr;
-		Vector3 hitLoc = cam.transform.position + cam.transform.forward * bulletRange;
+		Vector3 hitLoc = cam.transform.position + cam.transform.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
 
 		//Debug.DrawLine(cam.transform.position, cam.transform.forward * bulletRange, Color.red);
-
+		Debug.Log("bang");
 		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), 99, QueryTriggerInteraction.Ignore))
 		{
 			if (tr.transform == transform.parent) return;
@@ -179,7 +187,7 @@ public class Weapon : MonoBehaviour
 
 	IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitLoc)
 	{
-
+		Debug.Log("pew");
 		float time = 0;
 		Vector3 startPos = trail.transform.position;
 		while (time < 1)
@@ -198,14 +206,14 @@ public class Weapon : MonoBehaviour
 	{
 		if (!attachPointDictionary.ContainsKey(attachment.MyAttachPoint)) return;
 
-		if (attachmentDictionary.ContainsKey(attachment.MyAttachPoint)) return;
+		if (AttachmentDictionary.ContainsKey(attachment.MyAttachPoint)) return;
 
 
 		AttachPoint point = attachPointDictionary[attachment.MyAttachPoint];
 		if (point.IsOccupied) return;
 
 		attachment = Instantiate(attachment, transform);
-		attachmentDictionary.Add(attachment.MyAttachPoint, attachment);
+		AttachmentDictionary.Add(attachment.MyAttachPoint, attachment);
 
 		attachment.transform.parent = attachPointDictionary[attachment.MyAttachPoint].PointLocation;
 		attachment.transform.position = attachment.transform.parent.position;
@@ -240,17 +248,17 @@ public class Weapon : MonoBehaviour
 
 	public void RemoveAttachment(AttachPointName point)
 	{
-		if (!attachmentDictionary.ContainsKey(point)) return;
+		if (!AttachmentDictionary.ContainsKey(point)) return;
 
-		attachmentDictionary[point].gameObject.SetActive(false);
-		Destroy(attachmentDictionary[point].gameObject);
+		AttachmentDictionary[point].gameObject.SetActive(false);
+		Destroy(AttachmentDictionary[point].gameObject);
 		attachPointDictionary[point].IsOccupied = false;
-		attachmentDictionary.Remove(point);
+		AttachmentDictionary.Remove(point);
 	}
 
 	void RemoveAllAttachments()
 	{
-		foreach (var attachment in attachments)
+		foreach (var attachment in Attachments)
 		{
 			attachment.gameObject.SetActive(false);
 			Destroy(attachment);

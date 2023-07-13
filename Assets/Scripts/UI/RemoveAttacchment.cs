@@ -18,7 +18,7 @@ public class RemoveAttacchment : MonoBehaviour
 		text = GetComponentInChildren<TMP_Text>();
 		player = FindObjectOfType<Player>();
 
-		weapon = player.gameObject.GetComponentInChildren<Weapon>();
+
 		text.text = attachmentPoint.ToString().Normalize();
 
 
@@ -26,6 +26,7 @@ public class RemoveAttacchment : MonoBehaviour
 
 	public void RemoveFromWeapon()
 	{
+		weapon = player.GetComponent<WeaponInventory>().CurrentWeapon;
 		if (!weapon) return;
 		weapon.RemoveAttachment(attachmentPoint);
 	}

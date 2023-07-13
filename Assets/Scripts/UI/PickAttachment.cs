@@ -16,7 +16,6 @@ public class PickAttachment : MonoBehaviour
 	{
 		player = FindObjectOfType<Player>();
 		text = GetComponentInChildren<TMP_Text>();
-		weapon = player.gameObject.GetComponentInChildren<Weapon>();
 
 
 		text.text = attachment.MyAttachPoint.ToString();
@@ -26,6 +25,8 @@ public class PickAttachment : MonoBehaviour
 
 	public void AttachToWeapon()
 	{
+		weapon = player.gameObject.GetComponent<WeaponInventory>().CurrentWeapon;
+
 		if (!weapon) return;
 		if (!attachment) return;
 

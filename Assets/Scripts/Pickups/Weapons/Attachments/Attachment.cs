@@ -43,8 +43,8 @@ public class Attachment : MonoBehaviour
 
 		foreach (var stat in myStats.StatDictionary)
 		{
-			Debug.Log(gameObject.name);
-			Debug.Log($"Name: {stat.Key} Val: {stat.Value}");
+			//	Debug.Log(gameObject.name);
+			//	Debug.Log($"Name: {stat.Key} Val: {stat.Value}");
 			myWeapon.WeaponStats.ModifyStat(stat.Key, stat.Value);
 		}
 	}

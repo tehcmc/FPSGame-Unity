@@ -24,7 +24,7 @@ public class WeaponStats : MonoBehaviour
 
 	private void OnEnable()
 	{
-		Debug.Log($"ENABLED STATS ON {gameObject}");
+		//	Debug.Log($"ENABLED STATS ON {gameObject}");
 
 		PopulateDictionary();
 	}
@@ -68,7 +68,7 @@ public class WeaponStats : MonoBehaviour
 		//Debug.Log($"{statDictionary[stat]} += {val}");
 		statDictionary[stat] += val;
 
-		Debug.Log($"{statDictionary[stat]}");
+		//Debug.Log($"{statDictionary[stat]}");
 	}
 
 

@@ -232,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAttachPoint: 1
   playerCamera: {fileID: 0}
-  zoomAmount: 20
+  zoomAmount: 10
 --- !u!1 &5132689140899963267
 GameObject:
   m_ObjectHideFlags: 0
