@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - statType: 4
-    value: 1.4
+    value: 0.4
   - statType: 5
     value: 100
 --- !u!114 &5693219183870997339
@@ -64,9 +64,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f841cb4364c0a5645951df676441608e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  validWeapons: 01000000020000000300000005000000
   myAttachPoint: 1
-  playerCamera: {fileID: 0}
   zoomAmount: 30
+  mouseDampen: 6
 --- !u!1001 &216337900752428758
 PrefabInstance:
   m_ObjectHideFlags: 0

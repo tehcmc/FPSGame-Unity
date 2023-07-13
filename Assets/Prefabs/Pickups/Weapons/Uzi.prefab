@@ -155,7 +155,7 @@ MonoBehaviour:
   - statType: 3
     value: 12
   - statType: 4
-    value: 0
+    value: 1
   - statType: 5
     value: 150
   - statType: 6
@@ -173,7 +173,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Uzi
-  cam: {fileID: 0}
+  weaponType: 1
+  firemode: 3
   muzzleFlash: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
@@ -187,7 +188,7 @@ MonoBehaviour:
     pointLocation: {fileID: 1986254945082794814}
   - attachmentPoint: 5
     pointLocation: {fileID: 21349788177860443}
-  firemode: 3
+  weaponModel: {fileID: 672600022237071899}
 --- !u!1 &8508244521022721662
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +430,11 @@ PrefabInstance:
 --- !u!4 &668508614035239833 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4907130060635364, guid: 6273e2936e9d6a24e9f64c7c70d6bd19, type: 3}
+  m_PrefabInstance: {fileID: 672841779698634621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &672600022237071899 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1095254202041702, guid: 6273e2936e9d6a24e9f64c7c70d6bd19, type: 3}
   m_PrefabInstance: {fileID: 672841779698634621}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9216831915672665965

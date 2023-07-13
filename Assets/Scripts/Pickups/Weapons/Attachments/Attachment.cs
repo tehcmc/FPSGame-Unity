@@ -9,6 +9,8 @@ public class Attachment : MonoBehaviour
 
 	protected Weapon myWeapon;
 
+	[SerializeField] List<WeaponType> validWeapons = new List<WeaponType>();
+
 	protected WeaponStats myStats;
 
 	[SerializeField] AttachPointName myAttachPoint;
@@ -59,6 +61,14 @@ public class Attachment : MonoBehaviour
 		}
 	}
 
+	public bool CheckIfValid(WeaponType weptype)
+	{
+		foreach (var type in validWeapons)
+		{
+			if (type == weptype) return true;
+		}
+		return false;
+	}
 
 	// Update is called once per frame
 	void Update()
@@ -73,4 +83,6 @@ public class Attachment : MonoBehaviour
 		myStats = null;
 		myWeapon = null;
 	}
+
+
 }

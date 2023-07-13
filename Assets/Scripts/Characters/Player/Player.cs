@@ -9,7 +9,7 @@ public class Player : Character
 {
 	[SerializeField] Transform weaponHoldPoint;
 	DeathHandler deathHandler;
-
+	Ammo ammoBox;
 	public Transform WeaponHoldPoint { get => weaponHoldPoint; set => weaponHoldPoint = value; }
 
 	// Start is called before the first frame update

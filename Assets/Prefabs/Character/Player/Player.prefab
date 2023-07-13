@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 1841165915482283309}
   - component: {fileID: 716691941189556837}
   - component: {fileID: -5052234291346170570}
+  - component: {fileID: 879243685821409152}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -528,8 +529,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapons:
-  - {fileID: 7861083117878272559, guid: 780e231c4c5581148ada12a480eb8fd3, type: 3}
   - {fileID: 2347943941957570043, guid: 03141fcb77c2ed74cbae3ce8a6898676, type: 3}
+--- !u!114 &879243685821409152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5635152914539053709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124079cbb24f68f48b2705afd207b1ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoTypes:
+  - weaponType: 0
+    amount: 100
+  - weaponType: 1
+    amount: 100
+  - weaponType: 2
+    amount: 100
+  - weaponType: 3
+    amount: 100
+  - weaponType: 4
+    amount: 100
+  - weaponType: 5
+    amount: 100
 --- !u!1 &6683287202613005623
 GameObject:
   m_ObjectHideFlags: 0

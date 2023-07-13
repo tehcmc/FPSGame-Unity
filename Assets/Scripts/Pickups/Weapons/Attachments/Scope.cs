@@ -1,13 +1,19 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Scope : Attachment
 {
-	[SerializeField] Camera playerCamera;
-	bool isZoomed = false;
 	[SerializeField] float zoomAmount = 20f;
+	[SerializeField] float mouseDampen = 1f;
+
+
+	Camera playerCamera;
+	FirstPersonController playerController;
+	bool isZoomed = false;
 	float defaultFOV;
+	float defaultMouseSens;
 	// Start is called before the first frame update
 	// 	
 	protected override void Awake()
@@ -30,9 +36,11 @@ public class Scope : Attachment
 	void Start()
 	{
 		var player = FindObjectOfType<Player>();
-
+		if (!player) { Destroy(gameObject); return; }
+		playerController = player.GetComponent<FirstPersonController>();
 		playerCamera = player.GetComponentInChildren<Camera>();
 		if (playerCamera) defaultFOV = playerCamera.fieldOfView;
+		defaultMouseSens = playerController.RotationSpeed;
 	}
 
 	// Update is called once per frame
@@ -52,10 +60,12 @@ public class Scope : Attachment
 		if (isZoomed)
 		{
 			playerCamera.fieldOfView = defaultFOV - zoomAmount;
+			playerController.RotationSpeed = defaultMouseSens / mouseDampen;
 		}
 		else
 		{
 			playerCamera.fieldOfView = defaultFOV;
+			playerController.RotationSpeed = defaultMouseSens;
 		}
 	}
 

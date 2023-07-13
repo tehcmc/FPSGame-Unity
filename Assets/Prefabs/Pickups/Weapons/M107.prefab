@@ -214,15 +214,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - statType: 0
-    value: 0.09
+    value: 0
   - statType: 1
-    value: 0.05
+    value: 0
   - statType: 2
     value: 1
   - statType: 3
     value: 140
   - statType: 4
-    value: 0
+    value: 1
   - statType: 5
     value: 1000
   - statType: 6
@@ -240,7 +240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: M107
-  cam: {fileID: 0}
+  weaponType: 3
+  firemode: 1
   muzzleFlash: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
@@ -259,7 +260,7 @@ MonoBehaviour:
     pointLocation: {fileID: 1986254945082794814}
   - attachmentPoint: 5
     pointLocation: {fileID: 21349788177860443}
-  firemode: 1
+  weaponModel: {fileID: 8611049236616308659}
 --- !u!1 &5381957362979336921
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,6 +729,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
+--- !u!1 &8611049236616308659 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1829597508155286, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}
+  m_PrefabInstance: {fileID: 8612597356680433701}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8613258244976189955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4053999043310118, guid: 7359baf27e84aa44cafac3788c8be0f1, type: 3}

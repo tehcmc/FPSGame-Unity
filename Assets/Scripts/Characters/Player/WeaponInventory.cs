@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponInventory : MonoBehaviour
 {
@@ -18,57 +19,64 @@ public class WeaponInventory : MonoBehaviour
 	{
 		player = GetComponent<Player>();
 	}
-
-	private void Update()
+	private void Start()
 	{
-		Debug.Log("Count = " + weapons.Count);
-		if (Input.GetKeyDown(KeyCode.L))
+		for (int i = 0; i < weapons.Count; i++)
 		{
-
-			SwapWeapon(0);
-
-
+			weapons[i] = Instantiate(weapons[i], player.WeaponHoldPoint.transform);
+			weapons[i].gameObject.SetActive(false);
 		}
 
-		if (Input.GetKeyDown(KeyCode.O))
+
+	}
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Keypad0))
+		{
+			SwapWeapon(0);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Keypad1))
 		{
 			SwapWeapon(1);
 		}
 
+		if (Input.GetKeyDown(KeyCode.Keypad2))
+		{
+			SwapWeapon(2);
+		}
 	}
-	void AddWeapon(Weapon weapon)
+	public void AddWeapon(Weapon weapon)
 	{
+
+		foreach (var wep in weapons)
+		{
+			if (wep.WeaponName == weapon.WeaponName) return;
+		}
+
+		weapon = Instantiate(weapon, player.WeaponHoldPoint.transform);
 		weapons.Add(weapon);
+		weapon.gameObject.SetActive(false);
+
 
 	}
 
 	void SwapWeapon(int index)
 	{
+		if (index >= weapons.Count) return;
 		if (!weapons[index]) return;
-
+		if (currentWeapon == weapons[index]) return;
 
 		if (currentWeapon)
 		{
-
-			Debug.Log("contains");
-			for (int i = 0; i < weapons.Count; i++)
-			{
-				if (weapons[i].WeaponName == currentWeapon.WeaponName)
-				{
-					Debug.Log("found");
-				}
-
-			}
-
-
 			currentWeapon.gameObject.SetActive(false);
-			Destroy(currentWeapon.gameObject);
-			currentWeapon = null;
 		}
 
-		if (!weapons[index]) return;
 
-		currentWeapon = Instantiate(weapons[index], player.WeaponHoldPoint.transform);
+
+		currentWeapon = weapons[index];
+		Debug.Log(currentWeapon.WeaponName);
+		currentWeapon.gameObject.SetActive(true);
 
 
 

@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public enum Firemode
@@ -31,7 +33,6 @@ public enum AttachPointName
 	RightRail,
 	Muzzle,
 	Magazine
-
 }
 
 [Serializable]
@@ -39,9 +40,8 @@ public class AttachPoint
 {
 	[SerializeField] AttachPointName attachmentPoint;
 	[SerializeField] Transform pointLocation;
-
-
 	bool isOccupied = false;
+
 
 	public AttachPointName AttachmentPoint { get => attachmentPoint; set => attachmentPoint = value; }
 	public Transform PointLocation { get => pointLocation; set => pointLocation = value; }
@@ -54,20 +54,20 @@ public class AttachPoint
 [RequireComponent(typeof(WeaponStats))]
 public class Weapon : MonoBehaviour
 {
-
+	[Header("Values")]
 	[SerializeField] string weaponName;
 	[SerializeField] WeaponType weaponType;
 	[SerializeField] Firemode firemode = Firemode.Single;
 
-
+	[Header("Effects")]
 	[SerializeField] ParticleSystem muzzleFlash;
 	[SerializeField] TrailRenderer bulletTrail;
-
 	[SerializeField] ParticleSystem hitParticle;
 
-	[SerializeField] List<Attachment> attachments = new();
 
-	[SerializeField] List<AttachPoint> attachPoints = new();
+	[Header("Lists")]
+	[SerializeField][Tooltip("Drag any attachments you wish this weapon to spawn with into this list")] List<Attachment> attachments = new();
+	[SerializeField][Tooltip("Set up attach points, drag their transforms into this list")] List<AttachPoint> attachPoints = new();
 
 	IDictionary<AttachPointName, AttachPoint> attachPointDictionary = new Dictionary<AttachPointName, AttachPoint>();
 
@@ -76,9 +76,10 @@ public class Weapon : MonoBehaviour
 
 	WeaponStats weaponStats;
 	Camera cam;
-
+	Player player;
 	int currentAmmo = 0;
 
+	public GameObject weaponModel;
 
 
 
@@ -97,7 +98,7 @@ public class Weapon : MonoBehaviour
 	}
 	private void Start()
 	{
-		var player = FindObjectOfType<Player>();
+		player = FindObjectOfType<Player>();
 		if (!player) Destroy(gameObject);
 
 		cam = player.GetComponentInChildren<Camera>();
@@ -114,14 +115,26 @@ public class Weapon : MonoBehaviour
 	}
 	protected virtual bool CanFire()
 	{
+		if (currentAmmo <= 0) return false;
+
 		if (fireTime < Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity)) return false;
 
-		if (firemode == Firemode.Full && !Input.GetButton("Fire1")) return false;
+		if ((firemode == Firemode.Full && !Input.GetButton("Fire1")) || (firemode == Firemode.Single && !Input.GetButtonDown("Fire1"))) return false;
 
-		if (firemode == Firemode.Single && !Input.GetButtonDown("Fire1")) return false;
+
 
 		return true;
 	}
+
+	protected bool CanReload()
+	{
+		if (!WeaponStats.StatDictionary.ContainsKey(StatType.ClipSize)) return false;
+		if (currentAmmo >= (int)WeaponStats.GetStat(StatType.ClipSize)) return false;
+		if (WeaponStats.GetStat(StatType.ClipSize) <= 0) return false;
+
+		return true;
+	}
+
 
 	void Update()
 	{
@@ -133,22 +146,39 @@ public class Weapon : MonoBehaviour
 		if (CanFire())
 		{
 			Fire();
+			currentAmmo--;
+
+		}
+
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			if (!CanReload()) return;
+			Reload();
 		}
 
 
-
-
-
 	}
+
+
 	void Fire()
 	{
+
+
 		fireTime = 0;
 		RaycastHit tr;
 		Vector3 hitLoc = cam.transform.position + cam.transform.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
 
+
+		Vector3 shootDirection = cam.transform.forward;
+		shootDirection.x += Random.Range(-weaponStats.GetStat(StatType.HorizontalRecoil), weaponStats.GetStat(StatType.HorizontalRecoil));
+		shootDirection.y += Random.Range(-weaponStats.GetStat(StatType.VerticalRecoil), weaponStats.GetStat(StatType.VerticalRecoil));
+
+
+
+
 		//Debug.DrawLine(cam.transform.position, cam.transform.forward * bulletRange, Color.red);
 		Debug.Log("bang");
-		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), 99, QueryTriggerInteraction.Ignore))
+		if (Physics.Raycast(cam.transform.position, shootDirection, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), 99, QueryTriggerInteraction.Ignore))
 		{
 			if (tr.transform == transform.parent) return;
 			hitLoc = tr.point;
@@ -160,10 +190,6 @@ public class Weapon : MonoBehaviour
 				health.DamageHealth(weaponStats.GetStat(StatType.BaseDamage) * weaponStats.GetStat(StatType.DamageMultiplier));
 
 			}
-
-			//	Debug.Log(tr.collider.name);
-
-
 		}
 
 		DoFireEffects(hitLoc);
@@ -202,15 +228,45 @@ public class Weapon : MonoBehaviour
 	}
 
 
+
+	void Reload()
+	{
+		var ammoComp = player.GetComponent<Ammo>();
+		if (!ammoComp) return;
+
+
+		var clip = Mathf.RoundToInt(weaponStats.GetStat(StatType.ClipSize));
+
+		var amount = ammoComp.TakeAmmo(weaponType, clip - currentAmmo);
+
+		Debug.Log(ammoComp.GetAmmo(weaponType));
+		currentAmmo += amount;
+		Debug.Log($"Current ammo (Reload): {currentAmmo}");
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public void SetupAttachment(Attachment attachment)
 	{
 		if (!attachPointDictionary.ContainsKey(attachment.MyAttachPoint)) return;
 
 		if (AttachmentDictionary.ContainsKey(attachment.MyAttachPoint)) return;
 
-
 		AttachPoint point = attachPointDictionary[attachment.MyAttachPoint];
+
 		if (point.IsOccupied) return;
+		if (!attachment.CheckIfValid(weaponType)) return; // if attachment does not accept this weapon type, return.
+
 
 		attachment = Instantiate(attachment, transform);
 		AttachmentDictionary.Add(attachment.MyAttachPoint, attachment);
@@ -220,11 +276,6 @@ public class Weapon : MonoBehaviour
 		attachPointDictionary[attachment.MyAttachPoint].IsOccupied = true;
 
 	}
-
-
-
-
-
 
 	void PopulateAttachPoints()
 	{
@@ -264,5 +315,6 @@ public class Weapon : MonoBehaviour
 			Destroy(attachment);
 		}
 	}
+
 }
 
