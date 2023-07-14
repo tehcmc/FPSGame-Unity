@@ -20,8 +20,8 @@ public enum WeaponType
 	Pistol,
 	SMG,
 	Rifle,
-	Sniper,
 	Shotgun,
+	Sniper,
 	Special
 }
 
@@ -77,7 +77,10 @@ public class Weapon : MonoBehaviour
 	WeaponStats weaponStats;
 	Camera cam;
 	Player player;
-	int currentAmmo = 0;
+
+	protected int currentAmmo = 0;
+
+	protected float fireTime = 0;
 
 	public GameObject weaponModel;
 
@@ -89,14 +92,13 @@ public class Weapon : MonoBehaviour
 	public IDictionary<AttachPointName, Attachment> AttachmentDictionary { get => attachmentDictionary; set => attachmentDictionary = value; }
 	public WeaponType WeaponType { get => weaponType; set => weaponType = value; }
 
-	float fireTime = 0;
 
-	private void Awake()
+	protected virtual void Awake()
 	{
 		weaponStats = GetComponent<WeaponStats>();
 		PopulateAttachPoints();
 	}
-	private void Start()
+	protected virtual void Start()
 	{
 		player = FindObjectOfType<Player>();
 		if (!player) Destroy(gameObject);
@@ -136,7 +138,7 @@ public class Weapon : MonoBehaviour
 	}
 
 
-	void Update()
+	protected virtual void Update()
 	{
 		if (fireTime < Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity))
 		{
@@ -146,6 +148,7 @@ public class Weapon : MonoBehaviour
 		if (CanFire())
 		{
 			Fire();
+			fireTime = 0;
 			currentAmmo--;
 
 		}
@@ -160,11 +163,9 @@ public class Weapon : MonoBehaviour
 	}
 
 
-	void Fire()
+	protected virtual void Fire()
 	{
 
-
-		fireTime = 0;
 		RaycastHit tr;
 		Vector3 hitLoc = cam.transform.position + cam.transform.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
 
