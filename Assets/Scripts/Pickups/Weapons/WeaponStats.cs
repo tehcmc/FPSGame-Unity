@@ -5,13 +5,15 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 public enum StatType
 {
-	VerticalRecoil,
-	HorizontalRecoil,
+	VerticalSpread,
+	HorizontalSpread,
 	FireRate,
 	BaseDamage,
 	DamageMultiplier,
 	Range,
-	ClipSize
+	ClipSize,
+	VerticalRecoil,
+	HorizontalRecoil
 }
 public class WeaponStats : MonoBehaviour
 {

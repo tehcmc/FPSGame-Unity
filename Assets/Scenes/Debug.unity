@@ -3775,6 +3775,10 @@ PrefabInstance:
       propertyPath: attachment
       value: 
       objectReference: {fileID: 3840631716651338092, guid: d3824e3235f4c8d4ab343c3b3459d24c, type: 3}
+    - target: {fileID: 7006217438029444118, guid: 04909d33c748a824dbe22bf9c2c327c3, type: 3}
+      propertyPath: attachment
+      value: 
+      objectReference: {fileID: 5100088620746131079, guid: 430d0a7cfc390474f89bfc99e4c7b24d, type: 3}
     - target: {fileID: 7167609420826942023, guid: 04909d33c748a824dbe22bf9c2c327c3, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.b
       value: 1

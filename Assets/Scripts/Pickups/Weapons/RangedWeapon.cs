@@ -52,7 +52,7 @@ public class AttachPoint
 
 
 [RequireComponent(typeof(WeaponStats))]
-public class Weapon : MonoBehaviour
+public class RangedWeapon : MonoBehaviour
 {
 	[Header("Values")]
 	[SerializeField] string weaponName;
@@ -60,7 +60,11 @@ public class Weapon : MonoBehaviour
 	[SerializeField] Firemode firemode = Firemode.Single;
 
 	[Header("Effects")]
-	[SerializeField] ParticleSystem muzzleFlash;
+	[SerializeField] ParticleSystem defaultMuzzle;
+
+	ParticleSystem muzzleFlash;
+
+
 	[SerializeField] TrailRenderer bulletTrail;
 	[SerializeField] ParticleSystem hitParticle;
 
@@ -93,10 +97,13 @@ public class Weapon : MonoBehaviour
 	public WeaponType WeaponType { get => weaponType; set => weaponType = value; }
 
 
+	public ParticleSystem MuzzleFlash { get => muzzleFlash; set => muzzleFlash = value; }
+
 	protected virtual void Awake()
 	{
 		weaponStats = GetComponent<WeaponStats>();
 		PopulateAttachPoints();
+		MuzzleFlash = defaultMuzzle;
 	}
 	protected virtual void Start()
 	{
@@ -171,8 +178,8 @@ public class Weapon : MonoBehaviour
 
 
 		Vector3 shootDirection = cam.transform.forward;
-		shootDirection.x += Random.Range(-weaponStats.GetStat(StatType.HorizontalRecoil), weaponStats.GetStat(StatType.HorizontalRecoil));
-		shootDirection.y += Random.Range(-weaponStats.GetStat(StatType.VerticalRecoil), weaponStats.GetStat(StatType.VerticalRecoil));
+		shootDirection.x += Random.Range(-weaponStats.GetStat(StatType.HorizontalSpread), weaponStats.GetStat(StatType.HorizontalSpread));
+		shootDirection.y += Random.Range(-weaponStats.GetStat(StatType.VerticalSpread), weaponStats.GetStat(StatType.VerticalSpread));
 
 
 
@@ -201,7 +208,7 @@ public class Weapon : MonoBehaviour
 	{
 		var muzzle = GetAttachPoint(AttachPointName.Muzzle);
 		TrailRenderer trail = Instantiate(bulletTrail, muzzle.position, Quaternion.identity);
-		var muzzleEffect = Instantiate(muzzleFlash, muzzle.transform);
+		var muzzleEffect = Instantiate(MuzzleFlash, muzzle.transform);
 		muzzleEffect.transform.position = muzzle.position; muzzleEffect.transform.rotation = muzzle.rotation;
 		StartCoroutine(SpawnTrail(trail, hitLoc));
 	}

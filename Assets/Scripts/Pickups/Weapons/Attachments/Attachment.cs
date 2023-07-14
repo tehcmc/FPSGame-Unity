@@ -7,20 +7,22 @@ using UnityEngine;
 public class Attachment : MonoBehaviour
 {
 
-	protected Weapon myWeapon;
+
 
 	[SerializeField] List<WeaponType> validWeapons = new List<WeaponType>();
+	[SerializeField] AttachPointName myAttachPoint;
+
+
 
 	protected WeaponStats myStats;
-
-	[SerializeField] AttachPointName myAttachPoint;
+	protected RangedWeapon myWeapon;
 
 	public AttachPointName MyAttachPoint { get => myAttachPoint; set => myAttachPoint = value; }
 
 	protected virtual void Awake()
 	{
 		myStats = GetComponent<WeaponStats>();
-		myWeapon = gameObject.transform.parent.gameObject.GetComponent<Weapon>();
+		myWeapon = gameObject.transform.parent.gameObject.GetComponent<RangedWeapon>();
 	}
 	protected virtual void OnEnable()
 	{

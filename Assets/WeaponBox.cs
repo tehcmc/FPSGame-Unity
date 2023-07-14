@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponBox : MonoBehaviour
 {
-	[SerializeField] Weapon weapon;
+	[SerializeField] RangedWeapon weapon;
 	[SerializeField] Transform weaponPoint;
 	Player player;
 	// Start is called before the first frame update

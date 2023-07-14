@@ -6,7 +6,7 @@ using UnityEngine;
 public class RemoveAttacchment : MonoBehaviour
 {
 	[SerializeField] AttachPointName attachmentPoint;
-	Weapon weapon;
+	RangedWeapon weapon;
 
 
 	Player player;

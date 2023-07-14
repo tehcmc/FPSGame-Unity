@@ -6,7 +6,7 @@ using UnityEngine;
 public class PickAttachment : MonoBehaviour
 {
 	[SerializeField] Attachment attachment;
-	Weapon weapon;
+	RangedWeapon weapon;
 
 
 	Player player;

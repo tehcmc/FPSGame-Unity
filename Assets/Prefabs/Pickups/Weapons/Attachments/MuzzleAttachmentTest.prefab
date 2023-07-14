@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6149305439280080037}
   - component: {fileID: 7577469423831272934}
-  - component: {fileID: 3840631716651338092}
+  - component: {fileID: 5100088620746131079}
   m_Layer: 0
   m_Name: MuzzleAttachmentTest
   m_TagString: Untagged
@@ -52,7 +52,7 @@ MonoBehaviour:
     value: -10
   - statType: 4
     value: -0.1
---- !u!114 &3840631716651338092
+--- !u!114 &5100088620746131079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,11 +61,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4997397380339326071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6cdc8de383f545498adc34249c3a4e4, type: 3}
+  m_Script: {fileID: 11500000, guid: 535662f110918c14ab0a1831adc46b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   validWeapons: 00000000010000000200000003000000
   myAttachPoint: 4
+  muzzleEffect: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
+  shootSound: {fileID: 0}
 --- !u!1001 &447689449716408617
 PrefabInstance:
   m_ObjectHideFlags: 0

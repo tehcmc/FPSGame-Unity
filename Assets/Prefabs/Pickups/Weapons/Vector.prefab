@@ -208,11 +208,10 @@ MonoBehaviour:
   weaponName: Vector
   weaponType: 1
   firemode: 3
-  muzzleFlash: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
+  defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
   attachments:
-  - {fileID: 3840631716651338092, guid: 430d0a7cfc390474f89bfc99e4c7b24d, type: 3}
   - {fileID: 5693219183870997339, guid: 052d7eabd65a5c9488ad29b4145308d1, type: 3}
   attachPoints:
   - attachmentPoint: 1
