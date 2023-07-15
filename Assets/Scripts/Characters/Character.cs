@@ -16,6 +16,7 @@ public class Character : MonoBehaviour
 	}
 	private void OnEnable()
 	{
+
 		health.OnDamage += TakeDamage;
 		health.OnZeroed += Die;
 	}

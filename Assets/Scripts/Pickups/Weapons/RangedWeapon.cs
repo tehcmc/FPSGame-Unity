@@ -61,8 +61,10 @@ public class RangedWeapon : MonoBehaviour
 
 	[Header("Effects")]
 	[SerializeField] ParticleSystem defaultMuzzle;
-
-	ParticleSystem muzzleFlash;
+	[SerializeField]
+	AudioClip defaultFireSound
+	;
+	[SerializeField] AudioClip triggerSound;
 
 
 	[SerializeField] TrailRenderer bulletTrail;
@@ -81,6 +83,13 @@ public class RangedWeapon : MonoBehaviour
 	WeaponStats weaponStats;
 	Camera cam;
 	Player player;
+	AudioSource audioSource;
+
+	ParticleSystem muzzleFlash;
+	AudioClip fireSound;
+
+
+
 
 	protected int currentAmmo = 0;
 
@@ -98,12 +107,18 @@ public class RangedWeapon : MonoBehaviour
 
 
 	public ParticleSystem MuzzleFlash { get => muzzleFlash; set => muzzleFlash = value; }
+	public AudioClip FireSound { get => fireSound; set => fireSound = value; }
+	public AudioClip DefaultFireSound { get => defaultFireSound; protected set => defaultFireSound = value; }
+	public ParticleSystem DefaultMuzzle { get => defaultMuzzle; protected set => defaultMuzzle = value; }
 
 	protected virtual void Awake()
 	{
-		weaponStats = GetComponent<WeaponStats>();
 		PopulateAttachPoints();
-		MuzzleFlash = defaultMuzzle;
+		weaponStats = GetComponent<WeaponStats>();
+
+		audioSource = GetComponent<AudioSource>();
+		MuzzleFlash = DefaultMuzzle;
+		FireSound = DefaultFireSound;
 	}
 	protected virtual void Start()
 	{
@@ -152,12 +167,21 @@ public class RangedWeapon : MonoBehaviour
 			fireTime += Time.deltaTime;
 		}
 
+
+
+
 		if (CanFire())
 		{
+
+			PlaySound(FireSound);
 			Fire();
 			fireTime = 0;
 			currentAmmo--;
+		}
 
+		if (Input.GetButtonDown("Fire1") && currentAmmo <= 0)
+		{
+			PlaySound(triggerSound);
 		}
 
 		if (Input.GetKeyDown(KeyCode.R))
@@ -181,7 +205,7 @@ public class RangedWeapon : MonoBehaviour
 		shootDirection.x += Random.Range(-weaponStats.GetStat(StatType.HorizontalSpread), weaponStats.GetStat(StatType.HorizontalSpread));
 		shootDirection.y += Random.Range(-weaponStats.GetStat(StatType.VerticalSpread), weaponStats.GetStat(StatType.VerticalSpread));
 
-
+		hitLoc = cam.transform.position + shootDirection * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
 
 
 		//Debug.DrawLine(cam.transform.position, cam.transform.forward * bulletRange, Color.red);
@@ -236,6 +260,12 @@ public class RangedWeapon : MonoBehaviour
 	}
 
 
+	void PlaySound(AudioClip sound)
+	{
+		if (!audioSource || !sound) return;
+
+		audioSource.PlayOneShot(sound);
+	}
 
 	void Reload()
 	{

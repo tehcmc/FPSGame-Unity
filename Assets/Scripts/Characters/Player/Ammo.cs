@@ -57,6 +57,15 @@ public class Ammo : MonoBehaviour
 		return amount;
 	}
 
+	public void GiveAmmo(WeaponType key, int amount)
+	{
+		if (!ammoTable.ContainsKey(key)) return;
+
+		ammoTable[key].Amount += amount;
+
+	}
+
+
 	public void SetAmmo(WeaponType key, int amount)
 	{
 		ammoTable[key].Amount = amount;

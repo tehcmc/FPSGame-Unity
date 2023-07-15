@@ -186,7 +186,7 @@ MonoBehaviour:
   - statType: 2
     value: 0.6
   - statType: 3
-    value: 2
+    value: 5
   - statType: 4
     value: 1
   - statType: 5
@@ -209,6 +209,8 @@ MonoBehaviour:
   weaponType: 4
   firemode: 1
   defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
+  defaultFireSound: {fileID: 0}
+  triggerSound: {fileID: 0}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
   attachments: []

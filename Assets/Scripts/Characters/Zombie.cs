@@ -27,6 +27,7 @@ public class Zombie : Character
 	protected override void TakeDamage()
 	{
 		base.TakeDamage();
+
 	}
 
 

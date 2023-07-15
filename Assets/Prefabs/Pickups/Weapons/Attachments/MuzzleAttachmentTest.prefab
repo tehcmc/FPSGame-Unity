@@ -66,8 +66,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   validWeapons: 00000000010000000200000003000000
   myAttachPoint: 4
-  muzzleEffect: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
-  shootSound: {fileID: 0}
+  muzzleEffect: {fileID: 6116043721073108993, guid: c22d20d9cc4ba5848972ed128e6540ee, type: 3}
+  shootSound: {fileID: 8300000, guid: 6187e4bc1427de044a2127058394aa7d, type: 3}
 --- !u!1001 &447689449716408617
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 public class Health : MonoBehaviour
 {
 
@@ -47,10 +48,22 @@ public class Health : MonoBehaviour
 	{
 		if (val == 0) return;
 		ModifyHealth(-Mathf.Abs(val));
+		ShowDamage(val);
 		OnDamage?.Invoke();
 	}
 
+	void ShowDamage(float val)
+	{
+		Camera camera = Camera.main;
+		if (!camera) return;
+		Vector3 randPos = gameObject.transform.position;
 
+		randPos.x += (Random.Range(-1, 1));
+		randPos.y += (Random.Range(-1, 1));
+		randPos.z += (Random.Range(-1, 1));
+		var popup = Instantiate(GameManager.Instance.DmgPopup, randPos, Quaternion.LookRotation(gameObject.transform.position - camera.transform.position));
+		popup.DisplayDamage(val);
+	}
 
 	public void Heal(float val)
 	{

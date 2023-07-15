@@ -7,18 +7,6 @@ public class GameEvents : MonoBehaviour
 	public static GameEvents instance;
 
 
-	private void Awake()
-	{
-		if (instance != null)
-		{
-			Destroy(gameObject);
-
-		}
-		else
-		{
-			instance = this;
-		}
-	}
 
 	void Start()
 	{
