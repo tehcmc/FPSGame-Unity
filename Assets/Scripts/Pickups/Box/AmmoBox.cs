@@ -7,42 +7,7 @@ public class AmmoBox : MonoBehaviour
 	[SerializeField] bool reusable = false;
 
 
-	[Header("Ammo Type Icons")]
-	[SerializeField] GameObject pistolIcon;
-	[SerializeField] GameObject smgIcon;
-	[SerializeField] GameObject rifleIcon;
-	[SerializeField] GameObject shotgunIcon;
-	[SerializeField] GameObject sniperIcon;
-	[SerializeField] GameObject specialIcon;
 
-	private void Awake()
-	{
-		HideAllIcons();
-		switch (ammoType)
-		{
-			case WeaponType.Pistol:
-				pistolIcon.SetActive(true);
-				break;
-			case WeaponType.SMG:
-				smgIcon.SetActive(true);
-				break;
-			case WeaponType.Rifle:
-				rifleIcon.SetActive(true);
-				break;
-			case WeaponType.Shotgun:
-				shotgunIcon.SetActive(true);
-				break;
-			case WeaponType.Sniper:
-				sniperIcon.SetActive(true);
-				break;
-			case WeaponType.Special:
-				specialIcon.SetActive(true);
-				break;
-		}
-
-
-
-	}
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -52,18 +17,22 @@ public class AmmoBox : MonoBehaviour
 
 		ammo.GiveAmmo(ammoType, ammoCount);
 
+		ShowAmmo(ammoCount, gameObject.transform.position);
+
 		if (!reusable)
 		{
 			Destroy(gameObject);
 		}
 	}
-	void HideAllIcons()
+	void ShowAmmo(float val, Vector3 spawnPoint)
 	{
-		pistolIcon.SetActive(false);
-		smgIcon.SetActive(false);
-		rifleIcon.SetActive(false);
-		shotgunIcon.SetActive(false);
-		sniperIcon.SetActive(false);
-		specialIcon.SetActive(false);
+
+		Camera camera = Camera.main;
+		if (!camera) return;
+		var popup = Instantiate(GameManager.Instance.DmgPopup, spawnPoint, Quaternion.LookRotation(spawnPoint - camera.transform.position));
+		popup.DisplayDamage(val);
+
 	}
+
+
 }

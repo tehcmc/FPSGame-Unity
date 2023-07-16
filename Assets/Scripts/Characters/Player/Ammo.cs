@@ -11,6 +11,8 @@ public class AmmoType
 	[SerializeField] WeaponType weaponType;
 	[SerializeField] int amount;
 
+
+
 	AmmoType(WeaponType type, int val)
 	{
 		this.WeaponType = type;
@@ -23,6 +25,7 @@ public class AmmoType
 }
 public class Ammo : MonoBehaviour
 {
+
 
 	[SerializeField] List<AmmoType> ammoTypes = new();
 
@@ -61,7 +64,9 @@ public class Ammo : MonoBehaviour
 	{
 		if (!ammoTable.ContainsKey(key)) return;
 
-		ammoTable[key].Amount += amount;
+		var current = ammoTable[key].Amount;
+
+		SetAmmo(key, current += amount);
 
 	}
 
@@ -69,6 +74,8 @@ public class Ammo : MonoBehaviour
 	public void SetAmmo(WeaponType key, int amount)
 	{
 		ammoTable[key].Amount = amount;
+
+		GameManager.Instance.ChangeWeapnEvent();
 	}
 
 	public void DestroyAmmoTable()

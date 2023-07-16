@@ -72,14 +72,7 @@ public class Attachment : MonoBehaviour
 		return false;
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-		if (Input.GetMouseButtonDown(1))
-		{
-			Debug.Log("Attachment Function!");
-		}
-	}
+
 	private void OnDestroy()
 	{
 		myStats = null;

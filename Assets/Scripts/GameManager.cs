@@ -1,14 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+	public event Action WeaponChanged;
 	public static GameManager Instance;
 	[SerializeField] DamagePopup dmgPopup;
-	Camera mainCam;
+
+
 	public DamagePopup DmgPopup { get => dmgPopup; set => dmgPopup = value; }
-	public Camera MainCam { get => mainCam; set => mainCam = value; }
 
 	private void Awake()
 	{
@@ -23,16 +25,9 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	// Start is called before the first frame update
-	void Start()
+	public void ChangeWeapnEvent()
 	{
-		MainCam = Camera.main;
-
+		WeaponChanged?.Invoke();
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
 }

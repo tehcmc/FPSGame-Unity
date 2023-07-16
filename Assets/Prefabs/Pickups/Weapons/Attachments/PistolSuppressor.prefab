@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7577469423831272934}
   - component: {fileID: 5100088620746131079}
   m_Layer: 0
-  m_Name: MuzzleAttachmentTest
+  m_Name: PistolSuppressor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,10 +65,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 535662f110918c14ab0a1831adc46b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validWeapons: 0200000003000000
+  validWeapons: 0000000001000000
   myAttachPoint: 4
   muzzleEffect: {fileID: 6116043721073108993, guid: c22d20d9cc4ba5848972ed128e6540ee, type: 3}
-  shootSound: {fileID: 8300000, guid: 6187e4bc1427de044a2127058394aa7d, type: 3}
+  shootSound: {fileID: 8300000, guid: fc8ff4dd29a21534ba845cbc915a28df, type: 3}
   shootPosition: {fileID: 6093371566515677573}
 --- !u!1 &9205074917124393958
 GameObject:
@@ -94,7 +94,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9205074917124393958}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.4108, y: 0, z: 0}
+  m_LocalPosition: {x: -1.597, y: -0.001, z: -0}
   m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -132,11 +132,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4402457556688164, guid: 0e16ff512ef633a45993e810fc3c4571, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.697
+      value: -0.797
       objectReference: {fileID: 0}
     - target: {fileID: 4402457556688164, guid: 0e16ff512ef633a45993e810fc3c4571, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.036
       objectReference: {fileID: 0}
     - target: {fileID: 4402457556688164, guid: 0e16ff512ef633a45993e810fc3c4571, type: 3}
       propertyPath: m_LocalPosition.z
@@ -170,6 +170,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 33156995418109262, guid: 0e16ff512ef633a45993e810fc3c4571, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: a26b96cad43bec146bd03d5c5dffa902, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

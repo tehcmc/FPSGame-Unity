@@ -24,6 +24,7 @@ public class WeaponInventory : MonoBehaviour
 		for (int i = 0; i < weapons.Count; i++)
 		{
 			weapons[i] = Instantiate(weapons[i], player.WeaponHoldPoint.transform);
+
 			weapons[i].gameObject.SetActive(false);
 		}
 

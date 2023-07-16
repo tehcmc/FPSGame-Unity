@@ -117,14 +117,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2746116896293069818}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.16, y: 0, z: 0.378}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -0, y: 6.2099338, z: -0.007}
+  m_LocalScale: {x: 5.13913, y: 5.5652313, z: 279.65594}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3054656017397058783}
   - {fileID: 6029944471608389254}
-  m_Father: {fileID: 6149305439280080037}
+  m_Father: {fileID: 8318502952209445337}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4752682017233112399
@@ -153,8 +153,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4752682017233112399}
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 1.5043279, y: 0, z: 0}
-  m_LocalScale: {x: 1.3000001, y: 0.5590921, z: 2.653494}
+  m_LocalPosition: {x: 2.8675892, y: 0, z: 0}
+  m_LocalScale: {x: 1.3000001, y: 0.5590921, z: 6.697022}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8318502952209445337}
@@ -236,15 +236,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4845844569019527046}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0378, y: 0, z: 0}
-  m_LocalScale: {x: 0.09166475, y: 0.172776, z: 0.6395767}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.0033, z: 0}
+  m_LocalScale: {x: 0.030234454, y: 0.172776, z: 0.355675}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1709174329976948379}
   m_Father: {fileID: 6149305439280080037}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!33 &3868109393931540435
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 7577469423831272934}
   - component: {fileID: 8369170507715800542}
   m_Layer: 0
-  m_Name: RightRailTest
+  m_Name: PistolFlashlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -327,7 +327,6 @@ Transform:
   m_Children:
   - {fileID: 8075141757264122384}
   - {fileID: 765455919977995372}
-  - {fileID: 5403995135513619780}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -358,9 +357,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038094c3e43b0c24aa1ce2451d0c3db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validWeapons: 01000000020000000300000004000000
-  myAttachPoint: 3
+  validWeapons: 00000000
+  myAttachPoint: 0
   light: {fileID: 2746116896293069818}
+  activateSound: {fileID: 0}
 --- !u!1 &5352093359135025861
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +390,8 @@ Transform:
   m_LocalPosition: {x: -0, y: 0.995, z: 0}
   m_LocalScale: {x: 0.8, y: 0.01, z: 0.8}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5403995135513619780}
   m_Father: {fileID: 1709174329976948379}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
