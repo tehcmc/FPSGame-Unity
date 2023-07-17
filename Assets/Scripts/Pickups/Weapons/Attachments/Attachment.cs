@@ -18,6 +18,7 @@ public class Attachment : MonoBehaviour
 	protected RangedWeapon myWeapon;
 
 	public AttachPointName MyAttachPoint { get => myAttachPoint; set => myAttachPoint = value; }
+	public List<WeaponType> ValidWeapons { get => validWeapons; set => validWeapons = value; }
 
 	protected virtual void Awake()
 	{
@@ -65,7 +66,7 @@ public class Attachment : MonoBehaviour
 
 	public bool CheckIfValid(WeaponType weptype)
 	{
-		foreach (var type in validWeapons)
+		foreach (var type in ValidWeapons)
 		{
 			if (type == weptype) return true;
 		}

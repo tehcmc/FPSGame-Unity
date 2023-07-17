@@ -70,6 +70,7 @@ public class WeaponInventory : MonoBehaviour
 		if (!weapons[index]) return;
 		if (currentWeapon == weapons[index]) return;
 
+
 		if (currentWeapon)
 		{
 			currentWeapon.gameObject.SetActive(false);

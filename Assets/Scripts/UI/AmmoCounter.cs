@@ -22,19 +22,18 @@ public class AmmoCounter : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
+		if (this == null)
+		{
+			Destroy(gameObject);
+		}
 	}
 
 	void SetAmmoCount()
 	{
-
 		if (!player) return;
-
 		currentWeapon = player.GetComponent<WeaponInventory>().CurrentWeapon;
 		if (!currentWeapon) { gameObject.SetActive(false); } else { gameObject.SetActive(true); }
-
 		if (!currentWeapon) return;
-
 		text.text = $"{currentWeapon.WeaponName}: {currentWeapon.currentAmmo}/{player.GetComponent<Ammo>().GetAmmo(currentWeapon.WeaponType)}";
 	}
 

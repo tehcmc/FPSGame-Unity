@@ -33,7 +33,8 @@ public enum AttachPointName
 	LeftRail,
 	RightRail,
 	Muzzle,
-	Magazine
+	Magazine,
+	RUTopRail
 }
 
 [Serializable]
@@ -81,6 +82,7 @@ public class RangedWeapon : MonoBehaviour
 	[SerializeField][Tooltip("Set up attach points, drag their transforms into this list")] List<AttachPoint> attachPoints = new();
 
 
+
 	Transform shootPosition;
 	Transform defaultMuzzlePosition;
 
@@ -124,13 +126,19 @@ public class RangedWeapon : MonoBehaviour
 	public ParticleSystem DefaultMuzzle { get => defaultMuzzle; protected set => defaultMuzzle = value; }
 	public Transform ShootPosition { get => shootPosition; set => shootPosition = value; }
 	public Transform DefaultMuzzlePosition { get => defaultMuzzlePosition; set => defaultMuzzlePosition = value; }
+	public List<AttachPoint> AttachPoints { get => attachPoints; set => attachPoints = value; }
+
+
 
 
 
 	bool isReloading = false;
+	bool isShooting = false;
 
-
-
+	void DoneShooting()
+	{
+		isShooting = false;
+	}
 
 
 
@@ -139,23 +147,26 @@ public class RangedWeapon : MonoBehaviour
 	{
 		PopulateAttachPoints();
 		weaponStats = GetComponent<WeaponStats>();
-
 		audioSource = GetComponent<AudioSource>();
 		DefaultMuzzlePosition = attachPointDictionary[AttachPointName.Muzzle].PointLocation;
 		shootPosition = DefaultMuzzlePosition;
 		MuzzleFlash = DefaultMuzzle;
 		FireSound = DefaultFireSound;
-		weaponAnim = GetComponentInChildren<Animator>();
+		weaponAnim = GetComponent<Animator>();
+
+		if (weaponAnim) weaponAnim.keepAnimatorStateOnDisable = true;
 	}
 
 	private void OnEnable()
 	{
 		Debug.Log("Wep enable");
+
 		GameManager.Instance.ChangeWeapnEvent();
 
 	}
 	private void OnDisable()
 	{
+
 		GameManager.Instance.ChangeWeapnEvent();
 	}
 	protected virtual void Start()
@@ -179,10 +190,17 @@ public class RangedWeapon : MonoBehaviour
 	}
 	protected virtual bool CanFire()
 	{
+		if (isShooting) return false;
+
 		if (currentAmmo <= 0) return false;
 		if (isReloading) return false;
 
-		if (fireTime < Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity)) return false;
+
+		if (!weaponAnim)
+		{
+			Debug.Log("fire");
+			if (fireTime < Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity)) return false;
+		}
 
 		if ((firemode == Firemode.Full && !Input.GetButton("Fire1")) || (firemode == Firemode.Single && !Input.GetButtonDown("Fire1"))) return false;
 
@@ -191,9 +209,13 @@ public class RangedWeapon : MonoBehaviour
 
 	protected bool CanReload()
 	{
-		if (weaponAnim && isReloading) return false;
+
 		if (!WeaponStats.StatDictionary.ContainsKey(StatType.ClipSize)) return false;
 		if (currentAmmo >= (int)WeaponStats.GetStat(StatType.ClipSize)) return false;
+		if (isShooting) return false;
+
+		if (player.GetComponent<Ammo>().GetAmmo(weaponType) <= 0) return false;
+		if (weaponAnim && isReloading) return false;
 		if (WeaponStats.GetStat(StatType.ClipSize) <= 0) return false;
 
 		return true;
@@ -208,14 +230,20 @@ public class RangedWeapon : MonoBehaviour
 		}
 
 
-
 		if (CanFire())
 		{
-			if (weaponAnim) weaponAnim.speed = Mathf.Clamp(3, 1, Mathf.Infinity);
+
 			PlaySound(FireSound);
 
-			if (weaponAnim) weaponAnim.SetTrigger("shoot");
+			if (weaponAnim)
+			{
+				isShooting = true;
+				weaponAnim.SetFloat("speedMult", Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity));
+				weaponAnim.SetTrigger("shoot");
 
+
+
+			}
 			Fire();
 			fireTime = 0;
 			currentAmmo--;
@@ -232,11 +260,21 @@ public class RangedWeapon : MonoBehaviour
 		{
 			if (!CanReload()) return;
 			Reload();
+
+
 		}
 
 
 	}
+	void FunnyReload()
+	{
+		if (currentAmmo < WeaponStats.GetStat(StatType.ClipSize))
+		{
 
+			currentAmmo++;
+			GameManager.Instance.ChangeWeapnEvent();
+		}
+	}
 
 	protected virtual void Fire()
 	{
@@ -261,8 +299,6 @@ public class RangedWeapon : MonoBehaviour
 		hitLoc = ShootPosition.position + shootDirection * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
 
 
-		//Debug.DrawLine(cam.transform.position, cam.transform.forward * bulletRange, Color.red);
-		Debug.Log("bang");
 		if (Physics.Raycast(ShootPosition.position, shootDirection, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), 99, QueryTriggerInteraction.Ignore))
 		{
 			if (tr.transform == transform.parent) return;
@@ -299,7 +335,6 @@ public class RangedWeapon : MonoBehaviour
 
 	IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitLoc)
 	{
-		Debug.Log("pew");
 		float time = 0;
 		Vector3 startPos = trail.transform.position;
 		while (time < 1)
@@ -380,7 +415,7 @@ public class RangedWeapon : MonoBehaviour
 
 	void PopulateAttachPoints()
 	{
-		foreach (var point in attachPoints)
+		foreach (var point in AttachPoints)
 		{
 
 			if (!attachPointDictionary.ContainsKey(point.AttachmentPoint))
@@ -432,6 +467,7 @@ public class RangedWeapon : MonoBehaviour
 
 	void ShowDamage(float val, Vector3 spawnPoint)
 	{
+		//float roundedVal = val.((val * 100) + 0.5) / 100f);
 
 		Camera camera = Camera.main;
 		if (!camera) return;
