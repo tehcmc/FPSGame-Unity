@@ -178,10 +178,11 @@ MonoBehaviour:
   weaponType: 1
   firemode: 3
   defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
+  defaultMuzzlePosition: {fileID: 8393039238687105159}
   defaultFireSound: {fileID: 8300000, guid: 59d0ce5dfb9c31944bf3d9907f19885b, type: 3}
   triggerSound: {fileID: 8300000, guid: c4e86c8cff80e734599858df36a5e679, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
-  hitParticle: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
+  hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   attachments: []
   attachPoints:
   - attachmentPoint: 4
@@ -191,6 +192,7 @@ MonoBehaviour:
   - attachmentPoint: 5
     pointLocation: {fileID: 21349788177860443}
   weaponModel: {fileID: 672600022237071899}
+  holdPoint: {fileID: 0}
 --- !u!82 &-113922330552479922
 AudioSource:
   m_ObjectHideFlags: 0

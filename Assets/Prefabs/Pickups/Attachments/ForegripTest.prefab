@@ -48,10 +48,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats:
-  - statType: 0
-    value: -0.03
-  - statType: 1
-    value: -0.02
+  - statType: 7
+    value: -1
+  - statType: 8
+    value: -0.8
 --- !u!114 &3840631716651338092
 MonoBehaviour:
   m_ObjectHideFlags: 0

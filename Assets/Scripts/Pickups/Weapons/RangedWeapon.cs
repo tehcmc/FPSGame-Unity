@@ -62,11 +62,13 @@ public class RangedWeapon : MonoBehaviour
 
 	[Header("Values")]
 	[SerializeField] string weaponName;
-	[SerializeField] WeaponType weaponType;
-	[SerializeField] Firemode firemode = Firemode.Single;
+	[SerializeField] protected WeaponType weaponType;
+	[SerializeField] protected Firemode firemode = Firemode.Single;
 
 	[Header("Effects")]
 	[SerializeField] ParticleSystem defaultMuzzle;
+	[SerializeField] protected Transform defaultMuzzlePosition;
+
 	[SerializeField]
 	AudioClip defaultFireSound
 	;
@@ -83,10 +85,11 @@ public class RangedWeapon : MonoBehaviour
 
 
 
-	Transform shootPosition;
-	Transform defaultMuzzlePosition;
+	protected Transform shootPosition;
 
-	[SerializeField] Animator weaponAnim;
+
+
+	protected Animator weaponAnim;
 
 
 	IDictionary<AttachPointName, AttachPoint> attachPointDictionary = new Dictionary<AttachPointName, AttachPoint>();
@@ -94,15 +97,15 @@ public class RangedWeapon : MonoBehaviour
 	IDictionary<AttachPointName, Attachment> attachmentDictionary = new Dictionary<AttachPointName, Attachment>();
 
 
-	WeaponStats weaponStats;
-	Camera cam;
-	Player player;
-	AudioSource audioSource;
+	protected WeaponStats weaponStats;
+	protected Camera cam;
+	protected Player player;
+	protected AudioSource audioSource;
 
 	ParticleSystem muzzleFlash;
 	AudioClip fireSound;
 
-	float defaultAnimSpeed;
+	protected float defaultAnimSpeed;
 
 	public int currentAmmo { get; protected set; } = 0;
 	protected float fireTime = 0;
@@ -129,11 +132,11 @@ public class RangedWeapon : MonoBehaviour
 	public List<AttachPoint> AttachPoints { get => attachPoints; set => attachPoints = value; }
 
 
+	protected CameraRecoil recoil;
 
 
-
-	bool isReloading = false;
-	bool isShooting = false;
+	protected bool isReloading = false;
+	protected bool isShooting = false;
 
 	void DoneShooting()
 	{
@@ -146,9 +149,16 @@ public class RangedWeapon : MonoBehaviour
 	protected virtual void Awake()
 	{
 		PopulateAttachPoints();
+
 		weaponStats = GetComponent<WeaponStats>();
 		audioSource = GetComponent<AudioSource>();
-		DefaultMuzzlePosition = attachPointDictionary[AttachPointName.Muzzle].PointLocation;
+		if (attachmentDictionary.ContainsKey(AttachPointName.Muzzle))
+		{
+			DefaultMuzzlePosition = attachPointDictionary[AttachPointName.Muzzle].PointLocation;
+		}
+
+
+
 		shootPosition = DefaultMuzzlePosition;
 		MuzzleFlash = DefaultMuzzle;
 		FireSound = DefaultFireSound;
@@ -177,7 +187,7 @@ public class RangedWeapon : MonoBehaviour
 		if (!player) Destroy(gameObject);
 
 		cam = player.GetComponentInChildren<Camera>();
-
+		recoil = player.GetComponentInChildren<CameraRecoil>();
 
 		foreach (var attachment in Attachments)
 		{
@@ -244,6 +254,7 @@ public class RangedWeapon : MonoBehaviour
 
 
 			}
+			Recoil();
 			Fire();
 			fireTime = 0;
 			currentAmmo--;
@@ -266,6 +277,15 @@ public class RangedWeapon : MonoBehaviour
 
 
 	}
+
+	private void Recoil()
+	{
+		float xRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.VerticalRecoil), -Mathf.Infinity, 0);
+		float yRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.HorizontalRecoil), -Mathf.Infinity, 0);
+		float zRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.VerticalRecoil), -Mathf.Infinity, 0);
+		recoil.RecoilFire(xRecoil, yRecoil, zRecoil);
+	}
+
 	void FunnyReload()
 	{
 		if (currentAmmo < WeaponStats.GetStat(StatType.ClipSize))
@@ -281,7 +301,7 @@ public class RangedWeapon : MonoBehaviour
 
 		RaycastHit tr;
 
-		Vector3 hitLoc = ShootPosition.position + ShootPosition.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
+		_ = ShootPosition.position + ShootPosition.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
 
 
 		Vector3 shootDirection = ShootPosition.forward;
@@ -296,7 +316,7 @@ public class RangedWeapon : MonoBehaviour
 		shootDirection.Normalize();
 
 
-		hitLoc = ShootPosition.position + shootDirection * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
+		Vector3 hitLoc = ShootPosition.position + shootDirection * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
 
 
 		if (Physics.Raycast(ShootPosition.position, shootDirection, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), 99, QueryTriggerInteraction.Ignore))
@@ -305,10 +325,21 @@ public class RangedWeapon : MonoBehaviour
 			hitLoc = tr.point;
 
 			DoImpactEffect(tr);
-			var health = tr.collider.gameObject.GetComponent<Health>();
-			if (health)
+
+
+			var character = tr.collider.gameObject.transform.parent.GetComponentInChildren<Character>();
+
+
+
+			if (character)
 			{
-				float damage = weaponStats.GetStat(StatType.BaseDamage) * weaponStats.GetStat(StatType.DamageMultiplier);
+				var health = character.GetComponent<Health>();
+
+				float mult = character.GetDamageMultiplier(tr.collider.transform);
+
+
+				float damage = (weaponStats.GetStat(StatType.BaseDamage) * weaponStats.GetStat(StatType.DamageMultiplier)) * mult;
+
 				health.DamageHealth(damage);
 				ShowDamage(damage, tr.point);
 			}
@@ -320,10 +351,10 @@ public class RangedWeapon : MonoBehaviour
 
 	private void DoFireEffects(Vector3 hitLoc)
 	{
-		var muzzle = GetAttachPoint(AttachPointName.Muzzle);
+		var muzzle = ShootPosition;
 		TrailRenderer trail = Instantiate(bulletTrail, muzzle.position, Quaternion.identity);
 		var muzzleEffect = Instantiate(MuzzleFlash, muzzle.transform);
-		muzzleEffect.transform.position = muzzle.position; muzzleEffect.transform.rotation = muzzle.rotation;
+		muzzleEffect.transform.SetPositionAndRotation(muzzle.position, muzzle.rotation);
 		StartCoroutine(SpawnTrail(trail, hitLoc));
 	}
 
@@ -356,9 +387,17 @@ public class RangedWeapon : MonoBehaviour
 		audioSource.PlayOneShot(sound);
 	}
 
-	void Reload()
+	protected virtual void Reload()
 	{
-		if (weaponAnim) { isReloading = true; weaponAnim.SetTrigger("reload"); }
+		if (weaponAnim)
+		{
+			isReloading = true;
+			weaponAnim.SetTrigger("reload");
+			weaponAnim.SetFloat("reloadSpeed", WeaponStats.GetStat(StatType.ReloadSpeed));
+		}
+
+
+
 		else
 		{
 			var ammoComp = player.GetComponent<Ammo>();
@@ -429,7 +468,7 @@ public class RangedWeapon : MonoBehaviour
 
 	}
 
-	void ReloadFinished()
+	protected virtual void ReloadFinished()
 	{
 		var ammoComp = player.GetComponent<Ammo>();
 		if (!ammoComp) return;
@@ -467,12 +506,12 @@ public class RangedWeapon : MonoBehaviour
 
 	void ShowDamage(float val, Vector3 spawnPoint)
 	{
-		//float roundedVal = val.((val * 100) + 0.5) / 100f);
+		float roundedVal = MathF.Round(val * 100.0f) * 0.01f;
 
 		Camera camera = Camera.main;
 		if (!camera) return;
 		var popup = Instantiate(GameManager.Instance.DmgPopup, spawnPoint, Quaternion.LookRotation(spawnPoint - camera.transform.position));
-		popup.DisplayDamage(val);
+		popup.DisplayDamage(roundedVal);
 
 	}
 

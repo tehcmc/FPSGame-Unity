@@ -53,6 +53,8 @@ MonoBehaviour:
     value: -10
   - statType: 4
     value: -0.1
+  - statType: 7
+    value: -0.5
 --- !u!114 &5100088620746131079
 MonoBehaviour:
   m_ObjectHideFlags: 0

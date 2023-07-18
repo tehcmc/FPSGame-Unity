@@ -163,6 +163,10 @@ MonoBehaviour:
     value: 100
   - statType: 6
     value: 7
+  - statType: 7
+    value: 5
+  - statType: 8
+    value: 2
 --- !u!114 &2347943941957570043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,15 +183,15 @@ MonoBehaviour:
   weaponType: 0
   firemode: 1
   defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
+  defaultMuzzlePosition: {fileID: 3512534251447758909}
   defaultFireSound: {fileID: 8300000, guid: d91adb553c266324d8f4dbf533aa47ef, type: 3}
   triggerSound: {fileID: 8300000, guid: c4e86c8cff80e734599858df36a5e679, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
-  hitParticle: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
+  hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   attachments: []
   attachPoints:
   - attachmentPoint: 4
     pointLocation: {fileID: 3512534251447758909}
-  weaponAnim: {fileID: 0}
   weaponModel: {fileID: 3355483222720563523}
   holdPoint: {fileID: 2195987544545320230}
 --- !u!82 &2690996072564000314

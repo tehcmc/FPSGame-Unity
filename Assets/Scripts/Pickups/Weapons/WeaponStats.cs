@@ -13,7 +13,8 @@ public enum StatType
 	Range,
 	ClipSize,
 	VerticalRecoil,
-	HorizontalRecoil
+	HorizontalRecoil,
+	ReloadSpeed
 }
 public class WeaponStats : MonoBehaviour
 {

@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - statType: 0
-    value: 0.08
+    value: 0.04
   - statType: 1
     value: 0.04
   - statType: 2
@@ -194,6 +194,10 @@ MonoBehaviour:
     value: 250
   - statType: 6
     value: 30
+  - statType: 7
+    value: 7
+  - statType: 8
+    value: 6
 --- !u!114 &7861083117878272559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,18 +214,18 @@ MonoBehaviour:
   weaponType: 2
   firemode: 3
   defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
+  defaultMuzzlePosition: {fileID: 8393039238687105159}
   defaultFireSound: {fileID: 8300000, guid: 3a657958ce812cb4597bd1ab51581f18, type: 3}
   triggerSound: {fileID: 8300000, guid: f0d976a1a1b20d64bad8855d146e9571, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
-  hitParticle: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
+  hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   attachments: []
   attachPoints:
   - attachmentPoint: 4
     pointLocation: {fileID: 8393039238687105159}
   - attachmentPoint: 6
     pointLocation: {fileID: 2011279818049526038}
-  weaponAnim: {fileID: 0}
-  weaponModel: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+  weaponModel: {fileID: 4970820946911299565}
   holdPoint: {fileID: 0}
 --- !u!82 &7261001578071359766
 AudioSource:
@@ -569,6 +573,11 @@ PrefabInstance:
 --- !u!4 &4967084354791530547 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4519716788627816, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+  m_PrefabInstance: {fileID: 4971602697168095579}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4970820946911299565 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1487774384131766, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
   m_PrefabInstance: {fileID: 4971602697168095579}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6400247583223769672

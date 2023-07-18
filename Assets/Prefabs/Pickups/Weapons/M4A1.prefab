@@ -216,11 +216,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - statType: 0
-    value: 0.05
+    value: 0.012
   - statType: 1
-    value: 0.04
+    value: 0.015
   - statType: 2
-    value: 6
+    value: 7
   - statType: 3
     value: 20
   - statType: 4
@@ -229,6 +229,12 @@ MonoBehaviour:
     value: 250
   - statType: 6
     value: 30
+  - statType: 7
+    value: 2
+  - statType: 8
+    value: 1
+  - statType: 9
+    value: 1.2
 --- !u!114 &7861083117878272559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,10 +251,11 @@ MonoBehaviour:
   weaponType: 2
   firemode: 3
   defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
+  defaultMuzzlePosition: {fileID: 8393039238687105159}
   defaultFireSound: {fileID: 8300000, guid: 3a657958ce812cb4597bd1ab51581f18, type: 3}
   triggerSound: {fileID: 8300000, guid: f0d976a1a1b20d64bad8855d146e9571, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
-  hitParticle: {fileID: 6116043721073108993, guid: d661dba3e79eccf44baea6d1e9838fff, type: 3}
+  hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   attachments:
   - {fileID: 5693219183870997339, guid: 56d58ac6c70f17b42b59816448349964, type: 3}
   - {fileID: 5100088620746131079, guid: 430d0a7cfc390474f89bfc99e4c7b24d, type: 3}
@@ -265,7 +272,6 @@ MonoBehaviour:
     pointLocation: {fileID: 1986254945082794814}
   - attachmentPoint: 5
     pointLocation: {fileID: 21349788177860443}
-  weaponAnim: {fileID: 0}
   weaponModel: {fileID: 5516274310026380532}
   holdPoint: {fileID: 0}
 --- !u!82 &7261001578071359766
