@@ -213,7 +213,7 @@ MonoBehaviour:
   weaponName: AK74
   weaponType: 2
   firemode: 3
-  defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
+  defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 8393039238687105159}
   defaultFireSound: {fileID: 8300000, guid: 3a657958ce812cb4597bd1ab51581f18, type: 3}
   triggerSound: {fileID: 8300000, guid: f0d976a1a1b20d64bad8855d146e9571, type: 3}

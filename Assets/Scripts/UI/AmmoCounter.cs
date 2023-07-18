@@ -8,7 +8,7 @@ public class AmmoCounter : MonoBehaviour
 	// Start is called before the first frame update
 
 	Player player;
-	RangedWeapon currentWeapon;
+	Weapon currentWeapon;
 	TMP_Text text;
 	void Start()
 	{
@@ -32,9 +32,24 @@ public class AmmoCounter : MonoBehaviour
 	{
 		if (!player) return;
 		currentWeapon = player.GetComponent<WeaponInventory>().CurrentWeapon;
-		if (!currentWeapon) { gameObject.SetActive(false); } else { gameObject.SetActive(true); }
 		if (!currentWeapon) return;
-		text.text = $"{currentWeapon.WeaponName}: {currentWeapon.currentAmmo}/{player.GetComponent<Ammo>().GetAmmo(currentWeapon.WeaponType)}";
+
+		if (!currentWeapon) { gameObject.SetActive(false); } else { gameObject.SetActive(true); }
+		string ammoString = "";
+		if (currentWeapon.GetType() == typeof(RangedWeapon) || currentWeapon.GetType().IsSubclassOf(typeof(RangedWeapon)))
+		{
+			var rangedWep = (RangedWeapon)currentWeapon;
+			ammoString = $": {rangedWep.currentAmmo}/{player.GetComponent<Ammo>().GetAmmo(rangedWep.WeaponType)}";
+		}
+
+
+
+
+		if (!currentWeapon) return;
+
+
+
+		text.text = $"{currentWeapon.WeaponName}" + ammoString;
 	}
 
 }

@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 2347943941957570043}
   - component: {fileID: 2690996072564000314}
   - component: {fileID: 2163555158168490975}
+  - component: {fileID: 6664329576563471662}
   m_Layer: 0
   m_Name: 1911
   m_TagString: Untagged
@@ -182,7 +183,7 @@ MonoBehaviour:
   weaponName: M1911
   weaponType: 0
   firemode: 1
-  defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
+  defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 3512534251447758909}
   defaultFireSound: {fileID: 8300000, guid: d91adb553c266324d8f4dbf533aa47ef, type: 3}
   triggerSound: {fileID: 8300000, guid: c4e86c8cff80e734599858df36a5e679, type: 3}
@@ -311,6 +312,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6664329576563471662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455139453384785380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808638580aca1294bbbc8c571f2539dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: dryfire
+    clip: {fileID: 8300000, guid: c4e86c8cff80e734599858df36a5e679, type: 3}
+  - name: shoot
+    clip: {fileID: 8300000, guid: d91adb553c266324d8f4dbf533aa47ef, type: 3}
+  - name: suppressed
+    clip: {fileID: 8300000, guid: fc8ff4dd29a21534ba845cbc915a28df, type: 3}
+  - name: magout
+    clip: {fileID: 8300000, guid: da232a13516ac7843b2114ecaa63950a, type: 3}
+  - name: magin
+    clip: {fileID: 8300000, guid: 2c850075d4a3d90419394ce10a47b4ff, type: 3}
+  - name: slidepull
+    clip: {fileID: 8300000, guid: 1c01f59ceee894a4db86bed6a3d1f317, type: 3}
 --- !u!1001 &2124689337097699832
 PrefabInstance:
   m_ObjectHideFlags: 0

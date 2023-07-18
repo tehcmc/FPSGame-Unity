@@ -16,16 +16,6 @@ public enum Firemode
 	Full
 }
 
-public enum WeaponType
-{
-	Pistol,
-	SMG,
-	Rifle,
-	Shotgun,
-	Sniper,
-	Special
-}
-
 public enum AttachPointName
 {
 	Underbarrel,
@@ -54,89 +44,88 @@ public class AttachPoint
 
 
 [RequireComponent(typeof(WeaponStats))]
-public class RangedWeapon : MonoBehaviour
+
+public class RangedWeapon : Weapon
 {
 
 
 
-
 	[Header("Values")]
-	[SerializeField] string weaponName;
-	[SerializeField] protected WeaponType weaponType;
 	[SerializeField] protected Firemode firemode = Firemode.Single;
 
 	[Header("Effects")]
 	[SerializeField] ParticleSystem defaultMuzzle;
 	[SerializeField] protected Transform defaultMuzzlePosition;
-
-	[SerializeField]
-	AudioClip defaultFireSound
-	;
-	[SerializeField] AudioClip triggerSound;
-
-
 	[SerializeField] TrailRenderer bulletTrail;
 	[SerializeField] ParticleSystem hitParticle;
 
 
-	[Header("Lists")]
-	[SerializeField][Tooltip("Drag any attachments you wish this weapon to spawn with into this list")] List<Attachment> attachments = new();
-	[SerializeField][Tooltip("Set up attach points, drag their transforms into this list")] List<AttachPoint> attachPoints = new();
+
+
+
+
+
+
+	protected bool suppressorAttached = false;
+
 
 
 
 	protected Transform shootPosition;
+	ParticleSystem muzzleFlash;
 
 
+	public int currentAmmo { get; protected set; } = 0;
 
-	protected Animator weaponAnim;
+
+	public Transform holdPoint;
+	protected CameraRecoil recoil;
+
+
+	protected bool isReloading = false;
+	protected bool isShooting = false;
+
+
+	protected WeaponStats weaponStats;
+	public WeaponStats WeaponStats { get => weaponStats; set => weaponStats = value; }
+
+
+	[Header("Lists")]
+
+	[SerializeField][Tooltip("Set up attach points, drag their transforms into this list")] List<AttachPoint> attachPoints = new();
+	[SerializeField][Tooltip("Drag any attachments you wish this weapon to spawn with into this list")] List<Attachment> attachments = new();
 
 
 	IDictionary<AttachPointName, AttachPoint> attachPointDictionary = new Dictionary<AttachPointName, AttachPoint>();
 
-	IDictionary<AttachPointName, Attachment> attachmentDictionary = new Dictionary<AttachPointName, Attachment>();
 
-
-	protected WeaponStats weaponStats;
-	protected Camera cam;
-	protected Player player;
-	protected AudioSource audioSource;
-
-	ParticleSystem muzzleFlash;
-	AudioClip fireSound;
-
-	protected float defaultAnimSpeed;
-
-	public int currentAmmo { get; protected set; } = 0;
-	protected float fireTime = 0;
-
-	public GameObject weaponModel;
-	public Transform holdPoint;
-
-	public WeaponStats WeaponStats { get => weaponStats; set => weaponStats = value; }
-	public string WeaponName { get => weaponName; set => weaponName = value; }
 	public List<Attachment> Attachments { get => attachments; set => attachments = value; }
+
+	IDictionary<AttachPointName, Attachment> attachmentDictionary = new Dictionary<AttachPointName, Attachment>();
 	public IDictionary<AttachPointName, Attachment> AttachmentDictionary { get => attachmentDictionary; set => attachmentDictionary = value; }
-	public WeaponType WeaponType { get => weaponType; set => weaponType = value; }
+
+
+
 
 
 
 
 
 	public ParticleSystem MuzzleFlash { get => muzzleFlash; set => muzzleFlash = value; }
-	public AudioClip FireSound { get => fireSound; set => fireSound = value; }
-	public AudioClip DefaultFireSound { get => defaultFireSound; protected set => defaultFireSound = value; }
 	public ParticleSystem DefaultMuzzle { get => defaultMuzzle; protected set => defaultMuzzle = value; }
+
+
 	public Transform ShootPosition { get => shootPosition; set => shootPosition = value; }
 	public Transform DefaultMuzzlePosition { get => defaultMuzzlePosition; set => defaultMuzzlePosition = value; }
+
+
 	public List<AttachPoint> AttachPoints { get => attachPoints; set => attachPoints = value; }
+	public bool SuppressorAttached { get => suppressorAttached; set => suppressorAttached = value; }
 
 
-	protected CameraRecoil recoil;
 
 
-	protected bool isReloading = false;
-	protected bool isShooting = false;
+
 
 	void DoneShooting()
 	{
@@ -146,54 +135,34 @@ public class RangedWeapon : MonoBehaviour
 
 
 
-	protected virtual void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		PopulateAttachPoints();
 
 		weaponStats = GetComponent<WeaponStats>();
-		audioSource = GetComponent<AudioSource>();
 		if (attachmentDictionary.ContainsKey(AttachPointName.Muzzle))
 		{
 			DefaultMuzzlePosition = attachPointDictionary[AttachPointName.Muzzle].PointLocation;
 		}
 
-
-
 		shootPosition = DefaultMuzzlePosition;
 		MuzzleFlash = DefaultMuzzle;
-		FireSound = DefaultFireSound;
-		weaponAnim = GetComponent<Animator>();
 
-		if (weaponAnim) weaponAnim.keepAnimatorStateOnDisable = true;
+
+		weaponAnim.keepAnimatorStateOnDisable = true;
 	}
 
-	private void OnEnable()
+
+	protected override void Start()
 	{
-		Debug.Log("Wep enable");
+		base.Start();
 
-		GameManager.Instance.ChangeWeapnEvent();
-
-	}
-	private void OnDisable()
-	{
-
-		GameManager.Instance.ChangeWeapnEvent();
-	}
-	protected virtual void Start()
-	{
-		if (weaponAnim) defaultAnimSpeed = weaponAnim.speed;
-
-		player = FindObjectOfType<Player>();
-		if (!player) Destroy(gameObject);
-
-		cam = player.GetComponentInChildren<Camera>();
 		recoil = player.GetComponentInChildren<CameraRecoil>();
-
 		foreach (var attachment in Attachments)
 		{
 			SetupAttachment(attachment);
 		}
-
 		if (weaponStats.StatDictionary.ContainsKey(StatType.ClipSize)) currentAmmo = Mathf.RoundToInt(weaponStats.StatDictionary[StatType.ClipSize]);
 		GameManager.Instance.ChangeWeapnEvent();
 
@@ -201,17 +170,8 @@ public class RangedWeapon : MonoBehaviour
 	protected virtual bool CanFire()
 	{
 		if (isShooting) return false;
-
 		if (currentAmmo <= 0) return false;
 		if (isReloading) return false;
-
-
-		if (!weaponAnim)
-		{
-			Debug.Log("fire");
-			if (fireTime < Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity)) return false;
-		}
-
 		if ((firemode == Firemode.Full && !Input.GetButton("Fire1")) || (firemode == Firemode.Single && !Input.GetButtonDown("Fire1"))) return false;
 
 		return true;
@@ -219,72 +179,37 @@ public class RangedWeapon : MonoBehaviour
 
 	protected bool CanReload()
 	{
-
+		if (isReloading) return false;
 		if (!WeaponStats.StatDictionary.ContainsKey(StatType.ClipSize)) return false;
 		if (currentAmmo >= (int)WeaponStats.GetStat(StatType.ClipSize)) return false;
 		if (isShooting) return false;
 
 		if (player.GetComponent<Ammo>().GetAmmo(weaponType) <= 0) return false;
-		if (weaponAnim && isReloading) return false;
-		if (WeaponStats.GetStat(StatType.ClipSize) <= 0) return false;
 
+		if (WeaponStats.GetStat(StatType.ClipSize) <= 0) return false;
+		if (!Input.GetKeyDown(KeyCode.R)) return false;
 		return true;
 	}
 
 
 	protected virtual void Update()
 	{
-		if (fireTime < Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity))
-		{
-			fireTime += Time.deltaTime;
-		}
-
-
 		if (CanFire())
 		{
-
-			PlaySound(FireSound);
-
-			if (weaponAnim)
-			{
-				isShooting = true;
-				weaponAnim.SetFloat("speedMult", Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity));
-				weaponAnim.SetTrigger("shoot");
-
-
-
-			}
-			Recoil();
 			Fire();
-			fireTime = 0;
-			currentAmmo--;
-			GameManager.Instance.ChangeWeapnEvent();
-			if (weaponAnim) weaponAnim.speed = defaultAnimSpeed;
 		}
 
 		if (Input.GetButtonDown("Fire1") && currentAmmo <= 0)
 		{
-			PlaySound(triggerSound);
-		}
-
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			if (!CanReload()) return;
-			Reload();
-
-
+			PlaySound("dryfire");
 		}
 
 
+
+		if (CanReload()) Reload();
+
 	}
 
-	private void Recoil()
-	{
-		float xRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.VerticalRecoil), -Mathf.Infinity, 0);
-		float yRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.HorizontalRecoil), -Mathf.Infinity, 0);
-		float zRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.VerticalRecoil), -Mathf.Infinity, 0);
-		recoil.RecoilFire(xRecoil, yRecoil, zRecoil);
-	}
 
 	void FunnyReload()
 	{
@@ -298,7 +223,36 @@ public class RangedWeapon : MonoBehaviour
 
 	protected virtual void Fire()
 	{
+		isShooting = true;
 
+		if (!suppressorAttached)
+		{
+			PlaySound("shoot");
+
+		}
+		else
+		{
+			PlaySound("suppressed");
+		}
+
+
+		weaponAnim.SetFloat("speedMult", Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity));
+		weaponAnim.SetTrigger("shoot");
+		DrawMuzzleEffect();
+		ShootBullet();
+		currentAmmo--;
+		GameManager.Instance.ChangeWeapnEvent();
+		Recoil();
+
+	}
+	protected void DrawMuzzleEffect()
+	{
+		var muzzle = ShootPosition;
+		var muzzleEffect = Instantiate(MuzzleFlash, muzzle.transform);
+		muzzleEffect.transform.SetPositionAndRotation(muzzle.position, muzzle.rotation);
+	}
+	protected virtual void ShootBullet()
+	{
 		RaycastHit tr;
 
 		_ = ShootPosition.position + ShootPosition.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
@@ -317,48 +271,58 @@ public class RangedWeapon : MonoBehaviour
 
 
 		Vector3 hitLoc = ShootPosition.position + shootDirection * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
-
-
 		if (Physics.Raycast(ShootPosition.position, shootDirection, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), 99, QueryTriggerInteraction.Ignore))
 		{
 			if (tr.transform == transform.parent) return;
 			hitLoc = tr.point;
 
 			DoImpactEffect(tr);
+			DamageCharacter(tr);
+		}
+		ShootTrail(hitLoc);
+	}
+	protected void Recoil()
+	{
+		float xRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.VerticalRecoil), -Mathf.Infinity, 0);
+		float yRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.HorizontalRecoil), -Mathf.Infinity, 0);
+		float zRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.VerticalRecoil), -Mathf.Infinity, 0);
+		recoil.RecoilFire(xRecoil, yRecoil, zRecoil);
+	}
 
+	protected void DamageCharacter(RaycastHit tr)
+	{
+		var character = tr.collider.gameObject.transform.parent.GetComponentInChildren<Character>();
+		if (!character) return;
 
-			var character = tr.collider.gameObject.transform.parent.GetComponentInChildren<Character>();
+		var health = character.GetComponent<Health>();
+		float mult = character.GetDamageMultiplier(tr.collider.transform);
 
+		DamagePoint damagePoint = character.GetDamagePoint(tr.collider.transform);
 
+		if (damagePoint != null && (damagePoint.Name.ToUpper() == "HEAD"))
+		{
+			player.AudioSource.PlayOneShot(GameManager.Instance.HeadshotSound);
 
-			if (character)
-			{
-				var health = character.GetComponent<Health>();
-
-				float mult = character.GetDamageMultiplier(tr.collider.transform);
-
-
-				float damage = (weaponStats.GetStat(StatType.BaseDamage) * weaponStats.GetStat(StatType.DamageMultiplier)) * mult;
-
-				health.DamageHealth(damage);
-				ShowDamage(damage, tr.point);
-			}
 		}
 
-		DoFireEffects(hitLoc);
+
+		float damage = (weaponStats.GetStat(StatType.BaseDamage) * weaponStats.GetStat(StatType.DamageMultiplier)) * mult;
+
+		health.DamageHealth(damage);
+		ShowDamage(damage, tr.point);
 
 	}
 
-	private void DoFireEffects(Vector3 hitLoc)
+	protected void ShootTrail(Vector3 hitLoc)
 	{
 		var muzzle = ShootPosition;
 		TrailRenderer trail = Instantiate(bulletTrail, muzzle.position, Quaternion.identity);
-		var muzzleEffect = Instantiate(MuzzleFlash, muzzle.transform);
-		muzzleEffect.transform.SetPositionAndRotation(muzzle.position, muzzle.rotation);
 		StartCoroutine(SpawnTrail(trail, hitLoc));
 	}
 
-	void DoImpactEffect(RaycastHit tr)
+
+
+	protected void DoImpactEffect(RaycastHit tr)
 	{
 		Instantiate(hitParticle, tr.point, Quaternion.LookRotation(tr.normal));
 	}
@@ -379,13 +343,6 @@ public class RangedWeapon : MonoBehaviour
 
 	}
 
-
-	void PlaySound(AudioClip sound)
-	{
-		if (!audioSource || !sound) return;
-
-		audioSource.PlayOneShot(sound);
-	}
 
 	protected virtual void Reload()
 	{

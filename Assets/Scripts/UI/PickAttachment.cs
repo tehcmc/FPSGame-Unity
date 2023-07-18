@@ -25,7 +25,7 @@ public class PickAttachment : MonoBehaviour
 
 	public void AttachToWeapon()
 	{
-		weapon = player.gameObject.GetComponent<WeaponInventory>().CurrentWeapon;
+		weapon = (RangedWeapon)player.gameObject.GetComponent<WeaponInventory>().CurrentWeapon;
 
 		if (!weapon) return;
 		if (!attachment) return;

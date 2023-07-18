@@ -27,58 +27,69 @@ public class AttachmentGUI : MonoBehaviour
 	private void OnGUI()
 	{
 		float buttonPos = 100;
-		currentWeapon = player.GetComponent<WeaponInventory>().CurrentWeapon;
-		if (currentWeapon && GameManager.Instance.debugMode)
-		{
-			// attach 
-			foreach (Attachment attachment in attachments)
-			{
-				foreach (WeaponType type in attachment.ValidWeapons)
-				{
-					if (currentWeapon.WeaponType != type)
-					{
-						continue;
-					}
+		var wepRef = player.GetComponent<WeaponInventory>().CurrentWeapon;
 
-					foreach (AttachPoint point in currentWeapon.AttachPoints)
+		if (!wepRef) return;
+
+		if (wepRef.GetType() == typeof(RangedWeapon) || wepRef == wepRef.GetType().IsSubclassOf(typeof(RangedWeapon)))
+		{
+			currentWeapon = (RangedWeapon)wepRef;
+
+
+			if (currentWeapon && GameManager.Instance.debugMode)
+			{
+				// attach 
+				foreach (Attachment attachment in attachments)
+				{
+					foreach (WeaponType type in attachment.ValidWeapons)
 					{
-						if (attachment.MyAttachPoint != point.AttachmentPoint)
+						if (currentWeapon.WeaponType != type)
 						{
 							continue;
 						}
-						else if (GUI.Button(new Rect(10, buttonPos, buttonWidth, buttonHeight), new GUIContent($"{attachment.name} Type:{attachment.MyAttachPoint}")))
+
+						foreach (AttachPoint point in currentWeapon.AttachPoints)
 						{
-							if (!currentWeapon) return;
+							if (attachment.MyAttachPoint != point.AttachmentPoint)
+							{
+								continue;
+							}
+							else if (GUI.Button(new Rect(10, buttonPos, buttonWidth, buttonHeight), new GUIContent($"{attachment.name} Type:{attachment.MyAttachPoint}")))
+							{
+								if (!currentWeapon) return;
 
-							currentWeapon.SetupAttachment(attachment);
+								currentWeapon.SetupAttachment(attachment);
 
+							}
+							buttonPos += 50;
 						}
-						buttonPos += 50;
+
 					}
 
 				}
-
-			}
-			buttonPos = 100;
-			//remove
-			foreach (Attachment attachment in currentWeapon.AttachmentDictionary.Values)
-			{
-
-				if (GUI.Button(new Rect(Screen.width - buttonWidth - 10, buttonPos, buttonWidth, buttonHeight), new GUIContent($"{attachment.name} Type:{attachment.MyAttachPoint}")))
+				buttonPos = 100;
+				//remove
+				foreach (Attachment attachment in currentWeapon.AttachmentDictionary.Values)
 				{
-					if (!currentWeapon) return;
-					currentWeapon.RemoveAttachment(attachment.MyAttachPoint);
+
+					if (GUI.Button(new Rect(Screen.width - buttonWidth - 10, buttonPos, buttonWidth, buttonHeight), new GUIContent($"{attachment.name} Type:{attachment.MyAttachPoint}")))
+					{
+						if (!currentWeapon) return;
+						currentWeapon.RemoveAttachment(attachment.MyAttachPoint);
+
+					}
+					buttonPos += 50;
+
 
 				}
-				buttonPos += 50;
+
+
 
 
 			}
-
-
-
-
 		}
+
+
 	}
 
 }

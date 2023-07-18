@@ -50,22 +50,42 @@ public class Shotgun : RangedWeapon
 
 	protected override void Fire()
 	{
+		isShooting = true;
+
+		if (!suppressorAttached)
+		{
+			PlaySound("shoot");
+
+		}
+		else
+		{
+			PlaySound("suppressed");
+		}
+
+
+		weaponAnim.SetFloat("speedMult", Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity));
+		weaponAnim.SetTrigger("shoot");
+		DrawMuzzleEffect();
+
+
 		if (type == ShellType.Slug)
 		{
-			base.Fire();
-			return;
+			ShootBullet();
 		}
-
-
-		//shotgun logic. same as fire except instead of 1 raycast, do x amount (based on pelletCount). use vertical and horizontal recoil??
-
-		for (int i = 0; i < pelletCount; i++)
+		else
 		{
-			base.Fire();
-
-
-
+			for (int i = 0; i < pelletCount; i++)
+			{
+				ShootBullet();
+			}
 		}
+
+
+
+		currentAmmo--;
+		GameManager.Instance.ChangeWeapnEvent();
+
+		Recoil();
 	}
 
 	protected override void Reload()

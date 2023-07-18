@@ -72,6 +72,7 @@ MonoBehaviour:
   muzzleEffect: {fileID: 6116043721073108993, guid: c22d20d9cc4ba5848972ed128e6540ee, type: 3}
   shootSound: {fileID: 8300000, guid: fc8ff4dd29a21534ba845cbc915a28df, type: 3}
   shootPosition: {fileID: 6093371566515677573}
+  suppressor: 1
 --- !u!1 &9205074917124393958
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,13 +10,17 @@ public class Player : Character
 	[SerializeField] Transform weaponHoldPoint;
 	DeathHandler deathHandler;
 	Ammo ammoBox;
+
+	AudioSource audioSource;
 	public Transform WeaponHoldPoint { get => weaponHoldPoint; set => weaponHoldPoint = value; }
+	public AudioSource AudioSource { get => audioSource; set => audioSource = value; }
 
 	// Start is called before the first frame update
 
 	protected override void Awake()
 	{
 		base.Awake();
+		AudioSource = GetComponent<AudioSource>();
 		deathHandler = GetComponent<DeathHandler>();
 	}
 

@@ -78,11 +78,11 @@ public class Character : MonoBehaviour
 		// base class does nothing!
 	}
 
-	public void GetHitLocation(Transform transform)
+	public DamagePoint GetDamagePoint(Transform transform)
 	{
-		if (!damagePoints.ContainsKey(transform)) return;
+		if (!damagePoints.ContainsKey(transform)) return null;
 
-		Debug.Log(damagePoints[transform].Name);
+		return damagePoints[transform];
 
 	}
 

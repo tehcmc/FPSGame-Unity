@@ -2,7 +2,9 @@ using StarterAssets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using Unity.PlasticSCM.Editor.WebApi;
+using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -12,12 +14,13 @@ public class GameManager : MonoBehaviour
 	[SerializeField] DamagePopup dmgPopup;
 
 	[SerializeField] List<Attachment> attachmentList = new List<Attachment>();
-
+	[SerializeField] AudioClip headshotSound;
 
 	public DamagePopup DmgPopup { get => dmgPopup; set => dmgPopup = value; }
 	public List<Attachment> AttachmentList { get => attachmentList; set => attachmentList = value; }
 
 	public bool debugMode { get; private set; } = false;
+	public AudioClip HeadshotSound { get => headshotSound; set => headshotSound = value; }
 
 	bool paused = false;
 
@@ -33,7 +36,10 @@ public class GameManager : MonoBehaviour
 			Instance = this;
 		}
 	}
+	private void Start()
+	{
 
+	}
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Q))

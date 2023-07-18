@@ -7,12 +7,12 @@ using UnityEngine.InputSystem;
 
 public class WeaponInventory : MonoBehaviour
 {
-	[SerializeField] List<RangedWeapon> weapons = new();
+	[SerializeField] List<Weapon> weapons = new();
 	Player player;
 
-	RangedWeapon currentWeapon;
+	Weapon currentWeapon;
 	int indexEntry = 0;
-	public RangedWeapon CurrentWeapon { get => currentWeapon; set => currentWeapon = value; }
+	public Weapon CurrentWeapon { get => currentWeapon; set => currentWeapon = value; }
 
 
 	private void Awake()
@@ -47,7 +47,7 @@ public class WeaponInventory : MonoBehaviour
 			SwapWeapon(indexEntry);
 		}
 	}
-	public void AddWeapon(RangedWeapon weapon)
+	public void AddWeapon(Weapon weapon)
 	{
 
 		foreach (var wep in weapons)
