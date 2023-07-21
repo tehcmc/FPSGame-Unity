@@ -32,21 +32,33 @@ public class WeaponInventory : MonoBehaviour
 	}
 	private void Update()
 	{
-		if (Input.GetAxis("Mouse ScrollWheel") > 0)
-		{
-			if (indexEntry >= weapons.Count - 1)
-			{
-				indexEntry = 0;
 
-			}
-			else
+
+		if (Input.GetAxis("Mouse ScrollWheel") != 0)
+		{
+
+
+			if (Input.GetAxis("Mouse ScrollWheel") > 0 && indexEntry < weapons.Count - 1)
 			{
 				indexEntry++;
 			}
 
+			if (Input.GetAxis("Mouse ScrollWheel") < 0 && indexEntry > 0)
+			{
+				indexEntry--;
+			}
+
+			Debug.Log(indexEntry);
 			SwapWeapon(indexEntry);
+
+		}
+
+		if (Input.GetAxis("Mouse ScrollWheel") != 0)
+		{
+			Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
 		}
 	}
+
 	public void AddWeapon(Weapon weapon)
 	{
 
@@ -70,21 +82,14 @@ public class WeaponInventory : MonoBehaviour
 		if (!weapons[index]) return;
 		if (currentWeapon == weapons[index]) return;
 
-
 		if (currentWeapon)
 		{
 			currentWeapon.gameObject.SetActive(false);
 		}
 
-
-
 		currentWeapon = weapons[index];
 		Debug.Log(currentWeapon.WeaponName);
 		currentWeapon.gameObject.SetActive(true);
-
-
-
-
 	}
 
 

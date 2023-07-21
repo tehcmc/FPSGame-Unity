@@ -249,17 +249,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: M4A1
-  weaponType: 2
+  weaponType: 3
+  weaponModel: {fileID: 5516274310026380532}
   firemode: 3
   defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
   defaultMuzzlePosition: {fileID: 8393039238687105159}
-  defaultFireSound: {fileID: 8300000, guid: 3a657958ce812cb4597bd1ab51581f18, type: 3}
-  triggerSound: {fileID: 8300000, guid: f0d976a1a1b20d64bad8855d146e9571, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-  attachments:
-  - {fileID: 5693219183870997339, guid: 56d58ac6c70f17b42b59816448349964, type: 3}
-  - {fileID: 5100088620746131079, guid: 430d0a7cfc390474f89bfc99e4c7b24d, type: 3}
+  holdPoint: {fileID: 0}
   attachPoints:
   - attachmentPoint: 4
     pointLocation: {fileID: 8393039238687105159}
@@ -273,8 +270,9 @@ MonoBehaviour:
     pointLocation: {fileID: 1986254945082794814}
   - attachmentPoint: 5
     pointLocation: {fileID: 21349788177860443}
-  weaponModel: {fileID: 5516274310026380532}
-  holdPoint: {fileID: 0}
+  attachments:
+  - {fileID: 5693219183870997339, guid: 56d58ac6c70f17b42b59816448349964, type: 3}
+  - {fileID: 5100088620746131079, guid: 430d0a7cfc390474f89bfc99e4c7b24d, type: 3}
 --- !u!82 &7261001578071359766
 AudioSource:
   m_ObjectHideFlags: 0

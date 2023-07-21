@@ -75,7 +75,7 @@ public class Character : MonoBehaviour
 	}
 	protected virtual void Die()
 	{
-		// base class does nothing!
+		//base class does nothing!
 	}
 
 	public DamagePoint GetDamagePoint(Transform transform)

@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
 	public bool debugMode { get; private set; } = false;
 	public AudioClip HeadshotSound { get => headshotSound; set => headshotSound = value; }
+	public bool Paused { get => paused; set => paused = value; }
 
 	bool paused = false;
 
@@ -58,22 +59,26 @@ public class GameManager : MonoBehaviour
 
 	void PauseGame()
 	{
-		paused = !paused;
+		Paused = !Paused;
 
 		var player = FindObjectOfType<Player>();
 
 		if (!player) return;
 		var moveComp = player.GetComponent<FirstPersonController>();
-		var weaponComp = player.GetComponent<WeaponInventory>().CurrentWeapon;
 
-		if (paused)
+		var inventory = player.GetComponent<WeaponInventory>();
+		var weaponComp = inventory.CurrentWeapon;
+		if (Paused)
 		{
 			if (moveComp) moveComp.enabled = false;
+			if (inventory) inventory.enabled = false;
 			if (weaponComp) weaponComp.enabled = false;
+
 		}
 		else
 		{
 			if (moveComp) moveComp.enabled = true;
+			if (inventory) inventory.enabled = true;
 			if (weaponComp) weaponComp.enabled = true;
 		}
 

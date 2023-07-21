@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 7861083117878272559}
   - component: {fileID: -113922330552479922}
   - component: {fileID: 2179086154634901554}
+  - component: {fileID: 5405630741492838924}
   m_Layer: 0
   m_Name: G3A3
   m_TagString: Untagged
@@ -179,15 +180,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: G3A3
-  weaponType: 2
+  weaponType: 3
+  weaponModel: {fileID: 0}
   firemode: 1
   defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
   defaultMuzzlePosition: {fileID: 8393039238687105159}
-  defaultFireSound: {fileID: 8300000, guid: 59d0ce5dfb9c31944bf3d9907f19885b, type: 3}
-  triggerSound: {fileID: 8300000, guid: c4e86c8cff80e734599858df36a5e679, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-  attachments: []
+  holdPoint: {fileID: 0}
   attachPoints:
   - attachmentPoint: 4
     pointLocation: {fileID: 8393039238687105159}
@@ -195,8 +195,7 @@ MonoBehaviour:
     pointLocation: {fileID: 1986254945082794814}
   - attachmentPoint: 5
     pointLocation: {fileID: 21349788177860443}
-  weaponModel: {fileID: 0}
-  holdPoint: {fileID: 0}
+  attachments: []
 --- !u!82 &-113922330552479922
 AudioSource:
   m_ObjectHideFlags: 0
@@ -314,6 +313,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5405630741492838924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5056423620036190898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808638580aca1294bbbc8c571f2539dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: shoot
+    clip: {fileID: 8300000, guid: 70b1fd5387124a64db86fcf9e5395fe9, type: 3}
 --- !u!1 &8508244521022721662
 GameObject:
   m_ObjectHideFlags: 0

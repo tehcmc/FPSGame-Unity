@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f841cb4364c0a5645951df676441608e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validWeapons: 01000000020000000300000005000000
+  validWeapons: 02000000030000000500000006000000
   myAttachPoint: 1
   zoomAmount: 30
   mouseDampen: 6

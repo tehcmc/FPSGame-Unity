@@ -96,7 +96,7 @@ public class RangedWeapon : Weapon
 	[SerializeField][Tooltip("Drag any attachments you wish this weapon to spawn with into this list")] List<Attachment> attachments = new();
 
 
-	IDictionary<AttachPointName, AttachPoint> attachPointDictionary = new Dictionary<AttachPointName, AttachPoint>();
+	readonly IDictionary<AttachPointName, AttachPoint> attachPointDictionary = new Dictionary<AttachPointName, AttachPoint>();
 
 
 	public List<Attachment> Attachments { get => attachments; set => attachments = value; }
@@ -150,7 +150,6 @@ public class RangedWeapon : Weapon
 		MuzzleFlash = DefaultMuzzle;
 
 
-		weaponAnim.keepAnimatorStateOnDisable = true;
 	}
 
 
@@ -346,82 +345,10 @@ public class RangedWeapon : Weapon
 
 	protected virtual void Reload()
 	{
-		if (weaponAnim)
-		{
-			isReloading = true;
-			weaponAnim.SetTrigger("reload");
-			weaponAnim.SetFloat("reloadSpeed", WeaponStats.GetStat(StatType.ReloadSpeed));
-		}
 
-
-
-		else
-		{
-			var ammoComp = player.GetComponent<Ammo>();
-			if (!ammoComp) return;
-
-
-			var clip = Mathf.RoundToInt(weaponStats.GetStat(StatType.ClipSize));
-
-			var amount = ammoComp.TakeAmmo(weaponType, clip - currentAmmo);
-
-			Debug.Log(ammoComp.GetAmmo(weaponType));
-			currentAmmo += amount;
-			Debug.Log($"Current ammo (Reload): {currentAmmo}");
-			GameManager.Instance.ChangeWeapnEvent();
-		}
-
-
-
-
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public void SetupAttachment(Attachment attachment)
-	{
-		if (!attachPointDictionary.ContainsKey(attachment.MyAttachPoint)) return;
-
-		if (AttachmentDictionary.ContainsKey(attachment.MyAttachPoint)) return;
-
-		AttachPoint point = attachPointDictionary[attachment.MyAttachPoint];
-
-		if (point.IsOccupied) return;
-		if (!attachment.CheckIfValid(weaponType)) return; // if attachment does not accept this weapon type, return.
-
-
-		attachment = Instantiate(attachment, transform);
-		AttachmentDictionary.Add(attachment.MyAttachPoint, attachment);
-
-		attachment.transform.parent = attachPointDictionary[attachment.MyAttachPoint].PointLocation;
-		attachment.transform.position = attachment.transform.parent.position;
-		attachPointDictionary[attachment.MyAttachPoint].IsOccupied = true;
-
-	}
-
-	void PopulateAttachPoints()
-	{
-		foreach (var point in AttachPoints)
-		{
-
-			if (!attachPointDictionary.ContainsKey(point.AttachmentPoint))
-			{
-
-				attachPointDictionary.Add(point.AttachmentPoint, point);
-
-			}
-
-		}
+		isReloading = true;
+		weaponAnim.SetTrigger("reload");
+		weaponAnim.SetFloat("reloadSpeed", WeaponStats.GetStat(StatType.ReloadSpeed));
 
 	}
 
@@ -442,6 +369,46 @@ public class RangedWeapon : Weapon
 		isReloading = false;
 	}
 
+
+	void PopulateAttachPoints() //populate attachment point dictionary with attachment point list entries
+	{
+		foreach (var point in AttachPoints)
+		{
+			if (!attachPointDictionary.ContainsKey(point.AttachmentPoint))
+			{
+				attachPointDictionary.Add(point.AttachmentPoint, point);
+			}
+		}
+	}
+
+
+
+
+
+
+	public void SetupAttachment(Attachment attachment)
+	{
+		if (!attachPointDictionary.ContainsKey(attachment.MyAttachPoint)) return;
+
+		if (AttachmentDictionary.ContainsKey(attachment.MyAttachPoint)) return;
+
+		AttachPoint point = attachPointDictionary[attachment.MyAttachPoint];
+
+		if (point.IsOccupied) return;
+
+		if (!attachment.CheckIfValid(weaponType)) return; // if attachment does not accept this weapon type, return.
+
+
+		attachment = Instantiate(attachment, transform);
+		AttachmentDictionary.Add(attachment.MyAttachPoint, attachment);
+
+		attachment.transform.parent = attachPointDictionary[attachment.MyAttachPoint].PointLocation;
+		attachment.transform.position = attachment.transform.parent.position;
+		attachPointDictionary[attachment.MyAttachPoint].IsOccupied = true;
+
+	}
+
+
 	Transform GetAttachPoint(AttachPointName pointName)
 	{
 		if (!attachPointDictionary.ContainsKey(pointName)) return null;
@@ -461,16 +428,7 @@ public class RangedWeapon : Weapon
 
 	}
 
-	void ShowDamage(float val, Vector3 spawnPoint)
-	{
-		float roundedVal = MathF.Round(val * 100.0f) * 0.01f;
 
-		Camera camera = Camera.main;
-		if (!camera) return;
-		var popup = Instantiate(GameManager.Instance.DmgPopup, spawnPoint, Quaternion.LookRotation(spawnPoint - camera.transform.position));
-		popup.DisplayDamage(roundedVal);
-
-	}
 
 	void RemoveAllAttachments()
 	{

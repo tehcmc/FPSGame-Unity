@@ -545,8 +545,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoTypes:
-  - weaponType: 0
-    amount: 100
   - weaponType: 1
     amount: 100
   - weaponType: 2
@@ -556,6 +554,8 @@ MonoBehaviour:
   - weaponType: 4
     amount: 100
   - weaponType: 5
+    amount: 100
+  - weaponType: 6
     amount: 100
 --- !u!82 &1987340479659032285
 AudioSource:

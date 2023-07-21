@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b483bbfd0d8ffec4fa9aab9e612eda5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validWeapons: 010000000200000003000000
+  validWeapons: 020000000300000005000000
   myAttachPoint: 2
   range: 100
   laser: {fileID: 3087542627143973193}

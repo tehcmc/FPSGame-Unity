@@ -11,7 +11,6 @@ public class Shotgun : RangedWeapon
 		Slug
 	}
 
-	[SerializeField] bool magFed = false;
 	[SerializeField] protected ShellType type;
 	[SerializeField] int pelletCount;
 
@@ -26,12 +25,9 @@ public class Shotgun : RangedWeapon
 	{
 		base.Start();
 
-		if (!magFed)
-		{
 
-			weaponAnim.SetInteger("currentAmmo", currentAmmo);
-			weaponAnim.SetInteger("clipSize", Mathf.RoundToInt(WeaponStats.GetStat(StatType.ClipSize)));
-		}
+		weaponAnim.SetInteger("currentAmmo", currentAmmo);
+		weaponAnim.SetInteger("clipSize", Mathf.RoundToInt(WeaponStats.GetStat(StatType.ClipSize)));
 
 	}
 
@@ -42,7 +38,6 @@ public class Shotgun : RangedWeapon
 
 		if (isReloading && Input.GetButtonDown("Fire1"))
 		{
-			if (magFed) return;
 			if (weaponAnim) weaponAnim.SetTrigger("cancelReload");
 		}
 

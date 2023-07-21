@@ -120,7 +120,7 @@ MonoBehaviour:
   - statType: 6
     value: 6
   - statType: 7
-    value: 8
+    value: 16
   - statType: 8
     value: 6
   - statType: 9
@@ -138,21 +138,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Mossberg 500
-  weaponType: 3
+  weaponType: 4
+  weaponModel: {fileID: 0}
   firemode: 1
   defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 8328899475309114994}
-  defaultFireSound: {fileID: 0}
-  triggerSound: {fileID: 0}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-  attachments: []
+  holdPoint: {fileID: 0}
   attachPoints:
   - attachmentPoint: 0
     pointLocation: {fileID: 1986254945082794814}
-  weaponModel: {fileID: 0}
-  holdPoint: {fileID: 0}
-  magFed: 0
+  attachments: []
   type: 0
   pelletCount: 20
 --- !u!95 &4296315438475706550
@@ -193,6 +190,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 1ec34578dc8f62c4e8162d0f1a660c29, type: 3}
   - name: pumpforward
     clip: {fileID: 8300000, guid: 06fdf5d7cc03f2b49aa00cd104d40517, type: 3}
+  - name: shoot
+    clip: {fileID: 8300000, guid: 5987d09b7a615b04fb08eb9346b0a143, type: 3}
+  - name: loadshell
+    clip: {fileID: 8300000, guid: c0f8e570511fbc24296c9c8bf5e6a4bc, type: 3}
 --- !u!82 &7963181814974132267
 AudioSource:
   m_ObjectHideFlags: 0

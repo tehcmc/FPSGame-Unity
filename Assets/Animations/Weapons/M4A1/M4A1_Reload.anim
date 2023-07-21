@@ -2670,14 +2670,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.7166667
+  - time: 1.5166667
     functionName: PlaySound
     data: magin
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 2.55
+  - time: 2.5833333
     functionName: PlaySound
     data: pullbolt
     objectReferenceParameter: {fileID: 0}

@@ -9,7 +9,6 @@ public class Sound
 	[SerializeField] string name;
 	[SerializeField] AudioClip clip;
 
-
 	public string Name { get => name; set => name = value; }
 	public AudioClip Clip { get => clip; set => clip = value; }
 
@@ -21,18 +20,22 @@ public class AudioComponent : MonoBehaviour
 
 	IDictionary<string, Sound> soundsDict = new Dictionary<string, Sound>();
 
+	float defaultVolume;
+	float defaultPitch;
 	AudioSource audioSource;
 
 	private void Awake()
 	{
 		audioSource = GetComponent<AudioSource>();
-
+		defaultVolume = audioSource.volume;
 		foreach (var sound in sounds)
 		{
 			soundsDict.Add(sound.Name, sound);
 		}
 
 	}
+
+
 
 	public void PlaySound(string name)
 	{
@@ -42,10 +45,12 @@ public class AudioComponent : MonoBehaviour
 			return;
 		}
 
+
 		AudioClip sound = soundsDict[name].Clip;
 		Debug.Log("sound:" + sound.name);
-		audioSource.PlayOneShot(sound);
 
+
+		audioSource.PlayOneShot(sound);
 	}
 
 

@@ -29,10 +29,12 @@ public class NPCMover : MonoBehaviour
 	SphereCollider searchCollider;
 	NavMeshAgent agent;
 	float distanceToTarget = Mathf.Infinity;
+	float attackRange;
 	Vector3 startPos;
 	State state = State.Idle;
 
 	public Transform Target { get => target; set => target = value; }
+	public float AttackRange { get => attackRange; set => attackRange = value; }
 
 	void Awake()
 	{
@@ -40,7 +42,7 @@ public class NPCMover : MonoBehaviour
 		searchCollider = GetComponent<SphereCollider>();
 		animator = GetComponent<Animator>();
 		agent = GetComponent<NavMeshAgent>();
-
+		AttackRange = agent.stoppingDistance;
 		if (searchCollider) searchCollider.radius = searchRadius;
 	}
 
@@ -93,22 +95,21 @@ public class NPCMover : MonoBehaviour
 
 	void Attack()
 	{
-		if (animator) animator.SetBool("attack", true);
+
+
+
+
 
 		if (!Target || !Target.GetComponent<Character>()) { state = State.ReturntoStart; return; }
-
-
-
 		distanceToTarget = Vector3.Distance(Target.position, transform.position);
-
-
 		Vector3 dir = (transform.position - target.position).normalized;
-		Quaternion lookRot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.y));
+		Quaternion lookRot = Quaternion.LookRotation(new Vector3(-dir.x, 0, -dir.z));
 
 		transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * turnSpeed);
+		if (animator) animator.SetBool("attack", true);
 
 
-		if (distanceToTarget > agent.stoppingDistance)
+		if (distanceToTarget > AttackRange)
 		{
 			if (animator) animator.SetBool("attack", false);
 			state = State.Chase;
@@ -125,11 +126,7 @@ public class NPCMover : MonoBehaviour
 	{
 		if (animator) animator.SetTrigger("move");
 
-		if (Vector3.Distance(startPos, transform.position) > agent.stoppingDistance)
-		{
-
-		}
-		else
+		if (Vector3.Distance(startPos, transform.position) < agent.stoppingDistance)
 		{
 			state = State.Idle;
 		}
@@ -141,7 +138,7 @@ public class NPCMover : MonoBehaviour
 		agent.SetDestination(Target.position);
 		distanceToTarget = Vector3.Distance(Target.position, transform.position);
 
-		if (distanceToTarget <= agent.stoppingDistance)
+		if (distanceToTarget <= AttackRange)
 		{
 			state = State.Attack;
 		}

@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 7861083117878272559}
   - component: {fileID: 7261001578071359766}
   - component: {fileID: 5602961140003484815}
+  - component: {fileID: 5405630741492838924}
   m_Layer: 0
   m_Name: AK74
   m_TagString: Untagged
@@ -211,22 +212,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: AK74
-  weaponType: 2
+  weaponType: 3
+  weaponModel: {fileID: 4970820946911299565}
   firemode: 3
   defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 8393039238687105159}
-  defaultFireSound: {fileID: 8300000, guid: 3a657958ce812cb4597bd1ab51581f18, type: 3}
-  triggerSound: {fileID: 8300000, guid: f0d976a1a1b20d64bad8855d146e9571, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-  attachments: []
+  holdPoint: {fileID: 0}
   attachPoints:
   - attachmentPoint: 4
     pointLocation: {fileID: 8393039238687105159}
   - attachmentPoint: 6
     pointLocation: {fileID: 2011279818049526038}
-  weaponModel: {fileID: 4970820946911299565}
-  holdPoint: {fileID: 0}
+  attachments: []
 --- !u!82 &7261001578071359766
 AudioSource:
   m_ObjectHideFlags: 0
@@ -344,6 +343,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5405630741492838924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5056423620036190898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808638580aca1294bbbc8c571f2539dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: shoot
+    clip: {fileID: 8300000, guid: 3a657958ce812cb4597bd1ab51581f18, type: 3}
+  - name: boltback
+    clip: {fileID: 8300000, guid: 4c653c4a907cd3c47a8392432e131cd8, type: 3}
+  - name: boltforward
+    clip: {fileID: 8300000, guid: f23dd30221a653349a056fd7a06ffb60, type: 3}
+  - name: magout
+    clip: {fileID: 8300000, guid: 35ca391cf35e4c347a9833a1a6b836ee, type: 3}
+  - name: magin
+    clip: {fileID: 8300000, guid: ca38342eb7540754bb4edb01bc6f7cb6, type: 3}
+  - name: magin
+    clip: {fileID: 8300000, guid: 35ca391cf35e4c347a9833a1a6b836ee, type: 3}
 --- !u!1001 &290986253045668826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -560,6 +584,14 @@ PrefabInstance:
     - target: {fileID: 4519716788627816, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4871155855958596, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4871155855958596, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.01422007
       objectReference: {fileID: 0}
     - target: {fileID: 23860282398207496, guid: ee329c3cd08e58645834d20702d7f6c6, type: 3}
       propertyPath: m_Materials.Array.data[0]

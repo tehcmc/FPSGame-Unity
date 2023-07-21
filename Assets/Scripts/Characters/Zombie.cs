@@ -5,18 +5,31 @@ using UnityEngine;
 [RequireComponent(typeof(NPCMover))]
 public class Zombie : Character
 {
-	NPCMover moveComponent;
+
+	/// <summary>
+	///  add new zombie types? 
+	///  
+	/// HARD
+	///  charger - detect player from afar, run really fast in straight line to player (if path is possible) if player is collided with act like l4d charger
+	///  
+	/// 
+	/// MEDIUM
+	///  spitter - spit projectile at player
+	///  tank - lots of hp lots of damage, knockback on attacks
+	///  
+	///  EASY
+	///  stalker - very fast, lower hp
+	///  regular - normal hp, lots of them.
+	///  
+	/// </summary>
+
+	protected NPCMover moveComponent;
 
 	[SerializeField] float attackDamage = 10f;
 	protected override void Awake()
 	{
 		base.Awake();
 		moveComponent = GetComponent<NPCMover>();
-	}
-	// Start is called before the first frame update
-	void Start()
-	{
-
 	}
 
 	// Update is called once per frame
@@ -31,10 +44,9 @@ public class Zombie : Character
 	}
 
 
-	public void DoAttack()
+	public virtual void DoAttack()
 	{
 		var target = moveComponent.Target;
-
 		if (!target) return;
 
 		var health = target.GetComponent<Health>();

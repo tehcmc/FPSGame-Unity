@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 2347943941957570043}
   - component: {fileID: 1379636731763556689}
   - component: {fileID: 7087952774494481230}
+  - component: {fileID: 6664329576563471662}
   m_Layer: 0
   m_Name: Glock
   m_TagString: Untagged
@@ -211,17 +212,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Glock
-  weaponType: 0
+  weaponType: 1
+  weaponModel: {fileID: 3946163097635513570}
   firemode: 3
   defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
   defaultMuzzlePosition: {fileID: 3512534251447758909}
-  defaultFireSound: {fileID: 8300000, guid: 3a657958ce812cb4597bd1ab51581f18, type: 3}
-  triggerSound: {fileID: 8300000, guid: f0d976a1a1b20d64bad8855d146e9571, type: 3}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-  attachments:
-  - {fileID: 8369170507715800542, guid: 6dfd3e2f123b64f42ba77a0ddc1870cb, type: 3}
-  - {fileID: 5100088620746131079, guid: 3326d07d436c53c4ca7594dd1f7d0495, type: 3}
+  holdPoint: {fileID: 0}
   attachPoints:
   - attachmentPoint: 1
     pointLocation: {fileID: 3495091374041485206}
@@ -229,8 +227,9 @@ MonoBehaviour:
     pointLocation: {fileID: 4212243993423194047}
   - attachmentPoint: 4
     pointLocation: {fileID: 3512534251447758909}
-  weaponModel: {fileID: 3946163097635513570}
-  holdPoint: {fileID: 0}
+  attachments:
+  - {fileID: 8369170507715800542, guid: 6dfd3e2f123b64f42ba77a0ddc1870cb, type: 3}
+  - {fileID: 5100088620746131079, guid: 3326d07d436c53c4ca7594dd1f7d0495, type: 3}
 --- !u!82 &1379636731763556689
 AudioSource:
   m_ObjectHideFlags: 0
@@ -348,6 +347,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6664329576563471662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455139453384785380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808638580aca1294bbbc8c571f2539dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds: []
 --- !u!1001 &463401988275197996
 PrefabInstance:
   m_ObjectHideFlags: 0

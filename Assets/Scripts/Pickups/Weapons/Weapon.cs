@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +37,7 @@ public class Weapon : MonoBehaviour
 	{
 		audioComponent = GetComponent<AudioComponent>();
 		weaponAnim = GetComponent<Animator>();
+		weaponAnim.keepAnimatorStateOnDisable = true;
 	}
 	protected virtual void OnEnable()
 	{
@@ -57,15 +59,21 @@ public class Weapon : MonoBehaviour
 
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
 	protected void PlaySound(string name)
 	{
 		if (!audioComponent || name == null) return;
 		audioComponent.PlaySound(name);
+	}
+
+	protected void ShowDamage(float val, Vector3 spawnPoint)
+	{
+		float roundedVal = MathF.Round(val * 100.0f) * 0.01f;
+
+		Camera camera = Camera.main;
+		if (!camera) return;
+		var popup = Instantiate(GameManager.Instance.DmgPopup, spawnPoint, Quaternion.LookRotation(spawnPoint - camera.transform.position));
+		popup.DisplayDamage(roundedVal);
+
 	}
 
 }

@@ -17,6 +17,7 @@ public class AmmoCounter : MonoBehaviour
 		if (!player || !text) Destroy(gameObject);
 		GameManager.Instance.WeaponChanged += SetAmmoCount;
 		SetAmmoCount();
+		gameObject.SetActive(false);
 	}
 
 	// Update is called once per frame

@@ -358,9 +358,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038094c3e43b0c24aa1ce2451d0c3db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validWeapons: 01000000020000000300000004000000
+  validWeapons: 02000000030000000400000005000000
   myAttachPoint: 3
   light: {fileID: 2746116896293069818}
+  activateSound: {fileID: 0}
 --- !u!1 &5352093359135025861
 GameObject:
   m_ObjectHideFlags: 0

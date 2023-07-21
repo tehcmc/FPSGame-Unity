@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 535662f110918c14ab0a1831adc46b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validWeapons: 0200000003000000
+  validWeapons: 0300000005000000
   myAttachPoint: 4
   muzzleEffect: {fileID: 6116043721073108993, guid: c22d20d9cc4ba5848972ed128e6540ee, type: 3}
   shootSound: {fileID: 8300000, guid: 6187e4bc1427de044a2127058394aa7d, type: 3}

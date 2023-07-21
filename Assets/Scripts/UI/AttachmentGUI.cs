@@ -33,14 +33,15 @@ public class AttachmentGUI : MonoBehaviour
 
 		if (wepRef.GetType() == typeof(RangedWeapon) || wepRef == wepRef.GetType().IsSubclassOf(typeof(RangedWeapon)))
 		{
-			currentWeapon = (RangedWeapon)wepRef;
 
+			currentWeapon = (RangedWeapon)wepRef;
 
 			if (currentWeapon && GameManager.Instance.debugMode)
 			{
 				// attach 
 				foreach (Attachment attachment in attachments)
 				{
+
 					foreach (WeaponType type in attachment.ValidWeapons)
 					{
 						if (currentWeapon.WeaponType != type)
@@ -50,6 +51,7 @@ public class AttachmentGUI : MonoBehaviour
 
 						foreach (AttachPoint point in currentWeapon.AttachPoints)
 						{
+
 							if (attachment.MyAttachPoint != point.AttachmentPoint)
 							{
 								continue;
@@ -62,12 +64,14 @@ public class AttachmentGUI : MonoBehaviour
 
 							}
 							buttonPos += 50;
+
 						}
 
 					}
 
 				}
 				buttonPos = 100;
+
 				//remove
 				foreach (Attachment attachment in currentWeapon.AttachmentDictionary.Values)
 				{
@@ -84,22 +88,10 @@ public class AttachmentGUI : MonoBehaviour
 				}
 
 
-
-
 			}
-		}
 
+		}
 
 	}
 
 }
-
-
-
-
-/*
- 
-
- 
- 
- */
