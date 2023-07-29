@@ -183,7 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - statType: 0
-    value: 0.04
+    value: 0
   - statType: 1
     value: 0.03
   - statType: 2
@@ -197,7 +197,7 @@ MonoBehaviour:
   - statType: 6
     value: 30
   - statType: 7
-    value: 6
+    value: 0.1
   - statType: 8
     value: 3
 --- !u!114 &7861083117878272559
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5570eed5f0c594d9b170cecb6a60af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: Vector
+  objectName: Vector
   weaponType: 2
   weaponModel: {fileID: 6509904750647779449}
   firemode: 3

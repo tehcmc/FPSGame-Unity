@@ -166,5 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6cdc8de383f545498adc34249c3a4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectName: Extended Magazine
   validWeapons: 02000000030000000400000005000000
   myAttachPoint: 5

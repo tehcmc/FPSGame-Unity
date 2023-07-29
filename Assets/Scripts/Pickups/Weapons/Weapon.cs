@@ -16,12 +16,12 @@ public enum WeaponType
 
 [RequireComponent(typeof(AudioComponent))]
 [RequireComponent(typeof(AudioSource))]
-public class Weapon : MonoBehaviour
+[RequireComponent(typeof(Animator))]
+public class Weapon : BaseObject
 {
 	protected AudioComponent audioComponent;
 
 	[Header("Values")]
-	[SerializeField] protected string weaponName;
 	[SerializeField] protected WeaponType weaponType;
 	protected Animator weaponAnim;
 
@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour
 	public GameObject weaponModel;
 	public WeaponType WeaponType { get => weaponType; set => weaponType = value; }
 
-	public string WeaponName { get => weaponName; set => weaponName = value; }
+
 	protected virtual void Awake()
 	{
 		audioComponent = GetComponent<AudioComponent>();
@@ -76,4 +76,16 @@ public class Weapon : MonoBehaviour
 
 	}
 
+	public virtual bool CanPickUp(string name)
+	{
+		if (name == null) return false;
+		if (name == objectName) return false;
+
+		return true;
+	}
+
+	public void PurchaseItem()
+	{
+		throw new NotImplementedException();
+	}
 }

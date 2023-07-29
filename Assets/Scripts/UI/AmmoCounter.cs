@@ -33,24 +33,36 @@ public class AmmoCounter : MonoBehaviour
 	{
 		if (!player) return;
 		currentWeapon = player.GetComponent<WeaponInventory>().CurrentWeapon;
-		if (!currentWeapon) return;
-
-		if (!currentWeapon) { gameObject.SetActive(false); } else { gameObject.SetActive(true); }
+		string wepName = "";
 		string ammoString = "";
+		if (!currentWeapon || !currentWeapon.isActiveAndEnabled)
+		{
+			wepName = "";
+			ammoString = "";
+			text.text = wepName + ammoString;
+			return;
+		}
+		wepName = currentWeapon.ObjectName;
+		if (!currentWeapon) { gameObject.SetActive(false); } else { gameObject.SetActive(true); }
+
+
+
 		if (currentWeapon.GetType() == typeof(RangedWeapon) || currentWeapon.GetType().IsSubclassOf(typeof(RangedWeapon)))
 		{
 			var rangedWep = (RangedWeapon)currentWeapon;
 			ammoString = $": {rangedWep.currentAmmo}/{player.GetComponent<Ammo>().GetAmmo(rangedWep.WeaponType)}";
 		}
 
+		if (currentWeapon.GetType() == typeof(ThrowableWeapon) || currentWeapon.GetType().IsSubclassOf(typeof(ThrowableWeapon)))
+		{
+			var throwable = (ThrowableWeapon)currentWeapon;
+			ammoString = $" {throwable.currentCount}";
+		}
+
+		text.text = wepName + ammoString;
 
 
 
-		if (!currentWeapon) return;
-
-
-
-		text.text = $"{currentWeapon.WeaponName}" + ammoString;
 	}
 
 }

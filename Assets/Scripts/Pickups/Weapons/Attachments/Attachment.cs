@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(WeaponStats))]
-public class Attachment : MonoBehaviour
+public class Attachment : BaseObject
 {
 
 
@@ -37,7 +37,8 @@ public class Attachment : MonoBehaviour
 
 
 	}
-	void Start()
+
+	public virtual void Start()
 	{
 		if (!myWeapon) Destroy(gameObject);
 	}
@@ -80,5 +81,14 @@ public class Attachment : MonoBehaviour
 		myWeapon = null;
 	}
 
+	public override bool CanPurchase()
+	{
+		if (!myWeapon) return false;
+
+		if (!CheckIfValid(myWeapon.WeaponType)) return false;
+
+
+		return true;
+	}
 
 }

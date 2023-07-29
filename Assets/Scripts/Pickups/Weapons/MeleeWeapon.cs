@@ -44,8 +44,10 @@ public class MeleeWeapon : Weapon
 	}
 	protected void DoHit()
 	{
+		int layerMask = 1 << 31;
+		layerMask = ~layerMask;// invert layermask. Only layer 31 will be ignored.
 
-		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), 99, QueryTriggerInteraction.Ignore))
+		if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), layerMask, QueryTriggerInteraction.Ignore))
 		{
 			if (tr.point == null) return;
 			if (tr.transform == transform.parent) return;

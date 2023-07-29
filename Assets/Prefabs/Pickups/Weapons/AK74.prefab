@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5570eed5f0c594d9b170cecb6a60af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: AK74
+  objectName: AK47
   weaponType: 3
   weaponModel: {fileID: 4970820946911299565}
   firemode: 3
@@ -366,8 +366,6 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 35ca391cf35e4c347a9833a1a6b836ee, type: 3}
   - name: magin
     clip: {fileID: 8300000, guid: ca38342eb7540754bb4edb01bc6f7cb6, type: 3}
-  - name: magin
-    clip: {fileID: 8300000, guid: 35ca391cf35e4c347a9833a1a6b836ee, type: 3}
 --- !u!1001 &290986253045668826
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -59,17 +59,7 @@ public class RangedWeapon : Weapon
 	[SerializeField] TrailRenderer bulletTrail;
 	[SerializeField] ParticleSystem hitParticle;
 
-
-
-
-
-
-
-
 	protected bool suppressorAttached = false;
-
-
-
 
 	protected Transform shootPosition;
 	ParticleSystem muzzleFlash;
@@ -256,7 +246,31 @@ public class RangedWeapon : Weapon
 
 		_ = ShootPosition.position + ShootPosition.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
 
+		Vector3 shootDirection = SpreadBullet();
 
+		Vector3 hitLoc = ShootPosition.position + shootDirection * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
+
+		int layerMask = 1 << 31;
+		layerMask = ~layerMask;// invert layermask. Only layer 31 will be ignored.
+
+
+		if (Physics.Raycast(ShootPosition.position, shootDirection, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), layerMask, Mathf.Infinity), layerMask, QueryTriggerInteraction.Ignore))
+		{
+			if (tr.transform == transform.parent) return;
+			if (tr.transform == null) return;
+
+			hitLoc = tr.point;
+
+			DoImpactEffect(tr);
+			DamageCharacter(tr);
+		}
+
+
+		ShootTrail(hitLoc);
+	}
+
+	private Vector3 SpreadBullet()
+	{
 		Vector3 shootDirection = ShootPosition.forward;
 
 
@@ -268,18 +282,9 @@ public class RangedWeapon : Weapon
 
 		shootDirection.Normalize();
 
-
-		Vector3 hitLoc = ShootPosition.position + shootDirection * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
-		if (Physics.Raycast(ShootPosition.position, shootDirection, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity), 99, QueryTriggerInteraction.Ignore))
-		{
-			if (tr.transform == transform.parent) return;
-			hitLoc = tr.point;
-
-			DoImpactEffect(tr);
-			DamageCharacter(tr);
-		}
-		ShootTrail(hitLoc);
+		return shootDirection;
 	}
+
 	protected void Recoil()
 	{
 		float xRecoil = Mathf.Clamp(-weaponStats.GetStat(StatType.VerticalRecoil), -Mathf.Infinity, 0);

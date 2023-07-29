@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - CinemachineTarget
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -35,8 +36,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Camera
+  - Explosion
   - EditorOnly
   m_SortingLayers:
   - name: Default

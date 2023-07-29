@@ -10,15 +10,16 @@ GameObject:
   m_Component:
   - component: {fileID: 2696066051364156495}
   - component: {fileID: 7690575772623542145}
+  - component: {fileID: -3725080851486815119}
+  - component: {fileID: 8606325418659902439}
+  - component: {fileID: 8705862177250884926}
   - component: {fileID: 8606071443883019745}
   - component: {fileID: 2460288242634286063}
   - component: {fileID: 3215565202480334065}
   - component: {fileID: 7018012566931406213}
   - component: {fileID: 1561868504468338114}
-  - component: {fileID: -3725080851486815119}
-  - component: {fileID: 8705862177250884926}
-  - component: {fileID: 8606325418659902439}
-  m_Layer: 0
+  - component: {fileID: 739118642460287087}
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,6 +63,55 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3725080851486815119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7073695861845734373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a513df23ab0b6754b9eb872282e07f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+--- !u!114 &8606325418659902439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7073695861845734373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f75a4d6f34c879f458cd4197d5b69ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points:
+  - name: Head
+    point: {fileID: 8205047972152900290}
+    damageMultiplier: 2.5
+  - name: Body
+    point: {fileID: 2696066051364156495}
+    damageMultiplier: 1
+  attackDamage: 10
+--- !u!114 &8705862177250884926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7073695861845734373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8545660916693c64b898910cf19d402b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showDebugLogs: 0
+  chaseRange: 20
+  searchRadius: 10
+  turnSpeed: 5
 --- !u!33 &8606071443883019745
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -170,7 +220,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1073741824
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -178,55 +228,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-3725080851486815119
-MonoBehaviour:
+--- !u!54 &739118642460287087
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7073695861845734373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a513df23ab0b6754b9eb872282e07f5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
---- !u!114 &8705862177250884926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7073695861845734373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8545660916693c64b898910cf19d402b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showDebugLogs: 0
-  chaseRange: 20
-  searchRadius: 10
-  turnSpeed: 5
---- !u!114 &8606325418659902439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7073695861845734373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f75a4d6f34c879f458cd4197d5b69ad9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points:
-  - name: Head
-    point: {fileID: 8205047972152900290}
-    damageMultiplier: 2.5
-  - name: Body
-    point: {fileID: 2696066051364156495}
-    damageMultiplier: 1
-  attackDamage: 10
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8725121288131629443
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +267,7 @@ GameObject:
   - component: {fileID: 5091550288957130653}
   - component: {fileID: 8750516548788195830}
   - component: {fileID: 6560161638366985107}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ew
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8499490375692898016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.319, z: 0.61}
+  m_LocalPosition: {x: 0, y: 0.319, z: 1.071}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -89,15 +89,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4798776916526523264, guid: 79b06c67f2c93d34b901253b26f66f84, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.245
       objectReference: {fileID: 0}
     - target: {fileID: 4798776916526523264, guid: 79b06c67f2c93d34b901253b26f66f84, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.784
+      value: 0.584
       objectReference: {fileID: 0}
     - target: {fileID: 4798776916526523264, guid: 79b06c67f2c93d34b901253b26f66f84, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.6910084
       objectReference: {fileID: 0}
     - target: {fileID: 4798776916526523264, guid: 79b06c67f2c93d34b901253b26f66f84, type: 3}
       propertyPath: m_LocalRotation.x
@@ -105,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4798776916526523264, guid: 79b06c67f2c93d34b901253b26f66f84, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.72284675
       objectReference: {fileID: 0}
     - target: {fileID: 4798776916526523264, guid: 79b06c67f2c93d34b901253b26f66f84, type: 3}
       propertyPath: m_LocalRotation.z
@@ -117,7 +117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4798776916526523264, guid: 79b06c67f2c93d34b901253b26f66f84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -92.58
       objectReference: {fileID: 0}
     - target: {fileID: 4798776916526523264, guid: 79b06c67f2c93d34b901253b26f66f84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -217,7 +217,7 @@ PrefabInstance:
       addedObject: {fileID: 4552172957121474459}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7073695861845734373, guid: 14bf9e4c656baf340a15a9a2cc562932, type: 3}
-      insertIndex: -1
+      insertIndex: 3
       addedObject: {fileID: 1421749249299463895}
   m_SourcePrefab: {fileID: 100100000, guid: 14bf9e4c656baf340a15a9a2cc562932, type: 3}
 --- !u!1 &1098884576081242737 stripped
@@ -245,9 +245,11 @@ MonoBehaviour:
     point: {fileID: 5188301328123801051}
     damageMultiplier: 1
   attackDamage: 0
-  projectile: {fileID: 4681844085689074197, guid: 93b21f80b4636a247a484ac7548d5078, type: 3}
-  shootPos: {fileID: 2068554051279856470}
+  projectile: {fileID: 1815055723946953682, guid: 93b21f80b4636a247a484ac7548d5078, type: 3}
+  shootPos: {fileID: 4552172957121474459}
   shootRange: 10
+  shootSpeed: 2
+  projectileSpeed: 1000
 --- !u!4 &2068554051279856470 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8205047972152900290, guid: 14bf9e4c656baf340a15a9a2cc562932, type: 3}

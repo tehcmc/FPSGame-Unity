@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,22 +65,33 @@ public class WeaponInventory : MonoBehaviour
 
 		foreach (var wep in weapons)
 		{
-			if (wep.WeaponName == weapon.WeaponName) return;
+			if (!wep.CanPickUp(weapon.ObjectName))
+			{
+				if (weapon == null)
+				{
+					weapons.Remove(weapon);
+				}
+				else
+				{
+					return;
+				}
+			}
 		}
 
 		weapon = Instantiate(weapon, player.WeaponHoldPoint.transform);
 		weapons.Add(weapon);
 		weapon.gameObject.SetActive(false);
-
+		SwapWeapon(weapons.Count - 1);
 		var sortedList = weapons.OrderByDescending(x => (int)(x.WeaponType)).ToList();
 		sortedList.Reverse();
 		weapons = sortedList;
+
 	}
 
 	void SwapWeapon(int index)
 	{
 		if (index >= weapons.Count) return;
-		if (!weapons[index]) return;
+		if (!weapons[index]) { weapons.RemoveAt(index); GameManager.Instance.ChangeWeapnEvent(); return; }
 		if (currentWeapon == weapons[index]) return;
 
 		if (currentWeapon)
@@ -88,7 +100,7 @@ public class WeaponInventory : MonoBehaviour
 		}
 
 		currentWeapon = weapons[index];
-		Debug.Log(currentWeapon.WeaponName);
+		Debug.Log(currentWeapon.ObjectName);
 		currentWeapon.gameObject.SetActive(true);
 	}
 

@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d5570eed5f0c594d9b170cecb6a60af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: G3A3
+  objectName: G3A3
   weaponType: 3
   weaponModel: {fileID: 0}
   firemode: 1

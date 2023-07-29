@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class AmmoBox : MonoBehaviour
@@ -5,8 +6,12 @@ public class AmmoBox : MonoBehaviour
 	[SerializeField] WeaponType ammoType;
 	[SerializeField] int ammoCount = 100;
 	[SerializeField] bool reusable = false;
+	[SerializeField] TMP_Text text;
 
-
+	private void Awake()
+	{
+		text.text = ammoType.ToString();
+	}
 
 
 	private void OnTriggerEnter(Collider other)

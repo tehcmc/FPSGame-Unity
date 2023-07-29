@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Mail;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class AttachmentGUI : MonoBehaviour

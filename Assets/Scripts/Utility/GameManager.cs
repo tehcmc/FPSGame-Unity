@@ -2,8 +2,6 @@ using StarterAssets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Mail;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEditor;
 using UnityEngine;
 

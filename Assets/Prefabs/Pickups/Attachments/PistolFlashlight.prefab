@@ -357,6 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038094c3e43b0c24aa1ce2451d0c3db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectName: Pistol Flashlight
   validWeapons: 01000000
   myAttachPoint: 0
   light: {fileID: 2746116896293069818}

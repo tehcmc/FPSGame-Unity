@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,13 @@ public class Projectile : MonoBehaviour
 	[SerializeField] float projectileSpeed;
 	[SerializeField] float lifeTime = 10f;
 
+
+
 	Rigidbody rb;
-	float currentTime;
+	protected float currentTime = 0;
 
 	public Rigidbody Rb { get => rb; set => rb = value; }
+	public float ProjectileSpeed { get => projectileSpeed; set => projectileSpeed = value; }
 
 	protected virtual void Awake()
 	{
@@ -19,7 +23,7 @@ public class Projectile : MonoBehaviour
 	}
 	protected virtual void OnEnable()
 	{
-		Rb.AddRelativeForce(0, 0, projectileSpeed);
+
 	}
 
 	protected virtual void OnDisable()
@@ -42,6 +46,12 @@ public class Projectile : MonoBehaviour
 
 
 	}
+	public void ShootProjectile(Vector3 direction)
+	{
+		rb.AddRelativeForce(direction);
+	}
+
+
 
 	bool LifetimeExpired()
 	{
@@ -59,5 +69,15 @@ public class Projectile : MonoBehaviour
 
 		if (!gameObject.activeInHierarchy) return;
 		Destroy(gameObject);
+	}
+	protected void ShowDamage(float val, Vector3 spawnPoint)
+	{
+		float roundedVal = MathF.Round(val * 100.0f) * 0.01f;
+
+		Camera camera = Camera.main;
+		if (!camera) return;
+		var popup = Instantiate(GameManager.Instance.DmgPopup, spawnPoint, Quaternion.LookRotation(spawnPoint - camera.transform.position));
+		popup.DisplayDamage(roundedVal);
+
 	}
 }

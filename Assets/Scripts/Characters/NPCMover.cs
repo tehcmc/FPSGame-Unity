@@ -35,12 +35,13 @@ public class NPCMover : MonoBehaviour
 
 	public Transform Target { get => target; set => target = value; }
 	public float AttackRange { get => attackRange; set => attackRange = value; }
+	public Animator Animator { get => animator; set => animator = value; }
 
 	void Awake()
 	{
 
 		searchCollider = GetComponent<SphereCollider>();
-		animator = GetComponent<Animator>();
+		Animator = GetComponent<Animator>();
 		agent = GetComponent<NavMeshAgent>();
 		AttackRange = agent.stoppingDistance;
 		if (searchCollider) searchCollider.radius = searchRadius;
@@ -85,12 +86,6 @@ public class NPCMover : MonoBehaviour
 
 
 		}
-		//states - idle - doing nothing
-		// return to start - moving back to start pos
-		// chase - chasing target
-		// attack - attacking target
-		// die - self explanitory
-
 	}
 
 	void Attack()
@@ -98,7 +93,7 @@ public class NPCMover : MonoBehaviour
 
 
 
-
+		agent.SetDestination(transform.position);
 
 		if (!Target || !Target.GetComponent<Character>()) { state = State.ReturntoStart; return; }
 		distanceToTarget = Vector3.Distance(Target.position, transform.position);
@@ -106,12 +101,12 @@ public class NPCMover : MonoBehaviour
 		Quaternion lookRot = Quaternion.LookRotation(new Vector3(-dir.x, 0, -dir.z));
 
 		transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * turnSpeed);
-		if (animator) animator.SetBool("attack", true);
+		if (Animator) Animator.SetBool("attack", true);
 
 
 		if (distanceToTarget > AttackRange)
 		{
-			if (animator) animator.SetBool("attack", false);
+			if (Animator) Animator.SetBool("attack", false);
 			state = State.Chase;
 		}
 
@@ -119,12 +114,12 @@ public class NPCMover : MonoBehaviour
 
 	void Idle()
 	{
-		if (animator) animator.SetTrigger("idle");
+		if (Animator) Animator.SetTrigger("idle");
 	}
 
 	void ReturnToStart()
 	{
-		if (animator) animator.SetTrigger("move");
+		if (Animator) Animator.SetTrigger("move");
 
 		if (Vector3.Distance(startPos, transform.position) < agent.stoppingDistance)
 		{
@@ -134,7 +129,7 @@ public class NPCMover : MonoBehaviour
 	}
 	void ChaseTarget()
 	{
-		if (animator) animator.SetTrigger("move");
+		if (Animator) Animator.SetTrigger("move");
 		agent.SetDestination(Target.position);
 		distanceToTarget = Vector3.Distance(Target.position, transform.position);
 
@@ -159,7 +154,7 @@ public class NPCMover : MonoBehaviour
 
 	public void FindNearestCharacter()
 	{
-		Transform characters = FindObjectOfType<Player>().transform;
+		Transform characters = FindObjectOfType<Player>().transform; //for now, find player. If expanding to multiple players, and/or factions, modify this.
 		Transform bestTarget = null;
 		float closestDistanceSqr = Mathf.Infinity;
 		Vector3 currentPosition = transform.position;
