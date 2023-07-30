@@ -84,8 +84,13 @@ public class Weapon : BaseObject
 		return true;
 	}
 
-	public void PurchaseItem()
+	public override bool CanPurchase()
 	{
-		throw new NotImplementedException();
+		return player.GetComponent<WeaponInventory>().CanAddToInventory(this);
+	}
+
+	public override void PurchaseItem()
+	{
+		player.GetComponent<WeaponInventory>().AddWeapon(this);
 	}
 }

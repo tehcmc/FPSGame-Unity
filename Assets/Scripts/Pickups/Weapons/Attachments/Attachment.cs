@@ -49,8 +49,6 @@ public class Attachment : BaseObject
 
 		foreach (var stat in myStats.StatDictionary)
 		{
-			//	Debug.Log(gameObject.name);
-			//	Debug.Log($"Name: {stat.Key} Val: {stat.Value}");
 			myWeapon.WeaponStats.ModifyStat(stat.Key, stat.Value);
 		}
 	}
@@ -74,7 +72,11 @@ public class Attachment : BaseObject
 		return false;
 	}
 
-
+	public bool CheckIfAttached(RangedWeapon weapon)
+	{
+		if (weapon.AttachmentDictionary[MyAttachPoint].ObjectName == ObjectName) return true;
+		return false;
+	}
 	private void OnDestroy()
 	{
 		myStats = null;
@@ -87,6 +89,7 @@ public class Attachment : BaseObject
 
 		if (!CheckIfValid(myWeapon.WeaponType)) return false;
 
+		if (CheckIfAttached(myWeapon)) return false;
 
 		return true;
 	}

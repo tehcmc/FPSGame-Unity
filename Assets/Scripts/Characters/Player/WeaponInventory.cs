@@ -62,21 +62,7 @@ public class WeaponInventory : MonoBehaviour
 
 	public void AddWeapon(Weapon weapon)
 	{
-
-		foreach (var wep in weapons)
-		{
-			if (!wep.CanPickUp(weapon.ObjectName))
-			{
-				if (weapon == null)
-				{
-					weapons.Remove(weapon);
-				}
-				else
-				{
-					return;
-				}
-			}
-		}
+		CanAddToInventory(weapon);
 
 		weapon = Instantiate(weapon, player.WeaponHoldPoint.transform);
 		weapons.Add(weapon);
@@ -85,6 +71,22 @@ public class WeaponInventory : MonoBehaviour
 		var sortedList = weapons.OrderByDescending(x => (int)(x.WeaponType)).ToList();
 		sortedList.Reverse();
 		weapons = sortedList;
+	}
+
+	public bool CanAddToInventory(Weapon weapon)
+	{
+
+		foreach (var wep in weapons)
+		{
+			if (!wep.CanPickUp(weapon.ObjectName))
+			{
+
+				return false;
+
+			}
+		}
+
+		return true;
 
 	}
 
