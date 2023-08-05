@@ -22,7 +22,6 @@ public class WeaponBox : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		Debug.Log("TRIG");
 		var plr = other.GetComponent<Player>();
 		if (!plr) return;
 		if (plr.gameObject.GetComponent<WeaponInventory>())

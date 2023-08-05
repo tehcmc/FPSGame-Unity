@@ -34,7 +34,7 @@ public class Health : MonoBehaviour
 		currentHealth += val;
 		currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-		Debug.Log($"{oldHealth} + {val} = {currentHealth}");
+
 
 		if (currentHealth <= 0)
 		{

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -49,20 +50,16 @@ public class WeaponInventory : MonoBehaviour
 				indexEntry--;
 			}
 
-			Debug.Log(indexEntry);
 			SwapWeapon(indexEntry);
 
-		}
-
-		if (Input.GetAxis("Mouse ScrollWheel") != 0)
-		{
-			Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
 		}
 	}
 
 	public void AddWeapon(Weapon weapon)
 	{
-		CanAddToInventory(weapon);
+
+		if (!CanAddToInventory(weapon)) return;
+
 
 		weapon = Instantiate(weapon, player.WeaponHoldPoint.transform);
 		weapons.Add(weapon);
@@ -75,18 +72,7 @@ public class WeaponInventory : MonoBehaviour
 
 	public bool CanAddToInventory(Weapon weapon)
 	{
-
-		foreach (var wep in weapons)
-		{
-			if (!wep.CanPickUp(weapon.ObjectName))
-			{
-
-				return false;
-
-			}
-		}
-
-		return true;
+		return CanPickUp(weapon.ObjectName);
 
 	}
 
@@ -102,10 +88,22 @@ public class WeaponInventory : MonoBehaviour
 		}
 
 		currentWeapon = weapons[index];
-		Debug.Log(currentWeapon.ObjectName);
 		currentWeapon.gameObject.SetActive(true);
 	}
 
+	public virtual bool CanPickUp(string name)
+	{
+		if (name == null) return false;
 
+
+
+		foreach (var weapon in weapons)
+		{
+			if (weapon.ObjectName == name) return false;
+		}
+
+		Debug.Log("add");
+		return true;
+	}
 
 }

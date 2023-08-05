@@ -36,38 +36,40 @@ public class AttachmentGUI : MonoBehaviour
 
 			if (currentWeapon && GameManager.Instance.debugMode)
 			{
-				// attach 
-				foreach (Attachment attachment in attachments)
+
+				foreach (Attachment attachment in attachments) //get attachments in gamemanager attachment list
 				{
 
-					foreach (WeaponType type in attachment.ValidWeapons)
+					foreach (WeaponType type in attachment.ValidWeapons) //loop through all valid weapon types on current attachment
 					{
-						if (currentWeapon.WeaponType != type)
+						if (currentWeapon.WeaponType != type) // if current weapon is not a valid weapon type
 						{
-							continue;
+							continue; // go to next attachment
 						}
 
-						foreach (AttachPoint point in currentWeapon.AttachPoints)
+						foreach (AttachPoint point in currentWeapon.AttachPoints) //if it IS a valid weapon, loop through all the valid attachment points on the weapon
 						{
 
 							if (attachment.MyAttachPoint != point.AttachmentPoint)
 							{
-								continue;
+								continue; // if the weapon doesn't have the point that this attachment attaches to, move to next attachment, display it
 							}
-							else if (GUI.Button(new Rect(10, buttonPos, buttonWidth, buttonHeight), new GUIContent($"{attachment.name} Type:{attachment.MyAttachPoint}")))
+							else if (GUI.Button(new Rect(10, buttonPos, buttonWidth, buttonHeight), new GUIContent($"{attachment.name} Type:{attachment.MyAttachPoint}"))) //if the button of this valid attachment is clicked
 							{
 								if (!currentWeapon) return;
 
-								currentWeapon.SetupAttachment(attachment);
+								currentWeapon.SetupAttachment(attachment); //attach to weapon in valid slot
 
 							}
-							buttonPos += 50;
+
+							buttonPos += 50;//add to buttonPos, for next button
 
 						}
 
 					}
 
 				}
+
 				buttonPos = 100;
 
 				//remove

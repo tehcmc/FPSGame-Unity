@@ -1,17 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[Serializable]
+public class Item
+{
+
+	[SerializeField] Attachment attachmentItem;
+	[SerializeField] int price = 100;
+
+	public Attachment AttachmentItem { get => attachmentItem; set => attachmentItem = value; }
+	public int Price { get => price; set => price = value; }
+
+}
 public class ShopBuilding : MonoBehaviour
 {
 	Player player;
-	[SerializeField] GameObject ShopUI;
+	ShopMenu shopMenu;
+	[SerializeField] List<Item> items = new();
+
+
 
 	bool shopVisible = false;
 	// Start is called before the first frame update
+
 	void Start()
 	{
-		ShopUI.SetActive(shopVisible);
+		shopMenu = FindObjectOfType<ShopMenu>(includeInactive: true);
+		shopMenu.gameObject.SetActive(shopVisible);
+
+
 	}
 
 	// Update is called once per frame
@@ -42,7 +62,16 @@ public class ShopBuilding : MonoBehaviour
 	void ShowShopUI()
 	{
 		shopVisible = !shopVisible;
-		ShopUI.SetActive(shopVisible);
+
+		if (shopVisible)
+		{
+			shopMenu.Items = items;
+		}
+		else
+		{
+
+		}
+		shopMenu.gameObject.SetActive(shopVisible);
 	}
 
 

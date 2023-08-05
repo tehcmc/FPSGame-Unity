@@ -180,9 +180,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - statType: 0
-    value: 0.05
+    value: 0.001
   - statType: 1
-    value: 0.05
+    value: 0.02
   - statType: 2
     value: 8
   - statType: 0
@@ -198,6 +198,8 @@ MonoBehaviour:
   - statType: 7
     value: 5
   - statType: 8
+    value: 2
+  - statType: 9
     value: 2
 --- !u!114 &2347943941957570043
 MonoBehaviour:
@@ -215,7 +217,7 @@ MonoBehaviour:
   weaponType: 1
   weaponModel: {fileID: 3946163097635513570}
   firemode: 3
-  defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
+  defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 3512534251447758909}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
   hitParticle: {fileID: 19800000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
@@ -227,9 +229,7 @@ MonoBehaviour:
     pointLocation: {fileID: 4212243993423194047}
   - attachmentPoint: 4
     pointLocation: {fileID: 3512534251447758909}
-  attachments:
-  - {fileID: 8369170507715800542, guid: 6dfd3e2f123b64f42ba77a0ddc1870cb, type: 3}
-  - {fileID: 5100088620746131079, guid: 3326d07d436c53c4ca7594dd1f7d0495, type: 3}
+  attachments: []
 --- !u!82 &1379636731763556689
 AudioSource:
   m_ObjectHideFlags: 0
@@ -243,7 +243,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1.47
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -359,7 +359,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808638580aca1294bbbc8c571f2539dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: shoot
+    clip: {fileID: 8300000, guid: 59d0ce5dfb9c31944bf3d9907f19885b, type: 3}
+  - name: suppressed
+    clip: {fileID: 8300000, guid: fc8ff4dd29a21534ba845cbc915a28df, type: 3}
 --- !u!1001 &463401988275197996
 PrefabInstance:
   m_ObjectHideFlags: 0

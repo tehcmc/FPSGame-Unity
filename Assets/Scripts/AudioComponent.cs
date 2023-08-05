@@ -47,9 +47,6 @@ public class AudioComponent : MonoBehaviour
 
 
 		AudioClip sound = soundsDict[name].Clip;
-		Debug.Log("sound:" + sound.name);
-
-
 		audioSource.PlayOneShot(sound);
 	}
 

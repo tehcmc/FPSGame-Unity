@@ -42,13 +42,13 @@ public class Weapon : BaseObject
 	protected virtual void OnEnable()
 	{
 		Debug.Log("Wep enable");
-
+		weaponAnim.SetTrigger("drawWeapon");
 		GameManager.Instance.ChangeWeapnEvent();
 
 	}
 	protected virtual void OnDisable()
 	{
-
+		weaponAnim.SetTrigger("returnToIdle");
 		GameManager.Instance.ChangeWeapnEvent();
 	}
 	protected virtual void Start()

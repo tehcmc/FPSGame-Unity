@@ -15,4 +15,9 @@ public class BaseObject : MonoBehaviour
 	{
 
 	}
+
+	public static System.Type GetMyType(BaseObject obj)
+	{
+		return obj.GetType();
+	}
 }

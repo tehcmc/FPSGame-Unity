@@ -116,7 +116,10 @@ public class RangedWeapon : Weapon
 
 
 
-
+	void DisableShooting()
+	{
+		isShooting = true;
+	}
 	void DoneShooting()
 	{
 		isShooting = false;
@@ -268,7 +271,12 @@ public class RangedWeapon : Weapon
 
 		ShootTrail(hitLoc);
 	}
-
+	protected override void OnDisable()
+	{
+		isReloading = false;
+		isShooting = false;
+		base.OnDisable();
+	}
 	private Vector3 SpreadBullet()
 	{
 		Vector3 shootDirection = ShootPosition.forward;
@@ -410,7 +418,7 @@ public class RangedWeapon : Weapon
 		attachment.transform.parent = attachPointDictionary[attachment.MyAttachPoint].PointLocation;
 		attachment.transform.position = attachment.transform.parent.position;
 		attachPointDictionary[attachment.MyAttachPoint].IsOccupied = true;
-
+		GameManager.Instance.ChangeWeapnEvent();
 	}
 
 
@@ -430,7 +438,7 @@ public class RangedWeapon : Weapon
 		Destroy(AttachmentDictionary[point].gameObject);
 		attachPointDictionary[point].IsOccupied = false;
 		AttachmentDictionary.Remove(point);
-
+		GameManager.Instance.ChangeWeapnEvent();
 	}
 
 

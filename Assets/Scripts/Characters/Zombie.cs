@@ -26,6 +26,8 @@ public class Zombie : Character
 	protected NPCMover moveComponent;
 
 	[SerializeField] float attackDamage = 10f;
+
+	[SerializeField] int pointValue = 10;
 	protected override void Awake()
 	{
 		base.Awake();
@@ -63,6 +65,8 @@ public class Zombie : Character
 	protected override void Die()
 	{
 		base.Die();
+		var player = FindObjectOfType<Player>();
+		player.GetComponent<PointBank>().AddPoints(pointValue);
 		Destroy(gameObject);
 	}
 }

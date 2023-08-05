@@ -19,11 +19,14 @@ public class Attachment : BaseObject
 
 	public AttachPointName MyAttachPoint { get => myAttachPoint; set => myAttachPoint = value; }
 	public List<WeaponType> ValidWeapons { get => validWeapons; set => validWeapons = value; }
-
+	Player player;
+	RangedWeapon playerWeapon;
 	protected virtual void Awake()
 	{
 		myStats = GetComponent<WeaponStats>();
 		myWeapon = gameObject.transform.parent.gameObject.GetComponent<RangedWeapon>();
+		player = FindObjectOfType<Player>();
+		playerWeapon = player.GetComponent<WeaponInventory>().CurrentWeapon as RangedWeapon;
 	}
 	protected virtual void OnEnable()
 	{
@@ -40,11 +43,12 @@ public class Attachment : BaseObject
 
 	public virtual void Start()
 	{
-		if (!myWeapon) Destroy(gameObject);
+
 	}
 
 	protected void AddStats()
 	{
+		if (!myWeapon) return;
 		if (myStats.StatDictionary == null) return;
 
 		foreach (var stat in myStats.StatDictionary)
@@ -56,6 +60,8 @@ public class Attachment : BaseObject
 
 	protected void RemoveStats()
 	{
+		if (!myWeapon) return;
+		if (myStats.StatDictionary == null) return;
 
 		foreach (var stat in myStats.StatDictionary)
 		{
@@ -65,10 +71,12 @@ public class Attachment : BaseObject
 
 	public bool CheckIfValid(WeaponType weptype)
 	{
+
 		foreach (var type in ValidWeapons)
 		{
 			if (type == weptype) return true;
 		}
+
 		return false;
 	}
 
@@ -85,13 +93,19 @@ public class Attachment : BaseObject
 
 	public override bool CanPurchase()
 	{
-		if (!myWeapon) return false;
+		if (!playerWeapon) return false;
 
-		if (!CheckIfValid(myWeapon.WeaponType)) return false;
+		if (!CheckIfValid(playerWeapon.WeaponType)) return false;
 
-		if (CheckIfAttached(myWeapon)) return false;
+		if (CheckIfAttached(playerWeapon)) return false;
 
 		return true;
 	}
 
+	public override void PurchaseItem()
+	{
+		if (!myWeapon) return;
+
+		playerWeapon.SetupAttachment(this);
+	}
 }
