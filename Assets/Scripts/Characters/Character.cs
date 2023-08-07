@@ -10,13 +10,11 @@ public class DamagePoint
 {
 
 	[SerializeField] string name;
-	[SerializeField] Transform point;
 	[SerializeField] float damageMultiplier;
 
 
 
 	public string Name { get => name; set => name = value; }
-	public Transform Point { get => point; set => point = value; }
 	public float DamageMultiplier { get => damageMultiplier; set => damageMultiplier = value; }
 
 }
@@ -33,7 +31,7 @@ public class Character : MonoBehaviour
 	// positional damage - based on area hit, get hit collider, get damage multiplier from that collider (dictionary?) and apply bullet damage + multiplier to character. return damage to bullet class to apply to popup???
 	[SerializeField] List<DamagePoint> points;
 
-	IDictionary<Transform, DamagePoint> damagePoints = new Dictionary<Transform, DamagePoint>();
+	IDictionary<string, DamagePoint> damagePoints = new Dictionary<string, DamagePoint>();
 
 
 
@@ -44,7 +42,7 @@ public class Character : MonoBehaviour
 		health = GetComponent<Health>();
 		foreach (DamagePoint point in points)
 		{
-			damagePoints.Add(point.Point, point);
+			damagePoints.Add(point.Name, point);
 		}
 	}
 	private void OnEnable()
@@ -78,19 +76,19 @@ public class Character : MonoBehaviour
 		//base class does nothing!
 	}
 
-	public DamagePoint GetDamagePoint(Transform transform)
+	public DamagePoint GetDamagePoint(string name)
 	{
-		if (!damagePoints.ContainsKey(transform)) return null;
-
-		return damagePoints[transform];
+		if (!damagePoints.ContainsKey(name)) return null;
+		Debug.Log($"Point: {damagePoints[name]}");
+		return damagePoints[name];
 
 	}
 
-	public float GetDamageMultiplier(Transform transform)
+	public float GetDamageMultiplier(string name)
 	{
-		if (!damagePoints.ContainsKey(transform)) return 1;
+		if (!damagePoints.ContainsKey(name)) return 1;
 
-		return damagePoints[transform].DamageMultiplier;
+		return damagePoints[name].DamageMultiplier;
 	}
 
 

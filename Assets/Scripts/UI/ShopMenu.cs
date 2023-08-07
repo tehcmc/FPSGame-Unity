@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Loading;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class ShopMenu : MonoBehaviour
 	public List<Item> Items { get => items; set => items = value; }
 	[SerializeField] Transform contentField;
 	[SerializeField] ShopItem shopItem;
-
+	[SerializeField] TMP_Text pointsText;
 	private void OnEnable()
 	{
 		foreach (var item in items)
@@ -22,6 +23,10 @@ public class ShopMenu : MonoBehaviour
 
 		}
 
+	}
+	private void Update()
+	{
+		pointsText.text = FindObjectOfType<Player>().GetComponent<PointBank>().currentPoints.ToString();
 	}
 	private void OnDisable()
 	{

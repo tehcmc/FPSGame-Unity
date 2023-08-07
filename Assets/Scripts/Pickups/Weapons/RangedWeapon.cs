@@ -247,7 +247,10 @@ public class RangedWeapon : Weapon
 	{
 		RaycastHit tr;
 
-		_ = ShootPosition.position + ShootPosition.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
+
+		Vector3 weaponPos = ShootPosition.position + ShootPosition.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
+
+		Vector3 camPos = Camera.main.transform.position + Camera.main.transform.forward * Mathf.Clamp(weaponStats.GetStat(StatType.Range), 0, Mathf.Infinity);
 
 		Vector3 shootDirection = SpreadBullet();
 
@@ -257,13 +260,13 @@ public class RangedWeapon : Weapon
 		layerMask = ~layerMask;// invert layermask. Only layer 31 will be ignored.
 
 
-		if (Physics.Raycast(ShootPosition.position, shootDirection, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), layerMask, Mathf.Infinity), layerMask, QueryTriggerInteraction.Ignore))
+		if (Physics.Raycast(Camera.main.transform.position, shootDirection, out tr, Mathf.Clamp(weaponStats.GetStat(StatType.Range), layerMask, Mathf.Infinity), layerMask, QueryTriggerInteraction.Ignore))
 		{
 			if (tr.transform == transform.parent) return;
 			if (tr.transform == null) return;
 
 			hitLoc = tr.point;
-
+			if (tr.transform == null) return;
 			DoImpactEffect(tr);
 			DamageCharacter(tr);
 		}
@@ -303,15 +306,26 @@ public class RangedWeapon : Weapon
 
 	protected void DamageCharacter(RaycastHit tr)
 	{
-		var character = tr.collider.gameObject.transform.parent.GetComponentInChildren<Character>();
+
+		string hitPoint = "";
+
+
+		var character = tr.collider.GetComponentInParent<Character>();
+		Debug.Log(character);
 		if (!character) return;
 
+		var colliderName = tr.collider.GetComponent<NamedCollider>();
+		if (colliderName) hitPoint = colliderName.ColliderName;
+		Debug.Log(colliderName.ColliderName);
+
+
 		var health = character.GetComponent<Health>();
-		float mult = character.GetDamageMultiplier(tr.collider.transform);
+		float mult = 1;
+		mult = character.GetDamageMultiplier(hitPoint);
 
-		DamagePoint damagePoint = character.GetDamagePoint(tr.collider.transform);
+		DamagePoint damagePoint = character.GetDamagePoint(hitPoint);
 
-		if (damagePoint != null && (damagePoint.Name.ToUpper() == "HEAD"))
+		if (damagePoint != null && (colliderName.ColliderName.ToUpper() == "HEAD"))
 		{
 			player.AudioSource.PlayOneShot(GameManager.Instance.HeadshotSound);
 

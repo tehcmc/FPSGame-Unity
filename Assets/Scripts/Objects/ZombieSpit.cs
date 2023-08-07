@@ -38,13 +38,17 @@ public class ZombieSpit : Projectile
 	protected void DamageCharacter(Collider collision)
 	{
 		if (collision == null) return;
+		string hitPoint = "";
+		var colliderName = collision.GetComponent<NamedCollider>();
+		Debug.Log(colliderName.ColliderName);
+		if (colliderName) hitPoint = colliderName.ColliderName;
 		var character = collision.gameObject.transform.parent.GetComponentInChildren<Character>();
 		if (!character) return;
 
 		var health = character.GetComponent<Health>();
-		float mult = character.GetDamageMultiplier(collision.transform);
+		float mult = character.GetDamageMultiplier(hitPoint);
 
-		DamagePoint damagePoint = character.GetDamagePoint(collision.transform);
+		DamagePoint damagePoint = character.GetDamagePoint(hitPoint);
 
 
 		float damage = projectileDamage * mult;

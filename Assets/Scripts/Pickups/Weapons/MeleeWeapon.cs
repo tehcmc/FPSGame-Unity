@@ -60,16 +60,18 @@ public class MeleeWeapon : Weapon
 
 	protected void DamageCharacter(RaycastHit tr)
 	{
+		var colliderName = tr.collider.GetComponent<NamedCollider>();
 
+		Debug.Log(colliderName.ColliderName);
 		var character = tr.collider.gameObject.transform.parent.GetComponentInChildren<Character>();
 		if (!character) return;
 		Debug.Log("hit character");
 		var health = character.GetComponent<Health>();
-		float mult = character.GetDamageMultiplier(tr.collider.transform);
+		float mult = character.GetDamageMultiplier(colliderName.ColliderName);
 
-		DamagePoint damagePoint = character.GetDamagePoint(tr.collider.transform);
+		DamagePoint damagePoint = character.GetDamagePoint(colliderName.ColliderName);
 
-		if (damagePoint != null && (damagePoint.Name.ToUpper() == "HEAD"))
+		if (damagePoint != null && (colliderName.ColliderName.ToUpper() == "HEAD"))
 		{
 			player.AudioSource.PlayOneShot(GameManager.Instance.HeadshotSound);
 
