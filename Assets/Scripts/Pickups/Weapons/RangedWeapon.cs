@@ -307,13 +307,13 @@ public class RangedWeapon : Weapon
 	protected void DamageCharacter(RaycastHit tr)
 	{
 
-		string hitPoint = "";
-
 
 		var character = tr.collider.GetComponentInParent<Character>();
 		Debug.Log(character);
 		if (!character) return;
 
+
+		string hitPoint = "";
 		var colliderName = tr.collider.GetComponent<NamedCollider>();
 		if (colliderName) hitPoint = colliderName.ColliderName;
 		Debug.Log(colliderName.ColliderName);

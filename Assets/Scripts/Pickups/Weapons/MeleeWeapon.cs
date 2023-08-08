@@ -60,18 +60,32 @@ public class MeleeWeapon : Weapon
 
 	protected void DamageCharacter(RaycastHit tr)
 	{
+		Debug.Log("XXX");
+		var character = tr.collider.GetComponentInParent<Character>();
+		if (!character) return;
+		Debug.Log("Char");
+
+		string hitPoint = "";
+
 		var colliderName = tr.collider.GetComponent<NamedCollider>();
 
-		Debug.Log(colliderName.ColliderName);
-		var character = tr.collider.gameObject.transform.parent.GetComponentInChildren<Character>();
-		if (!character) return;
-		Debug.Log("hit character");
+		if (colliderName) hitPoint = colliderName.ColliderName;
+
+
+
+		Debug.Log(hitPoint);
+
+
 		var health = character.GetComponent<Health>();
-		float mult = character.GetDamageMultiplier(colliderName.ColliderName);
 
-		DamagePoint damagePoint = character.GetDamagePoint(colliderName.ColliderName);
+		float mult = 1;
 
-		if (damagePoint != null && (colliderName.ColliderName.ToUpper() == "HEAD"))
+
+		mult = character.GetDamageMultiplier(hitPoint);
+		DamagePoint damagePoint = character.GetDamagePoint(hitPoint);
+
+
+		if (damagePoint != null && (damagePoint.Name.ToUpper() == "HEAD"))
 		{
 			player.AudioSource.PlayOneShot(GameManager.Instance.HeadshotSound);
 
@@ -79,10 +93,10 @@ public class MeleeWeapon : Weapon
 
 
 		float damage = (weaponStats.GetStat(StatType.BaseDamage) * weaponStats.GetStat(StatType.DamageMultiplier)) * mult;
-		Debug.Log("hit character 2");
+
 		health.DamageHealth(damage);
-		Debug.Log("hit character 3");
 		ShowDamage(damage, tr.point);
+
 
 	}
 	protected void DoImpactEffect(RaycastHit tr)

@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 4735372009519503866}
-  colliderName: leg
+  colliderName: foot
 --- !u!1 &718708696564122599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,7 +1181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 3098259353083075369}
-  colliderName: leg
+  colliderName: foot
 --- !u!1 &2438390136467873505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,7 +1375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 5540499583700356930}
-  colliderName: arm
+  colliderName: hand
 --- !u!1 &2896174114429895207
 GameObject:
   m_ObjectHideFlags: 0
@@ -2601,7 +2601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 799256220935346267}
-  colliderName: arm
+  colliderName: hand
 --- !u!1 &6144250464998781669
 GameObject:
   m_ObjectHideFlags: 0
