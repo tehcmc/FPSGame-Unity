@@ -31,11 +31,12 @@ public class NPCMover : MonoBehaviour
 	float distanceToTarget = Mathf.Infinity;
 	float attackRange;
 	Vector3 startPos;
-	State state = State.Idle;
+	State currentState = State.Idle;
 
 	public Transform Target { get => target; set => target = value; }
 	public float AttackRange { get => attackRange; set => attackRange = value; }
 	public Animator Animator { get => animator; set => animator = value; }
+	internal State CurrentState { get => currentState; set => currentState = value; }
 
 	void Awake()
 	{
@@ -58,14 +59,14 @@ public class NPCMover : MonoBehaviour
 		if (!targetCharacter) return;
 		if (showDebugLogs) Debug.Log("NEW TARGET");
 		Target = targetCharacter.transform;
-		state = State.Chase;
+		CurrentState = State.Chase;
 
 	}
 	void Update()
 	{
-		if (showDebugLogs) Debug.Log(state);
+		if (showDebugLogs) Debug.Log(CurrentState);
 
-		switch (state)
+		switch (CurrentState)
 		{
 			case State.Idle:
 				Idle();
@@ -78,6 +79,9 @@ public class NPCMover : MonoBehaviour
 				break;
 			case State.Attack:
 				Attack();
+				break;
+			case State.Die:
+				this.enabled = false;
 				break;
 			default:
 				Idle();
@@ -95,7 +99,7 @@ public class NPCMover : MonoBehaviour
 
 		agent.SetDestination(transform.position);
 
-		if (!Target || !Target.GetComponent<Character>()) { state = State.ReturntoStart; return; }
+		if (!Target || !Target.GetComponent<Character>()) { CurrentState = State.ReturntoStart; return; }
 		distanceToTarget = Vector3.Distance(Target.position, transform.position);
 		Vector3 dir = (transform.position - target.position).normalized;
 		Quaternion lookRot = Quaternion.LookRotation(new Vector3(-dir.x, 0, -dir.z));
@@ -107,7 +111,7 @@ public class NPCMover : MonoBehaviour
 		if (distanceToTarget > AttackRange)
 		{
 			if (Animator) Animator.SetBool("attack", false);
-			state = State.Chase;
+			CurrentState = State.Chase;
 		}
 
 	}
@@ -123,7 +127,7 @@ public class NPCMover : MonoBehaviour
 
 		if (Vector3.Distance(startPos, transform.position) < agent.stoppingDistance)
 		{
-			state = State.Idle;
+			CurrentState = State.Idle;
 		}
 
 	}
@@ -135,13 +139,13 @@ public class NPCMover : MonoBehaviour
 
 		if (distanceToTarget <= AttackRange)
 		{
-			state = State.Attack;
+			CurrentState = State.Attack;
 		}
 
 
 		if (distanceToTarget >= chaseRange)
 		{
-			state = State.ReturntoStart;
+			CurrentState = State.ReturntoStart;
 			Target = null;
 		}
 	}
@@ -169,7 +173,7 @@ public class NPCMover : MonoBehaviour
 			}
 		}
 
-		state = State.Chase;
+		CurrentState = State.Chase;
 		target = bestTarget;
 
 

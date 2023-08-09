@@ -310,7 +310,7 @@ public class RangedWeapon : Weapon
 
 		var character = tr.collider.GetComponentInParent<Character>();
 		Debug.Log(character);
-		if (!character) return;
+		if (!character || !character.IsAlive) return;
 
 
 		string hitPoint = "";

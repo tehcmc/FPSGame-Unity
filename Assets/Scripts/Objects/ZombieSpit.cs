@@ -39,12 +39,11 @@ public class ZombieSpit : Projectile
 	{
 		if (collision == null) return;
 		string hitPoint = "";
-		var colliderName = collision.GetComponent<NamedCollider>();
-		Debug.Log(colliderName.ColliderName);
-		if (colliderName) hitPoint = colliderName.ColliderName;
-		var character = collision.gameObject.transform.parent.GetComponentInChildren<Character>();
+		var character = collision.gameObject.transform.GetComponentInParent<Character>();
 		if (!character) return;
-
+		var colliderName = collision.GetComponent<NamedCollider>();
+		if (colliderName) hitPoint = colliderName.ColliderName;
+		Debug.Log(hitPoint);
 		var health = character.GetComponent<Health>();
 		float mult = character.GetDamageMultiplier(hitPoint);
 

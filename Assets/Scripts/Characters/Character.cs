@@ -26,7 +26,7 @@ public class DamagePoint
 public class Character : MonoBehaviour
 {
 	Health health;
-
+	public bool IsAlive { get; protected set; } = true;
 
 	// positional damage - based on area hit, get hit collider, get damage multiplier from that collider (dictionary?) and apply bullet damage + multiplier to character. return damage to bullet class to apply to popup???
 	[SerializeField] List<DamagePoint> points;
@@ -69,10 +69,12 @@ public class Character : MonoBehaviour
 
 	protected virtual void TakeDamage()
 	{
-		Debug.Log(gameObject.name + ": Ouch");
+
 	}
+
 	protected virtual void Die()
 	{
+		IsAlive = false;
 		//base class does nothing!
 	}
 

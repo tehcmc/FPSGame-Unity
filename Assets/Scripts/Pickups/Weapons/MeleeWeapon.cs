@@ -62,7 +62,7 @@ public class MeleeWeapon : Weapon
 	{
 		Debug.Log("XXX");
 		var character = tr.collider.GetComponentInParent<Character>();
-		if (!character) return;
+		if (!character || !character.IsAlive) return;
 		Debug.Log("Char");
 
 		string hitPoint = "";

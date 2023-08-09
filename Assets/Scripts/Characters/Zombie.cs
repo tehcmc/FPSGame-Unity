@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(NPCMover))]
+[RequireComponent(typeof(Animator))]
 public class Zombie : Character
 {
 
@@ -24,6 +25,7 @@ public class Zombie : Character
 	/// </summary>
 
 	protected NPCMover moveComponent;
+	protected Animator animator;
 
 	[SerializeField] float attackDamage = 10f;
 
@@ -32,6 +34,7 @@ public class Zombie : Character
 	{
 		base.Awake();
 		moveComponent = GetComponent<NPCMover>();
+		animator = GetComponent<Animator>();
 	}
 
 	// Update is called once per frame
@@ -42,7 +45,7 @@ public class Zombie : Character
 	protected override void TakeDamage()
 	{
 		base.TakeDamage();
-
+		animator.SetTrigger("onHit");
 	}
 
 
@@ -67,6 +70,8 @@ public class Zombie : Character
 		base.Die();
 		var player = FindObjectOfType<Player>();
 		player.GetComponent<PointBank>().AddPoints(pointValue);
-		Destroy(gameObject);
+		moveComponent.CurrentState = State.Die;
+		animator.SetTrigger("dead");
+		this.enabled = false;
 	}
 }

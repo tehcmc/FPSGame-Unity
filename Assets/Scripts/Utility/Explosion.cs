@@ -34,10 +34,7 @@ public class Explosion : MonoBehaviour
 		sph.isTrigger = true;
 		sph.radius = 0;
 	}
-	private void Start()
-	{
 
-	}
 	private void Update()
 	{
 		if (triggered)
@@ -70,14 +67,14 @@ public class Explosion : MonoBehaviour
 		Instantiate(explosionParticle, transform.position, Quaternion.identity);
 	}
 
-	public void Explode(float radius, float damage, bool instant)
+	public void Explode(float radius, float damage, bool instant) // instant explosion
 	{
 		explosionRadius = radius;
 		explosionDamage = damage;
 		instantExplosion = instant;
 		Explode();
 	}
-	public void Explode(float radius, float damage, float lifetime, float expansion)
+	public void Explode(float radius, float damage, float lifetime, float expansion) // explosion that expands over defined time
 	{
 		explosionRadius = radius;
 		expansionRate = expansion;
@@ -86,25 +83,12 @@ public class Explosion : MonoBehaviour
 		Explode();
 	}
 
-
-	private void OnCollisionEnter(Collision collision)
-	{
-		Debug.Log("Enter: " + collision.gameObject.name);
-
-	}
 	private void OnTriggerEnter(Collider other)
 	{
 		Debug.Log("Enter: " + other.gameObject.name);
 		DamageCharacter(other);
 	}
-	private void OnTriggerExit(Collider other)
-	{
-		Debug.Log("Exit: " + other.gameObject.name);
-	}
-	void OnDrawGizmosSelected()
-	{
 
-	}
 	void DamageCharacter(Collider other)
 	{
 		var character = other.GetComponent<Character>();
