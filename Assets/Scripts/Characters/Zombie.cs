@@ -53,10 +53,11 @@ public class Zombie : Character
 	{
 		var target = moveComponent.Target;
 		if (!target) return;
-
+		Debug.Log("attk");
 		var health = target.GetComponent<Health>();
 		if (health)
 		{
+			Debug.Log("dmg");
 			health.DamageHealth(-attackDamage);
 		}
 		else
@@ -72,6 +73,6 @@ public class Zombie : Character
 		player.GetComponent<PointBank>().AddPoints(pointValue);
 		moveComponent.CurrentState = State.Die;
 		animator.SetTrigger("dead");
-		this.enabled = false;
+		enabled = false;
 	}
 }

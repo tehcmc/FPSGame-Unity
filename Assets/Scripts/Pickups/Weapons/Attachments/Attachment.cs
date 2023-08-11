@@ -41,7 +41,7 @@ public class Attachment : BaseObject
 
 	}
 
-	public virtual void Start()
+	protected virtual void Start()
 	{
 
 	}

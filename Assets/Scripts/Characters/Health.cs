@@ -15,7 +15,7 @@ public class Health : MonoBehaviour
 
 	// Start is called before the first frame update
 	[SerializeField] float maxHealth = 100f;
-	float currentHealth;
+	public float currentHealth { get; protected set; }
 
 	private void Awake()
 	{

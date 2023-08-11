@@ -25,7 +25,7 @@ public class DamagePoint
 [RequireComponent(typeof(Health))]
 public class Character : MonoBehaviour
 {
-	Health health;
+	protected Health health;
 	public bool IsAlive { get; protected set; } = true;
 
 	// positional damage - based on area hit, get hit collider, get damage multiplier from that collider (dictionary?) and apply bullet damage + multiplier to character. return damage to bullet class to apply to popup???

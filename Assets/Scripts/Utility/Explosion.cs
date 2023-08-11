@@ -91,7 +91,7 @@ public class Explosion : MonoBehaviour
 
 	void DamageCharacter(Collider other)
 	{
-		var character = other.GetComponent<Character>();
+		var character = other.GetComponentInParent<Character>();
 		if (!character) return;
 		var healh = character.GetComponent<Health>();
 		if (!healh) return;

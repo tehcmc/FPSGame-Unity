@@ -13,7 +13,7 @@ public class Flashlight : Attachment
 	bool isOn;
 
 	// Start is called before the first frame update
-	void Start()
+	protected override void Start()
 	{
 		audioSource = GetComponent<AudioSource>();
 		light.SetActive(false);
