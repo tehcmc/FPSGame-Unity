@@ -29,9 +29,9 @@ public class Character : MonoBehaviour
 	public bool IsAlive { get; protected set; } = true;
 
 	// positional damage - based on area hit, get hit collider, get damage multiplier from that collider (dictionary?) and apply bullet damage + multiplier to character. return damage to bullet class to apply to popup???
-	[SerializeField] List<DamagePoint> points;
+	[SerializeField] List<DamagePoint> damagePoints;
 
-	IDictionary<string, DamagePoint> damagePoints = new Dictionary<string, DamagePoint>();
+	IDictionary<string, DamagePoint> damagePointDict = new Dictionary<string, DamagePoint>();
 
 
 
@@ -40,9 +40,9 @@ public class Character : MonoBehaviour
 	{
 
 		health = GetComponent<Health>();
-		foreach (DamagePoint point in points)
+		foreach (DamagePoint point in damagePoints)
 		{
-			damagePoints.Add(point.Name, point);
+			damagePointDict.Add(point.Name, point);
 		}
 	}
 	private void OnEnable()
@@ -69,7 +69,7 @@ public class Character : MonoBehaviour
 
 	protected virtual void TakeDamage()
 	{
-
+		Debug.Log(health.currentHealth);
 	}
 
 	protected virtual void Die()
@@ -80,17 +80,17 @@ public class Character : MonoBehaviour
 
 	public DamagePoint GetDamagePoint(string name)
 	{
-		if (!damagePoints.ContainsKey(name)) return null;
-		Debug.Log($"Point: {damagePoints[name]}");
-		return damagePoints[name];
+		if (!damagePointDict.ContainsKey(name)) return null;
+		Debug.Log($"Point: {damagePointDict[name]}");
+		return damagePointDict[name];
 
 	}
 
 	public float GetDamageMultiplier(string name)
 	{
-		if (!damagePoints.ContainsKey(name)) return 1;
+		if (!damagePointDict.ContainsKey(name)) return 1;
 
-		return damagePoints[name].DamageMultiplier;
+		return damagePointDict[name].DamageMultiplier;
 	}
 
 

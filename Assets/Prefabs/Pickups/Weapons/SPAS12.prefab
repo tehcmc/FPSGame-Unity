@@ -239,8 +239,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: SPAS 12
   weaponType: 4
-  weaponModel: {fileID: 7195868232791818087}
+  weaponModel: {fileID: 7196549749182196249}
   firemode: 1
+  availableFiremodes: 0000000001000000
+  burstCount: 1
   defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 8393039238687105159}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
@@ -818,9 +820,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4316898975370026, guid: a9461a5937b2c9c49ad9a4822c5b6c35, type: 3}
   m_PrefabInstance: {fileID: 7195283656708035643}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7195868232791818087 stripped
+--- !u!1 &7196549749182196249 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1711206680456028, guid: a9461a5937b2c9c49ad9a4822c5b6c35, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1565168227057186, guid: a9461a5937b2c9c49ad9a4822c5b6c35, type: 3}
   m_PrefabInstance: {fileID: 7195283656708035643}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7528694465477658242

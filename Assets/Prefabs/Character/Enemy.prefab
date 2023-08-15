@@ -85,21 +85,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75a4d6f34c879f458cd4197d5b69ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
+  damagePoints:
   - name: head
     damageMultiplier: 1.5
   - name: body
     damageMultiplier: 1
   - name: arm
     damageMultiplier: 0.8
-  - name: leg
-    damageMultiplier: 0.8
   - name: hand
     damageMultiplier: 0.5
+  - name: leg
+    damageMultiplier: 0.8
   - name: foot
     damageMultiplier: 0.5
   attackDamage: 2
   pointValue: 10
+  attackSpeed: 1
 --- !u!114 &8705862177250884926
 MonoBehaviour:
   m_ObjectHideFlags: 0

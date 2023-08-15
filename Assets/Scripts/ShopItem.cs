@@ -66,40 +66,51 @@ public class ShopItem : MonoBehaviour
 		var playerPoints = player.GetComponent<PointBank>();
 
 		if (!playerPoints.CanSubtractPoints(price)) { buttonText = "Insufficient Points"; return false; }
+		var playerWeapon = player.GetComponent<WeaponInventory>().CurrentWeapon;
+		if (!playerWeapon) { buttonText = "No Weapon"; return false; }
+		if (!Item) { buttonText = "No attachment"; return false; }
 
-		var currentWeapon = (RangedWeapon)player.GetComponent<WeaponInventory>().CurrentWeapon;
-		if (!currentWeapon || !Item) { buttonText = "No Weapon"; return false; }
 
-		foreach (var attachment in currentWeapon.AttachmentDictionary)
+		if (playerWeapon.GetType() != typeof(RangedWeapon) && !playerWeapon.GetType().IsSubclassOf(typeof(RangedWeapon)))
 		{
-			if (attachment.Value.ObjectName == Item.ObjectName) return false;
+			buttonText = "Invalid Weapon"; return false;
 		}
-
-		foreach (WeaponType type in Item.ValidWeapons) //loop through all valid weapon types on current attachment
+		else
 		{
-			if (currentWeapon.WeaponType != type) // if current weapon is not a valid weapon type
+			RangedWeapon currentWeapon = (RangedWeapon)playerWeapon;
+			foreach (var attachment in currentWeapon.AttachmentDictionary)
 			{
-				continue; // go to next attachment
+				if (attachment.Value.ObjectName == Item.ObjectName) return false;
 			}
 
-			foreach (AttachPoint point in currentWeapon.AttachPoints) //if it IS a valid weapon, loop through all the valid attachment points on the weapon
+			foreach (WeaponType type in Item.ValidWeapons) //loop through all valid weapon types on current attachment
 			{
-
-				if (Item.MyAttachPoint != point.AttachmentPoint)
+				if (currentWeapon.WeaponType != type) // if current weapon is not a valid weapon type
 				{
-					continue; // if the weapon doesn't have the point that this attachment attaches to, move to next attachment, display it
+					continue; // go to next attachment
 				}
-				else
+
+				foreach (AttachPoint point in currentWeapon.AttachPoints) //if it IS a valid weapon, loop through all the valid attachment points on the weapon
 				{
-					buttonText = "Buy";
-					return true;
+
+					if (Item.MyAttachPoint != point.AttachmentPoint)
+					{
+						continue; // if the weapon doesn't have the point that this attachment attaches to, move to next attachment, display it
+					}
+					else
+					{
+						buttonText = "Buy";
+						return true;
+					}
+
 				}
 
 			}
-
+			buttonText = "Can't Attach";
+			return false;
 		}
-		buttonText = "Can't Attach";
-		return false;
+
+
 	}
 
 

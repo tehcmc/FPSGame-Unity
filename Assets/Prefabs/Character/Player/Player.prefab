@@ -521,6 +521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   points: []
   weaponHoldPoint: {fileID: 3715425362729944591}
+  hitCanvas: {fileID: 0}
 --- !u!114 &1841165915482283309
 MonoBehaviour:
   m_ObjectHideFlags: 0

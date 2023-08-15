@@ -10,6 +10,9 @@ public class AmmoCounter : MonoBehaviour
 	Player player;
 	Weapon currentWeapon;
 	TMP_Text text;
+
+
+
 	void Start()
 	{
 		text = GetComponent<TMP_Text>();

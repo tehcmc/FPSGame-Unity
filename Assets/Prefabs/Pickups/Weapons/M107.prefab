@@ -252,6 +252,8 @@ MonoBehaviour:
   weaponType: 5
   weaponModel: {fileID: 8611049236616308659}
   firemode: 1
+  availableFiremodes: 0000000001000000
+  burstCount: 1
   defaultMuzzle: {fileID: 6263782476919498311, guid: 4e56de35f69a2ff4f879aeca45287a1d, type: 3}
   defaultMuzzlePosition: {fileID: 8393039238687105159}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}

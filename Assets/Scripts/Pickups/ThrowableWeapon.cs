@@ -35,7 +35,11 @@ public class ThrowableWeapon : Weapon
 		releasePosition = gameObject.transform;
 		defaultPower = throwPower;
 		currentCount = startCount;
+
+
 		base.Awake();
+
+
 		if (!grenade) Destroy(gameObject);
 
 		var nade = Instantiate(grenade);

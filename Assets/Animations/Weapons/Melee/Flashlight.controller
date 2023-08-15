@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: knife_draw
+  m_Name: flashlight_draw
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7a8b43b068d1b434394694316ac718af, type: 2}
+  m_Motion: {fileID: 7400000, guid: 82f1ad6eaf9613545939cd7dcec37372, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -48,7 +48,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7b09f2d437ea1b34894461e2f03d4393, type: 2}
+  m_Motion: {fileID: 7400000, guid: 93b04a9434f49e84598112be82531baa, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

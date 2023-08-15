@@ -139,8 +139,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: Mossberg
   weaponType: 4
-  weaponModel: {fileID: 0}
+  weaponModel: {fileID: 4815455998005012940}
   firemode: 1
+  availableFiremodes: 0000000001000000
+  burstCount: 1
   defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 8328899475309114994}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
@@ -658,6 +660,11 @@ PrefabInstance:
 --- !u!4 &4810037347507147114 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4670561254376734, guid: 18858e1fa014dad47bf1ef11b8180102, type: 3}
+  m_PrefabInstance: {fileID: 4814410271554442356}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4815455998005012940 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1080913721195960, guid: 18858e1fa014dad47bf1ef11b8180102, type: 3}
   m_PrefabInstance: {fileID: 4814410271554442356}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &4818404758592149820 stripped

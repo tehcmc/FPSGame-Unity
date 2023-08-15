@@ -26,7 +26,12 @@ public class WeaponBox : MonoBehaviour
 		if (!plr) return;
 		if (plr.gameObject.GetComponent<WeaponInventory>())
 		{
+
+			if (plr.gameObject.GetComponent<WeaponInventory>().CurrentWeapon) plr.gameObject.GetComponent<WeaponInventory>().CurrentWeapon.CanPickUp(weapon.ObjectName); // if player is holding a weapon, check if it is the same weapon
+																																										 // as the one in the box
+
 			plr.gameObject.GetComponent<WeaponInventory>().AddWeapon(weapon);
+
 		}
 
 

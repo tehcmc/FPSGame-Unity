@@ -182,9 +182,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - statType: 0
-    value: 0.04
+    value: 0.01
   - statType: 1
-    value: 0.04
+    value: 0.02
   - statType: 2
     value: 5.5
   - statType: 3
@@ -199,6 +199,8 @@ MonoBehaviour:
     value: 7
   - statType: 8
     value: 6
+  - statType: 9
+    value: 1.4
 --- !u!114 &7861083117878272559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +217,8 @@ MonoBehaviour:
   weaponType: 3
   weaponModel: {fileID: 4970820946911299565}
   firemode: 3
+  availableFiremodes: 000000000100000003000000
+  burstCount: 1
   defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 8393039238687105159}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}

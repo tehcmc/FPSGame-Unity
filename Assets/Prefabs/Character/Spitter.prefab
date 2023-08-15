@@ -117,21 +117,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da507b16ba85a04dbc1bcc471982617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points:
+  damagePoints:
   - name: head
     damageMultiplier: 2
   - name: body
     damageMultiplier: 1
   - name: arm
     damageMultiplier: 0.8
-  - name: leg
-    damageMultiplier: 0.8
   - name: hand
     damageMultiplier: 0.5
+  - name: leg
+    damageMultiplier: 0.8
   - name: foot
     damageMultiplier: 0.5
   attackDamage: 0
   pointValue: 10
+  attackSpeed: 1
   projectile: {fileID: 1815055723946953682, guid: 93b21f80b4636a247a484ac7548d5078, type: 3}
   shootPos: {fileID: 7432518445172784248}
   shootRange: 10

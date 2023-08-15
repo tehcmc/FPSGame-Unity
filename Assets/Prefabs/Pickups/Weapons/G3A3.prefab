@@ -181,8 +181,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectName: G3A3
   weaponType: 3
-  weaponModel: {fileID: 0}
+  weaponModel: {fileID: 2117547209554903973}
   firemode: 1
+  availableFiremodes: 000000000100000003000000
+  burstCount: 1
   defaultMuzzle: {fileID: 6116043721073108993, guid: 62df6e6d71bc9cf4685613449f066e71, type: 3}
   defaultMuzzlePosition: {fileID: 8393039238687105159}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
@@ -566,6 +568,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 232904f79d671ef43aedfac7f92522d3, type: 3}
+--- !u!1 &2117547209554903973 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1390898608373074, guid: 232904f79d671ef43aedfac7f92522d3, type: 3}
+  m_PrefabInstance: {fileID: 2118935876923539191}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2119127398873769407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4327473058716488, guid: 232904f79d671ef43aedfac7f92522d3, type: 3}

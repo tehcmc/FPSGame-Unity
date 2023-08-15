@@ -247,7 +247,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6263568400430227958}
   m_LocalRotation: {x: 0.0000019110742, y: 0.73863524, z: 0.67410535, w: -0.0000012889506}
-  m_LocalPosition: {x: -4.58, y: 30.1, z: 5.12}
+  m_LocalPosition: {x: -0.055, y: 1.75, z: 0.048}
   m_LocalScale: {x: 4, y: 4.161239, z: 42.121}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -266,18 +266,18 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 40.3
-  m_InnerSpotAngle: 21.80208
+  m_Intensity: 5.71
+  m_Range: 11.62
+  m_SpotAngle: 76.5
+  m_InnerSpotAngle: 14.5
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
+    m_Bias: 0.036
+    m_NormalBias: 0.3
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
       e00: 1
@@ -298,7 +298,7 @@ Light:
       e33: 1
     m_UseCullingMatrixOverride: 0
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
@@ -308,7 +308,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 1.09
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}

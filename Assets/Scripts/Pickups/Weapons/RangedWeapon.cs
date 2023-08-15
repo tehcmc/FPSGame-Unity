@@ -51,7 +51,13 @@ public class RangedWeapon : Weapon
 
 
 	[Header("Values")]
-	[SerializeField] protected Firemode firemode = Firemode.Single;
+	[SerializeField] private Firemode firemode = Firemode.Single;
+	[SerializeField] List<Firemode> availableFiremodes = new();
+	int currentFiremode = 0;
+
+
+	[SerializeField] protected int burstCount = 1; // how many shots should be fired per burst, if firemode is burst fire.
+	int currentBurst;
 
 	[Header("Effects")]
 	[SerializeField] ParticleSystem defaultMuzzle;
@@ -111,19 +117,7 @@ public class RangedWeapon : Weapon
 
 	public List<AttachPoint> AttachPoints { get => attachPoints; set => attachPoints = value; }
 	public bool SuppressorAttached { get => suppressorAttached; set => suppressorAttached = value; }
-
-
-
-
-
-	void DisableShooting()
-	{
-		isShooting = true;
-	}
-	void DoneShooting()
-	{
-		isShooting = false;
-	}
+	public Firemode WeaponFiremode { get => firemode; set => firemode = value; }
 
 
 
@@ -161,13 +155,28 @@ public class RangedWeapon : Weapon
 	}
 	protected virtual bool CanFire()
 	{
+		if (firemode == Firemode.Safe) return false;
 		if (isShooting) return false;
 		if (currentAmmo <= 0) return false;
 		if (isReloading) return false;
-		if ((firemode == Firemode.Full && !Input.GetButton("Fire1")) || (firemode == Firemode.Single && !Input.GetButtonDown("Fire1"))) return false;
+		if ((WeaponFiremode == Firemode.Full && !Input.GetButton("Fire1")) || ((WeaponFiremode == Firemode.Single || WeaponFiremode == Firemode.Burst) && !Input.GetButtonDown("Fire1"))) return false;
 
 		return true;
 	}
+
+	void SwitchFireMode()
+	{
+		if (availableFiremodes == null) return;
+		currentFiremode++;
+		if (currentFiremode > availableFiremodes.Count - 1)
+		{
+			currentFiremode = 0;
+		}
+
+		firemode = availableFiremodes[currentFiremode];
+		GameManager.Instance.ChangeWeapnEvent();
+	}
+
 
 	protected bool CanReload()
 	{
@@ -186,8 +195,17 @@ public class RangedWeapon : Weapon
 
 	protected virtual void Update()
 	{
+
 		if (CanFire())
 		{
+			if (WeaponFiremode == Firemode.Burst)
+			{
+				currentBurst = burstCount;
+			}
+			else
+			{
+				currentBurst = 1;
+			}
 			Fire();
 		}
 
@@ -196,26 +214,41 @@ public class RangedWeapon : Weapon
 			PlaySound("dryfire");
 		}
 
-
+		if (Input.GetKeyDown(KeyCode.B))
+		{
+			SwitchFireMode();
+		}
 
 		if (CanReload()) Reload();
 
 	}
 
-
-	void FunnyReload()
+	void DisableShooting()
 	{
-		if (currentAmmo < WeaponStats.GetStat(StatType.ClipSize))
-		{
 
-			currentAmmo++;
-			GameManager.Instance.ChangeWeapnEvent();
-		}
+		isShooting = true;
 	}
+	void DoneShooting()
+	{
+		currentBurst--;
+		if (currentBurst > 0 && currentAmmo > 0)
+		{
+			Fire();
+		}
+		else
+		{
+			isShooting = false;
+		}
+
+	}
+
 
 	protected virtual void Fire()
 	{
 		isShooting = true;
+
+
+
 
 		if (!suppressorAttached)
 		{
@@ -230,11 +263,17 @@ public class RangedWeapon : Weapon
 
 		weaponAnim.SetFloat("speedMult", Mathf.Clamp(weaponStats.GetStat(StatType.FireRate), 0, Mathf.Infinity));
 		weaponAnim.SetTrigger("shoot");
+
 		DrawMuzzleEffect();
 		ShootBullet();
+
 		currentAmmo--;
+
 		GameManager.Instance.ChangeWeapnEvent();
+
 		Recoil();
+
+
 
 	}
 	protected void DrawMuzzleEffect()
@@ -309,14 +348,12 @@ public class RangedWeapon : Weapon
 
 
 		var character = tr.collider.GetComponentInParent<Character>();
-		Debug.Log(character);
 		if (!character || !character.IsAlive) return;
 
 
 		string hitPoint = "";
 		var colliderName = tr.collider.GetComponent<NamedCollider>();
 		if (colliderName) hitPoint = colliderName.ColliderName;
-		Debug.Log(colliderName.ColliderName);
 
 
 		var health = character.GetComponent<Health>();
@@ -468,5 +505,17 @@ public class RangedWeapon : Weapon
 
 	}
 
+
+	public override bool CanPickUp(string name)
+	{
+		Ammo playerAmmo = player.GetComponent<Ammo>();
+
+		if (playerAmmo && name == objectName)
+		{
+			playerAmmo.GiveAmmo(weaponType, (int)weaponStats.GetStat(StatType.ClipSize)); //if player already has this weapon in their inventory, add ammo of its type to the player's ammo inventory.
+		}
+
+		return base.CanPickUp(name);
+	}
 }
 

@@ -30,6 +30,7 @@ public class Player : Character
 
 	protected override void TakeDamage()
 	{
+		base.TakeDamage();
 		playerHealthChanged.Invoke();
 		if (hitCanvas) hitCanvas.GetComponent<Animator>().SetTrigger("playHit");
 	}

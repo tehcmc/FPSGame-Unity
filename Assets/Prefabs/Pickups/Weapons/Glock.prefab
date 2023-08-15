@@ -216,7 +216,9 @@ MonoBehaviour:
   objectName: Glock
   weaponType: 1
   weaponModel: {fileID: 3946163097635513570}
-  firemode: 3
+  firemode: 2
+  availableFiremodes: 000000000200000003000000
+  burstCount: 3
   defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 3512534251447758909}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}

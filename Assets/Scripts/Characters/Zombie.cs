@@ -30,11 +30,14 @@ public class Zombie : Character
 	[SerializeField] float attackDamage = 10f;
 
 	[SerializeField] int pointValue = 10;
+
+	[SerializeField] float attackSpeed = 1f;
 	protected override void Awake()
 	{
 		base.Awake();
 		moveComponent = GetComponent<NPCMover>();
 		animator = GetComponent<Animator>();
+		animator.SetFloat("attackSpeed", attackSpeed);
 	}
 
 	// Update is called once per frame

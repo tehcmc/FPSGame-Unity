@@ -159,9 +159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d45bfbc4f5e254eb3def4f2c54b1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: M62 (Impact)
+  objectName: M67 (Impact)
   weaponType: 0
-  weaponModel: {fileID: 0}
+  weaponModel: {fileID: 5650315110563621425}
   grenade: {fileID: 2389005957838545210, guid: fd19339efbca7ca47b39d8b3cfec8df9, type: 3}
   powerLimit: 1000
   powerIncreaseRate: 300
@@ -435,6 +435,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: affb3f7941a4a1a41929400001b16ae9, type: 3}
+--- !u!1 &5650315110563621425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1554438688254534, guid: affb3f7941a4a1a41929400001b16ae9, type: 3}
+  m_PrefabInstance: {fileID: 5651021825786511479}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5655916719375322645 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4974339962375778, guid: affb3f7941a4a1a41929400001b16ae9, type: 3}

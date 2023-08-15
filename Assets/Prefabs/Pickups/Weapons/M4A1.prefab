@@ -223,7 +223,7 @@ MonoBehaviour:
   - statType: 2
     value: 7
   - statType: 3
-    value: 20
+    value: 9
   - statType: 4
     value: 1
   - statType: 5
@@ -252,6 +252,8 @@ MonoBehaviour:
   weaponType: 3
   weaponModel: {fileID: 5516274310026380532}
   firemode: 3
+  availableFiremodes: 000000000100000003000000
+  burstCount: 1
   defaultMuzzle: {fileID: 6263782476919498311, guid: 7845f0051fed8e74ba45c9b6f6b5ae08, type: 3}
   defaultMuzzlePosition: {fileID: 8393039238687105159}
   bulletTrail: {fileID: 6611292308241729417, guid: 4470a067ec8cd6e48a2cb692029d4728, type: 3}
